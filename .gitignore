@@ -1,0 +1,23 @@
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Angular
+.angular/
+
+# Sass
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+# Editor
+.vscode/
+.idea/
+*.swp
