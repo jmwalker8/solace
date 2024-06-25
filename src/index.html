@@ -3,122 +3,150 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solace - Tailored ADHD Resources</title>
+    <title>Solace - ADHD Support</title>
     <link rel="stylesheet" href="styles/styles.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="scripts/main.js" type="text/javascript" async></script>
   </head>
-  <body class="light-mode">
+  <body>
     <header>
       <nav>
         <div class="logo">Solace</div>
-        <ul class="nav-links">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#resources">Resources</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="mode-toggle">
-          <input type="checkbox" id="mode-toggle" class="mode-toggle-input" />
-          <label for="mode-toggle" class="mode-toggle-label"></label>
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#community">Community</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faqs">FAQs</a>
         </div>
-        <div class="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+        <button class="cta-button">Get started</button>
       </nav>
     </header>
 
     <main>
-      <section id="hero">
-        <h1>
-          Find <span class="gradient-text">ADHD Resources</span> Tailored to
-          Your Needs
-        </h1>
-        <p>
-          Discover articles, webinars, and tools designed specifically for you
-        </p>
-        <button class="cta-button">Get Started</button>
-      </section>
+      <div class="hero-container">
+        <section class="hero">
+          <h1 id="h1-hero">
+            The Support
+            <img
+              src="assets/People Hugging.svg"
+              alt="People Hugging"
+              id="hero-svg"
+            />
+            You Need,<br />
+            When <span id="h1-hero-you">You</span> Need It.
+          </h1>
+          <a href="#">
+            <button id="hero-button">Get Started with Solace</button>
+          </a>
+        </section>
+      </div>
 
-      <section id="problem-solution">
-        <h2>
-          Struggling to Find
-          <span class="gradient-text">Relevant ADHD Resources?</span>
-        </h2>
-        <p>
-          Solace offers a personalized approach to help you navigate ADHD
-          challenges
-        </p>
-        <div class="solution">
-          <h3>Our <span class="gradient-text">Solution</span></h3>
-          <p>
-            Customizable filters to find exactly what you need, when you need it
-          </p>
-        </div>
-      </section>
+      <div class="stats-container">
+        <section class="stats">
+          <div class="feature-cards">
+            <div class="card gradient-purple">
+              <h2>
+                Proven to increase focus and productivity for individuals with
+                ADHD.
+              </h2>
+              <a href="#research">Read the research ></a>
+            </div>
 
-      <section id="benefits">
-        <h2>Benefits of Using <span class="gradient-text">Solace</span></h2>
-        <ul>
-          <li>Personalized resource recommendations</li>
-          <li>Time-saving search filters</li>
-          <li>Expert-curated content</li>
-          <li>Community support</li>
-        </ul>
-      </section>
+            <div class="card dark">
+              <div class="icon">⚡</div>
+              <h2>30%</h2>
+              <p>Improved task completion</p>
+            </div>
+          </div>
 
-      <section id="testimonials">
-        <h2>What Our <span class="gradient-text">Users Say</span></h2>
-        <div class="testimonial">
-          <p>
-            "Solace has been a game-changer for managing my ADHD. I finally
-            found resources that work for me!"
-          </p>
-          <cite>- Jane D.</cite>
-        </div>
-      </section>
+          <h2>The new standard in ADHD support.</h2>
 
-      <section id="features">
-        <h2>Key <span class="gradient-text">Features</span></h2>
-        <div class="feature">
-          <h3>Customizable Filters</h3>
-          <p>Easily find resources tailored to your specific ADHD needs</p>
-        </div>
-        <div class="feature">
-          <h3>Diverse Content Types</h3>
-          <p>Access articles, webinars, podcasts, and interactive tools</p>
-        </div>
-        <div class="feature">
-          <h3>Progress Tracking</h3>
-          <p>Monitor your journey and celebrate your achievements</p>
-        </div>
-      </section>
+          <div class="stat-cards">
+            <div class="card">
+              <h3>10,000+</h3>
+              <p>Active members in our community</p>
+            </div>
+            <div class="card">
+              <h3>1 in 4</h3>
+              <p>Users report significant improvement in daily life</p>
+            </div>
+            <div class="card">
+              <h3>92%</h3>
+              <p>User satisfaction rate</p>
+            </div>
+          </div>
 
-      <section id="faq">
-        <h2><span class="gradient-text">Frequently Asked Questions</span></h2>
-        <div class="faq-item">
-          <h3>How does Solace work?</h3>
-          <p>
-            Solace uses advanced algorithms to match you with ADHD resources
-            based on your preferences and needs.
-          </p>
-        </div>
-      </section>
+          <div class="testimonial">
+            <blockquote>
+              "Solace has transformed my life. The personalized strategies and
+              supportive community have helped me manage my ADHD like never
+              before. I'm more productive, focused, and confident in my daily
+              tasks."
+            </blockquote>
+            <cite>- Alex M., Solace Member</cite>
+          </div>
+        </section>
+      </div>
 
-      <section id="cta">
-        <h2>
-          Ready to Take <span class="gradient-text">Control of Your ADHD?</span>
-        </h2>
-        <p>
-          Join Solace today and access personalized resources to support your
-          journey
-        </p>
-        <button class="cta-button">Sign Up Now</button>
+      <section class="faq" id="faqs">
+        <h2>Frequently asked questions.</h2>
+
+        <div class="faq-container">
+          <div class="faq-sidebar">
+            <button class="active">General</button>
+            <button>Membership</button>
+            <button>Tools & Resources</button>
+            <button>Community</button>
+          </div>
+
+          <div class="faq-content">
+            <div class="faq-item">
+              <h3>What is Solace?</h3>
+              <div class="expand-icon">+</div>
+              <p class="faq-answer">
+                Solace is a comprehensive platform designed to support
+                individuals with ADHD through personalized strategies, community
+                support, and innovative tools.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h3>How can Solace help me manage my ADHD?</h3>
+              <div class="expand-icon">+</div>
+              <p class="faq-answer">
+                Solace provides personalized strategies, productivity tools,
+                expert-led webinars, and a supportive community to help you
+                better manage your ADHD symptoms and improve your daily life.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h3>What tools and resources does Solace offer?</h3>
+              <div class="expand-icon">+</div>
+              <p class="faq-answer">
+                Solace offers a range of tools including customizable task
+                managers, focus timers, reminder systems, and educational
+                resources tailored for individuals with ADHD.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h3>
+                Is Solace suitable for both adults and children with ADHD?
+              </h3>
+              <div class="expand-icon">+</div>
+              <p class="faq-answer">
+                Yes, Solace provides resources and support for both adults and
+                children with ADHD, with age-appropriate content and tools
+                available for different user groups.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h3>How do I join the Solace community?</h3>
+              <div class="expand-icon">+</div>
+              <p class="faq-answer">
+                You can join the Solace community by clicking the 'Get started'
+                button and following the sign-up process. Once registered,
+                you'll have access to our forums, resources, and tools.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -126,6 +154,6 @@
       <p>&copy; 2024 Solace. All rights reserved.</p>
     </footer>
 
-    <script src="scripts/main.js" type="text/javascript" async></script>
+    <script src="scripts/main.js"></script>
   </body>
 </html>
