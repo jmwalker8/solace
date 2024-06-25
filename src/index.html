@@ -9,12 +9,11 @@
   <body>
     <header>
       <nav>
-        <div class="logo">Solace</div>
+        <div class="logo"><a href="#" class="smooth-scroll">Solace</a></div>
         <div class="nav-links">
-          <a href="#features">Features</a>
-          <a href="#community">Community</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faqs">FAQs</a>
+          <a href="#stats" class="smooth-scroll">Features</a>
+          <a href="#community" class="smooth-scroll">Community</a>
+          <a href="#faqs" class="smooth-scroll">FAQs</a>
         </div>
         <button class="cta-button">Get started</button>
       </nav>
@@ -24,7 +23,7 @@
       <div class="hero-container">
         <section class="hero">
           <h1 id="h1-hero">
-            The Support
+            The <span id="h1-hero-support">Support</span>
             <img
               src="assets/People Hugging.svg"
               alt="People Hugging"
@@ -33,31 +32,82 @@
             You Need,<br />
             When <span id="h1-hero-you">You</span> Need It.
           </h1>
+          <p id="hero-p">
+            Empowering individuals with <span id="hero-p-ADHD">ADHD</span> to
+            thrive in their daily lives.
+          </p>
           <a href="#">
             <button id="hero-button">Get Started with Solace</button>
           </a>
         </section>
       </div>
 
-      <div class="stats-container">
+      <!-- Insert the About section here -->
+      <section class="about" id="about">
+        <div class="about-container">
+          <div class="about-card">
+            <h2>About Me</h2>
+            <p>
+              Hello! I'm Julian, the creator of Solace. I am a High School
+              Student that struggles with ADHD everyday. I understand the unique
+              struggles and strengths that come with it.
+            </p>
+            <p>
+              My struggles led me to create Solace, a platform designed to
+              provide the support and tools I wish I had when I was first
+              diagnosed (Age 8!). Whether it being the endless procrastination
+              with homework, or the constant reminder to do my chores, ADHD has
+              always been a lingering companion throughout my years.
+            </p>
+            <p>
+              My goal is to empower every person with ADHD to thrive, not just
+              survive. Through Solace, I hope to create a world where ADHD is
+              understood, accepted, and even celebrated for the unique
+              perspectives it brings.
+            </p>
+          </div>
+          <div class="about-image">
+            <img src="./assets/autodraw 6_25_2024.png" alt="My Picture" />
+          </div>
+        </div>
+      </section>
+
+      <div class="stats-container" class="stats" id="stats">
         <section class="stats">
           <div class="feature-cards">
-            <div class="card gradient-purple">
+            <div class="card gradient-purple" id="card-1">
               <h2>
-                Proven to increase focus and productivity for individuals with
-                ADHD.
+                Timers <span id="stats-emoji-clock">⏰</span>, Calendar
+                <span id="stats-emoji-calendar">📅</span>, Item Tracker
+                <span id="stats-emoji-notes">🗒️</span>, & More!
               </h2>
-              <a href="#research">Read the research ></a>
+              <a href="#" class="smooth-scroll">
+                <button>Check It Out!</button>
+              </a>
             </div>
 
             <div class="card dark">
-              <div class="icon">⚡</div>
-              <h2>30%</h2>
-              <p>Improved task completion</p>
+              <h2 id="fact-h2">Facts</h2>
+              <div class="facts-list">
+                <div class="fact-item">
+                  <span class="checkmark">✅</span>
+                  <span class="fact"
+                    >64% More Likely To Complete Task When Timer Is Set</span
+                  >
+                </div>
+                <div class="fact-item">
+                  <span class="checkmark">✅</span>
+                  <span class="fact">Honda</span>
+                </div>
+                <div class="fact-item">
+                  <span class="checkmark">✅</span>
+                  <span class="fact">Ford</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <h2>The new standard in ADHD support.</h2>
+          <h2 id="h2-stats">The new standard in ADHD support.</h2>
 
           <div class="stat-cards">
             <div class="card">

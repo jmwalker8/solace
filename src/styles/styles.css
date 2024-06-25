@@ -90,6 +90,24 @@ main {
   color: transparent;
 }
 
+#h1-hero-support {
+  background: linear-gradient(to right, #ff5f7e, #ff97c1, #ffd6e8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#hero-p {
+  color: #ffff;
+  font-size: 30px;
+}
+
+#hero-p-ADHD {
+  background: linear-gradient(to right, #00ff80, #00ff40, #00e600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+
 #hero-svg {
   width: 90px;
   height: 90px;
@@ -111,12 +129,66 @@ main {
   cursor: pointer;
 }
 
+/* About Section */
+
+.about {
+  padding: 4rem 1rem;
+  margin-top: 100px;
+}
+
+.about-container {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  width: 500px;
+  height: 600px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+.about-card h2 {
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+  font-size: 40px;
+  margin-top: -5px;
+}
+
+.about-card p {
+  margin-bottom: 1rem;
+}
+
+.about-image {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.about-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Stats Section */
+
 .stats-container {
-  margin-top: 200px;
   width: 100%; /* Ensure full width of the viewport */
   position: relative;
   overflow: hidden; /* Hide overflow content */
   z-index: 10; /* Ensure it's above other content */
+  margin-top: 100px;
 }
 
 .feature-cards {
@@ -129,12 +201,50 @@ main {
 .card {
   background-color: var(--card-bg);
   border-radius: 8px;
-  padding: 2rem;
-  width: 300px;
+  width: 700px; /* Fixed width */
+  height: 400px; /* Added height to create a rectangle */
+  padding: 20px; /* Reduced padding for internal spacing */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: add shadow for depth */
 }
 
 .gradient-purple {
   background: linear-gradient(135deg, #4a0e8f, #7e54e9);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  color: white;
+}
+
+#card-1 {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 400px; /* Adjust as necessary */
+  width: 350px; /* Adjust as necessary */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#card-1 button {
+  background: #ffffff;
+  border: none;
+  border-radius: 15px;
+  color: #343434;
+  padding: 15px 30px;
+  font-size: 1em;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  margin-top: auto; /* Pushes the button to the bottom */
+  align-self: center; /* Centers the button horizontally */
+}
+
+#card-1 button:hover {
+  background-color: #e0e0e0; /* Optional: hover effect */
 }
 
 .dark {
@@ -150,11 +260,49 @@ main {
   padding: 4rem 1rem;
 }
 
+#fact-h2 {
+  font-size: 50px;
+  font-weight: bold;
+  margin-top: -10px; /* Adjust this value as needed */
+}
+
 .stat-cards {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
   margin-top: 2rem;
+}
+
+.facts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between list items */
+  width: 500px; /* Adjust width to fit content */
+}
+
+.fact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between checkmark and make */
+  font-size: 18px; /* Adjust font size for visibility */
+  margin-top: -10px;
+}
+
+.checkmark {
+  font-size: 24px; /* Slightly larger checkmark for emphasis */
+  margin-top: 20px;
+}
+
+.fact {
+  font-weight: bold;
+  color: #ffffff;
+  margin-top: 20px;
+}
+
+#h2-stats {
+  font-size: 50px;
+  color: #ffff;
+  font-weight: bold;
 }
 
 .testimonial {
