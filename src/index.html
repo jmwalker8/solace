@@ -5,21 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Solace - ADHD Support</title>
     <link rel="stylesheet" href="styles/styles.css" />
+    <script src="scripts/main.js"></script>
   </head>
   <body>
     <header>
       <nav>
-        <div class="logo"><a href="#" class="smooth-scroll">Solace</a></div>
-        <div class="nav-links">
-          <a href="#stats" class="smooth-scroll">Features</a>
-          <a href="#community" class="smooth-scroll">Community</a>
-          <a href="#faqs" class="smooth-scroll">FAQs</a>
+        <div class="logo">
+          <a href="#hero" class="smooth-scroll"
+            ><img
+              src="assets/Screenshot_2024-06-28_at_12.28.23_AM-removebg-preview.png"
+          /></a>
         </div>
-        <button class="cta-button">Get started</button>
+        <div class="hamburger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="nav-content">
+          <div class="nav-links">
+            <a href="#nav-finder-about" class="smooth-scroll">About</a>
+            <a href="#nav-finder-features" class="smooth-scroll">Features</a>
+            <a href="#h2-stats" class="smooth-scroll">Stats</a>
+            <a href="#faqs" class="smooth-scroll">FAQs</a>
+          </div>
+          <a href="login.html"
+            ><button class="cta-button">Get started</button></a
+          >
+          <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+              <input type="checkbox" id="checkbox" />
+              <div class="slider round"></div>
+            </label>
+          </div>
+        </div>
       </nav>
     </header>
 
-    <main>
+    <main id="hero">
       <div class="hero-container">
         <section class="hero">
           <h1 id="h1-hero">
@@ -33,14 +55,14 @@
             When <span id="h1-hero-you">You</span> Need It.
           </h1>
           <p id="hero-p">
-            Empowering individuals with <span id="hero-p-ADHD">ADHD</span> to
-            thrive in their daily lives.
+            Empowering individuals with ADHD to thrive in their daily lives.
           </p>
-          <a href="#">
+          <a href="login.html">
             <button id="hero-button">Get Started with Solace</button>
           </a>
         </section>
       </div>
+      <span id="nav-finder-about"></span>
 
       <!-- Insert the About section here -->
       <section class="about" id="about">
@@ -49,7 +71,7 @@
             <h2>About Me</h2>
             <p>
               Hello! I'm Julian, the creator of Solace. I am a High School
-              Student that struggles with ADHD everyday. I understand the unique
+              Student that struggles with ADHD daily. I understand the unique
               struggles and strengths that come with it.
             </p>
             <p>
@@ -65,13 +87,10 @@
               understood, accepted, and even celebrated for the unique
               perspectives it brings.
             </p>
-          </div>
-          <div class="about-image">
-            <img src="./assets/autodraw 6_25_2024.png" alt="My Picture" />
+            <span id="nav-finder-features"></span>
           </div>
         </div>
       </section>
-
       <div class="stats-container" class="stats" id="stats">
         <section class="stats">
           <div class="feature-cards">
@@ -90,36 +109,43 @@
               <h2 id="fact-h2">Facts</h2>
               <div class="facts-list">
                 <div class="fact-item">
-                  <span class="checkmark">✅</span>
+                  <span class="checkmark">🧑</span>
                   <span class="fact"
-                    >64% More Likely To Complete Task When Timer Is Set</span
+                    >ADHD Affects Both Adults And Children</span
                   >
                 </div>
                 <div class="fact-item">
-                  <span class="checkmark">✅</span>
-                  <span class="fact">Honda</span>
+                  <span class="checkmark">🎨</span>
+                  <span class="fact"
+                    >Many People With ADHD Are Creative And Think Outside The
+                    Box</span
+                  >
                 </div>
                 <div class="fact-item">
-                  <span class="checkmark">✅</span>
-                  <span class="fact">Ford</span>
+                  <span class="checkmark">⏳</span>
+                  <span class="fact"
+                    >ADHD Symptoms Can Change Over A Persons Lifetime</span
+                  >
                 </div>
               </div>
             </div>
           </div>
 
-          <h2 id="h2-stats">The new standard in ADHD support.</h2>
+          <h2 id="h2-stats">
+            The <span id="stats-new">New</span> Standard In ADHD Support.
+          </h2>
 
           <div class="stat-cards">
             <div class="card">
-              <h3>10,000+</h3>
+              <h3 class="stats-h3">10,000+</h3>
               <p>Active members in our community</p>
             </div>
             <div class="card">
-              <h3>1 in 4</h3>
+              <h3 class="stats-h3">1 in 4</h3>
               <p>Users report significant improvement in daily life</p>
             </div>
-            <div class="card">
-              <h3>92%</h3>
+            <div class="card" id="stats">
+              <h3 class="stats-h3">92%</h3>
               <p>User satisfaction rate</p>
             </div>
           </div>
@@ -137,16 +163,9 @@
       </div>
 
       <section class="faq" id="faqs">
-        <h2>Frequently asked questions.</h2>
+        <h2 id="faq-h2">FAQs</h2>
 
         <div class="faq-container">
-          <div class="faq-sidebar">
-            <button class="active">General</button>
-            <button>Membership</button>
-            <button>Tools & Resources</button>
-            <button>Community</button>
-          </div>
-
           <div class="faq-content">
             <div class="faq-item">
               <h3>What is Solace?</h3>
@@ -190,9 +209,9 @@
               <h3>How do I join the Solace community?</h3>
               <div class="expand-icon">+</div>
               <p class="faq-answer">
-                You can join the Solace community by clicking the 'Get started'
+                You can join the Solace community by clicking the Get Started
                 button and following the sign-up process. Once registered,
-                you'll have access to our forums, resources, and tools.
+                you'll have access to our forums, resources, and tools!
               </p>
             </div>
           </div>
