@@ -524,6 +524,22 @@ input:checked + .slider:before {
   color: var(--text-color);
 }
 
+.faq-item p {
+  display: none;
+}
+
+.faq-item p.active {
+  display: block;
+}
+
+.faq-answer {
+  display: none;
+}
+
+.faq-answer.active {
+  display: block;
+}
+
 .expand-icon {
   font-size: 1.5rem;
   color: var(--accent-color);
