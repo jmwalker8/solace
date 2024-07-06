@@ -284,10 +284,10 @@ input:checked + .slider:before {
 
 #h1-hero {
   font-size: 5.625rem;
-  margin-top: 0; /* Adjusted */
+  margin-top: 20px; /* Adjusted */
   color: var(--hero-text);
   white-space: nowrap; /* Prevents line breaks within the text */
-  line-height: 1.2;
+  line-height: 1.5;
 }
 
 @media (max-width: 863px) {

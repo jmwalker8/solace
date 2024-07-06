@@ -196,7 +196,7 @@ main {
 .image-container {
   width: 50%;
   height: 100%;
-  background-image: url('path/to/your/image.jpg');
   background-size: cover;
   background-position: center;
+  padding-right: 100px;
 }
