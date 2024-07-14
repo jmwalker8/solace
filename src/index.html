@@ -13,6 +13,10 @@
       href="assets/favicon_package_v0/favicon-32x32.png"
     />
     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
       rel="icon"
       type="image/png"
       sizes="16x16"
@@ -22,209 +26,388 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
-    <script src="scripts/main.js"></script>
   </head>
   <body>
     <header>
       <nav>
-        <div class="logo">
-          <a href="#hero" class="smooth-scroll"
-            ><img
-              src="assets/Screenshot_2024-06-28_at_12.28.23_AM-removebg-preview.png"
-          /></a>
-        </div>
-        <div class="hamburger-menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="nav-content">
-          <div class="nav-links">
-            <a href="#nav-finder-about" class="smooth-scroll">About</a>
-            <a href="#nav-finder-features" class="smooth-scroll">Features</a>
-            <a href="#h2-stats" class="smooth-scroll">Stats</a>
-            <a href="#faqs" class="smooth-scroll">FAQs</a>
+        <div class="nav-left">
+          <div class="logo">
+            <a href="#hero">
+              <h1>Solace</h1>
+            </a>
           </div>
-          <a href="login.html"
-            ><button class="cta-button">Get started</button></a
-          >
-          <div class="theme-switch-wrapper">
-            <label class="theme-switch" for="checkbox">
-              <input type="checkbox" id="checkbox" />
-              <div class="slider round"></div>
-            </label>
+        </div>
+        <div class="nav-right">
+          <div class="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="nav-menu">
+            <div class="nav-links">
+              <a href="#about">Me</a>
+              <a href="#features">Features</a>
+              <a href="#stats">Stats</a>
+              <a href="#faqs">FAQs</a>
+            </div>
+            <a href="login.html" class="login-link">Login</a>
+            <a href="register.html" class="get-started-btn">Get Started</a>
           </div>
         </div>
       </nav>
     </header>
-    <main id="hero">
-      <div class="hero-container" class="section">
-        <section class="hero">
-          <h1 id="h1-hero">
-            The <span id="h1-hero-support">Support</span> You Need,<br />
-            When <span id="h1-hero-you">You</span> Need It.
-          </h1>
-          <p id="hero-p">
-            Empowering individuals with ADHD to thrive in their daily lives.
-          </p>
-          <a href="login.html">
-            <button id="hero-button">Get Started with Solace</button>
-          </a>
-        </section>
-      </div>
-      <span id="nav-finder-about"></span>
 
-      <!-- Insert the About section here -->
-      <section class="about" id="about" class="section">
-        <div class="about-container">
-          <div class="about-card">
-            <h2>About Me</h2>
-            <p>
-              Hello! I'm Julian, the creator of Solace. I am a High School
-              Student that struggles with ADHD daily. I understand the unique
-              struggles and strengths that come with it.
-            </p>
-            <p>
-              My struggles led me to create Solace, a platform designed to
-              provide the support and tools I wish I had when I was first
-              diagnosed (Age 8!). Whether it being the endless procrastination
-              with homework, or the constant reminder to do my chores, ADHD has
-              always been a lingering companion throughout my years.
-            </p>
-            <p>
-              My goal is to empower every person with ADHD to thrive, not just
-              survive. Through Solace, I hope to create a world where ADHD is
-              understood, accepted, and even celebrated for the unique
-              perspectives it brings.
-              <span id="nav-finder-features"></span>
-            </p>
+    <main>
+      <section id="hero" class="full-height-section dark">
+        <div class="hero-container">
+          <div class="hero-content">
+            <div class="text-card">
+              <h1 id="h1-hero">
+                <span id="hero-support">Support,</span>
+                <br />
+                All in <span id="hero-h1-one">One.</span>
+              </h1>
+              <p id="hero-p">
+                Empowering individuals with ADHD to thrive in their daily lives.
+              </p>
+              <a href="register.html">
+                <button id="hero-button">Get Started with Solace</button>
+              </a>
+            </div>
+            <a href="#about" class="learn-more-btn">
+              <button id="learn-more-button">
+                <span class="arrow-down">&#8595;</span> Learn More About Me &
+                Solace
+              </button>
+            </a>
+          </div>
+          <div class="hero-image">
+            <img
+              src="assets/undraw_relaxation_re_ohkx.svg"
+              alt="Solace ADHD Support"
+            />
           </div>
         </div>
       </section>
-      <div class="stats-container" class="stats" id="stats" class="section">
-        <section class="stats">
-          <div class="feature-cards">
-            <div class="card gradient-purple" id="card-1">
-              <h1 id="stats-features-h1">Features</h1>
-              <h2>
-                Timers <span id="stats-emoji-clock">⏰</span>, Calendar
-                <span id="stats-emoji-calendar">📅</span>, Item Tracker
-                <span id="stats-emoji-notes">🗒️</span>, & More!
-              </h2>
-              <a class="smooth-scroll">
-                <button onclick="window.location.href='login.html'">
-                  Check It Out!
-                </button>
-              </a>
-            </div>
 
-            <div class="card dark">
-              <h2 id="fact-h2">Facts</h2>
-              <div class="facts-list">
-                <div class="fact-item">
-                  <span class="checkmark">🧑</span>
-                  <span class="fact"
-                    >ADHD Affects Both Adults And Children</span
-                  >
-                </div>
-                <div class="fact-item">
-                  <span class="checkmark">🎨</span>
-                  <span class="fact"
-                    >Many People With ADHD Are Creative And Think Outside The
-                    Box</span
-                  >
-                </div>
-                <div class="fact-item">
-                  <span class="checkmark">⏳</span>
-                  <span class="fact"
-                    >ADHD Symptoms Can Change Over A Persons Lifetime</span
-                  >
-                </div>
-              </div>
+      <section id="about" class="full-height-section light">
+        <div class="about-container">
+          <div class="blob blob1">
+            <img
+              src="assets/magicpattern-blob-1720887191658.png"
+              alt="Julian, creator of Solace"
+            />
+          </div>
+          <h2 class="section-title">
+            Hi, I'm
+            <span class="julian-hover"
+              >Julian
+              <a
+                href="https://www.instagram.com/hellokittyz80/"
+                class="julian-link"
+                aria-label="Link to Julian's profile"
+              >
+                <img
+                  src="assets/link-bold-svgrepo-com.svg"
+                  alt="Link icon"
+                  class="link-icon"
+                />
+              </a>
+            </span>
+          </h2>
+          <div class="about-content">
+            <div class="about-text">
+              <p class="intro">
+                The creator of Solace. As a high school student living with
+                ADHD, I understand the unique challenges and strengths it
+                brings.
+              </p>
+              <p>
+                My journey with ADHD led me to create Solace, a platform
+                offering the support and tools I wish I had when I was first
+                diagnosed at age 8. From battling endless procrastination to
+                needing constant reminders for chores, ADHD has been my constant
+                companion.
+              </p>
+              <p class="mission">
+                My mission is to empower every person with ADHD to
+                <span class="highlight">thrive, not just survive</span>. Through
+                Solace, I aim to foster a world where ADHD is understood,
+                accepted, and celebrated for the unique perspectives it brings.
+              </p>
             </div>
           </div>
+          <div class="blob blob2">
+            <img
+              src="assets/magicpattern-blob-1720953229967.png"
+              alt="Julian, creator of Solace"
+            />
+          </div>
+          <a href="#features" class="learn-more-btn2">
+            <button id="learn-more-button2">
+              <span class="arrow-down2">&#8595;</span> Learn More About Solace
+            </button>
+          </a>
+        </div>
+      </section>
 
-          <h2 id="h2-stats">
-            The <span id="stats-new">New</span> Standard In ADHD Support.
+      <section id="features" class="full-height-section dark">
+        <div class="features-container">
+          <h3 class="features-subtitle">Features</h3>
+          <h1 class="features-title">
+            For <span id="features-solution">Solution</span> Seekers
+          </h1>
+          <p class="features-description">
+            Discover cutting-edge tools designed to revolutionize your
+            productivity and streamline your workflow. Our innovative features
+            empower you to tackle challenges with unprecedented efficiency and
+            precision.
+          </p>
+          <div class="feature-cards-container">
+            <div class="feature-card">
+              <span class="feature-icon">⏱️</span>
+              <h2 class="feature-name">Smart Timers</h2>
+              <p class="feature-description">
+                Set and manage multiple timers for various tasks with
+                intelligent tracking and reminders.
+              </p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">📊</span>
+              <h2 class="feature-name">Analytics Dashboard</h2>
+              <p class="feature-description">
+                Visualize your productivity trends and gain insights to optimize
+                your performance.
+              </p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">🔄</span>
+              <h2 class="feature-name">Seamless Sync</h2>
+              <p class="feature-description">
+                Access your data across all devices with real-time
+                synchronization and cloud backup.
+              </p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">🤖</span>
+              <h2 class="feature-name">AI Assistant</h2>
+              <p class="feature-description">
+                Get personalized recommendations and automate routine tasks with
+                our AI-powered assistant.
+              </p>
+            </div>
+            <a href="#stats" class="learn-more-btn">
+              <button id="learn-more-button">
+                <span class="arrow-down">&#8595;</span> Learn More About Solace
+              </button>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="stats" class="full-height-section dark">
+        <div class="container">
+          <h2 class="section-title">
+            The <span id="stats-new">New</span> Standard In ADHD Support
           </h2>
 
           <div class="stat-cards">
             <div class="card">
-              <h3 class="stats-h3">10,000+</h3>
+              <h4>10,000+ 🚀</h4>
               <p>Active members in our community</p>
+              <div class="shine"></div>
+              <div class="background">
+                <div class="tiles">
+                  <div class="tile tile-1"></div>
+                  <div class="tile tile-2"></div>
+                  <div class="tile tile-3"></div>
+                  <div class="tile tile-4"></div>
+                  <div class="tile tile-5"></div>
+                  <div class="tile tile-6"></div>
+                  <div class="tile tile-7"></div>
+                  <div class="tile tile-8"></div>
+                  <div class="tile tile-9"></div>
+                  <div class="tile tile-10"></div>
+                </div>
+                <div class="line line-1"></div>
+                <div class="line line-2"></div>
+                <div class="line line-3"></div>
+              </div>
             </div>
+
             <div class="card">
-              <h3 class="stats-h3">1 in 4</h3>
+              <h4>1 in 4 📈</h4>
               <p>Users report significant improvement in daily life</p>
+              <div class="shine"></div>
+              <div class="background">
+                <div class="tiles">
+                  <div class="tile tile-1"></div>
+                  <div class="tile tile-2"></div>
+                  <div class="tile tile-3"></div>
+                  <div class="tile tile-4"></div>
+                  <div class="tile tile-5"></div>
+                  <div class="tile tile-6"></div>
+                  <div class="tile tile-7"></div>
+                  <div class="tile tile-8"></div>
+                  <div class="tile tile-9"></div>
+                  <div class="tile tile-10"></div>
+                </div>
+                <div class="line line-1"></div>
+                <div class="line line-2"></div>
+                <div class="line line-3"></div>
+              </div>
             </div>
-            <div class="card" id="stats">
-              <h3 class="stats-h3">92%</h3>
+
+            <div class="card">
+              <h4>92% ✅</h4>
               <p>User satisfaction rate</p>
+              <div class="shine"></div>
+              <div class="background">
+                <div class="tiles">
+                  <div class="tile tile-1"></div>
+                  <div class="tile tile-2"></div>
+                  <div class="tile tile-3"></div>
+                  <div class="tile tile-4"></div>
+                  <div class="tile tile-5"></div>
+                  <div class="tile tile-6"></div>
+                  <div class="tile tile-7"></div>
+                  <div class="tile tile-8"></div>
+                  <div class="tile tile-9"></div>
+                  <div class="tile tile-10"></div>
+                </div>
+                <div class="line line-1"></div>
+                <div class="line line-2"></div>
+                <div class="line line-3"></div>
+              </div>
             </div>
           </div>
 
-          <div class="testimonial">
-            <blockquote>
-              "Solace has transformed my life. The personalized strategies and
-              supportive community have helped me manage my ADHD like never
-              before. I'm more productive, focused, and confident in my daily
-              tasks."
-            </blockquote>
-            <cite>- @MatisseMB, Solace Member</cite>
+          <div class="testimonial-container">
+            <h2 id="testimonial-heading" class="section-title">Testimonials</h2>
+            <div class="testimonial-grid">
+              <div class="testimonial-card">
+                <blockquote>
+                  "Solace has transformed my life. The personalized strategies
+                  and supportive community have helped me manage my ADHD like
+                  never before. I'm more productive, focused, and confident in
+                  my daily tasks."
+                </blockquote>
+                <cite
+                  >- <span class="testimonial-author">@MatisseMB</span>,
+                  <span class="author-id">Solace Member</span></cite
+                >
+              </div>
+              <div class="testimonial-card">
+                <blockquote>
+                  "Joining Solace was a game-changer for me. The tools and
+                  resources provided have significantly improved my ability to
+                  manage time and stay organized. It's been an invaluable
+                  support system."
+                </blockquote>
+                <cite
+                  >- <span class="testimonial-author">@SarahK</span>,
+                  <span class="author-id">Solace Member</span></cite
+                >
+              </div>
+            </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      <section class="faq" id="faqs" class="section">
-        <h2 id="faq-h2">FAQs</h2>
+      <section id="faqs" class="full-height-section dark">
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+        <p class="faq-subtitle">
+          There Are More FAQs Asked About Solace, If You Are Interested,
+          <a href="#" class="faq-link">Click Here.</a>
+        </p>
+
+        <div class="faq-filter">
+          <button class="filter-btn active" data-filter="general">
+            General
+          </button>
+          <button class="filter-btn" data-filter="pricing">Pricing</button>
+          <button class="filter-btn" data-filter="data">Data</button>
+          <button class="filter-btn" data-filter="misc">Misc</button>
+        </div>
 
         <div class="faq-container">
           <div class="faq-content">
-            <div class="faq-item">
-              <h3>What is Solace?</h3>
-              <div class="expand-icon">+</div>
+            <div class="faq-item" data-category="general">
+              <div class="faq-question">
+                <span class="faq-icon">❓</span>
+                <h3>What is Solace?</h3>
+                <div class="up-arrow">
+                  <i class="fa-solid fa-chevron-up"></i>
+                </div>
+              </div>
               <p class="faq-answer">
                 Solace is a comprehensive platform designed to support
                 individuals with ADHD through personalized strategies, community
                 support, and innovative tools.
               </p>
             </div>
-            <div class="faq-item">
-              <h3>How can Solace help me manage my ADHD?</h3>
-              <div class="expand-icon">+</div>
+            <div class="faq-item" data-category="general">
+              <div class="faq-question">
+                <span class="faq-icon">🧠</span>
+                <h3>How can Solace help me manage my ADHD?</h3>
+                <div class="up-arrow">
+                  <i class="fa-solid fa-chevron-up"></i>
+                </div>
+              </div>
               <p class="faq-answer">
                 Solace provides personalized strategies, productivity tools,
                 expert-led webinars, and a supportive community to help you
                 better manage your ADHD symptoms and improve your daily life.
               </p>
             </div>
-            <div class="faq-item">
-              <h3>What tools and resources does Solace offer?</h3>
-              <div class="expand-icon">+</div>
+            <div class="faq-item" data-category="general">
+              <div class="faq-question">
+                <span class="faq-icon">🛠️</span>
+                <h3>What tools and resources does Solace offer?</h3>
+                <div class="up-arrow">
+                  <i class="fa-solid fa-chevron-up"></i>
+                </div>
+              </div>
               <p class="faq-answer">
                 Solace offers a range of tools including customizable task
                 managers, focus timers, reminder systems, and educational
-                resources tailored for individuals with ADHD.
+                resources tailored for individuals with ADHD. Check out our
+                features here:
+                <a href="#features" class="faqs-links">Features</a> or
+                <a href="register.html" class="faqs-links">Create An Account</a
+                ><span> </span>
+                to find out for yourself!
               </p>
             </div>
-            <div class="faq-item">
-              <h3>
-                Is Solace suitable for both adults and children with ADHD?
-              </h3>
-              <div class="expand-icon">+</div>
+            <div class="faq-item" data-category="general">
+              <div class="faq-question">
+                <span class="faq-icon">👥</span>
+                <h3>
+                  Is Solace suitable for both adults and children with ADHD?
+                </h3>
+                <div class="up-arrow">
+                  <i class="fa-solid fa-chevron-up"></i>
+                </div>
+              </div>
               <p class="faq-answer">
                 Yes, Solace provides resources and support for both adults and
                 children with ADHD, with age-appropriate content and tools
                 available for different user groups.
               </p>
             </div>
-            <div class="faq-item">
-              <h3>How do I join the Solace community?</h3>
-              <div class="expand-icon">+</div>
+            <div class="faq-item" data-category="general">
+              <div class="faq-question">
+                <span class="faq-icon">🚀</span>
+                <h3>How do I join the Solace community?</h3>
+                <div class="up-arrow">
+                  <i class="fa-solid fa-chevron-up"></i>
+                </div>
+              </div>
               <p class="faq-answer">
-                You can join the Solace community by clicking the Get Started
-                button and following the sign-up process. Once registered,
-                you'll have access to our forums, resources, and tools!
+                You can join the Solace community by clicking
+                <a href="register.html" class="faqs-links">Here</a> and
+                following the sign-up process. Once registered, you'll have
+                access to our forums, resources, and tools!
               </p>
             </div>
           </div>

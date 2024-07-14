@@ -77,3 +77,29 @@ const alertBox = (data) => {
     alertContainer.style.top = null;
   }, 5000);
 };
+
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('registerForm');
+  const password = document.getElementById('password');
+  const confirmPassword = document.getElementById('confirmPassword');
+  const passwordError = document.getElementById('passwordError');
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent form from submitting
+
+    if (password.value !== confirmPassword.value) {
+      passwordError.style.display = 'block';
+    } else {
+      passwordError.style.display = 'none';
+      // If passwords match, you can submit the form
+      console.log('Form submitted successfully');
+      // Uncomment the next line to actually submit the form
+      // form.submit();
+    }
+  });
+
+  // Optional: Hide the error message when user starts typing in confirm password field
+  confirmPassword.addEventListener('input', function () {
+    passwordError.style.display = 'none';
+  });
+});

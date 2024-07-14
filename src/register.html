@@ -8,36 +8,38 @@
     <link rel="stylesheet" href="styles/register.css" />
   </head>
   <body>
-    <div class="alert-box">
-      <p class="alert"></p>
-    </div>
-
-    <div class="form">
-      <h1 class="heading">Register</h1>
-      <input
-        type="text"
-        placeholder="Name"
-        autocomplete="off"
-        class="name"
-        required
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        autocomplete="off"
-        class="email"
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        autocomplete="off"
-        class="password"
-        required
-      />
-      <button class="submit-btn">Register</button>
-      <a href="login.html" class="link">Already Have An Account? Log In Here</a>
-    </div>
+    <main>
+      <div id="register-container">
+        <div class="register">
+          <div class="register-text">
+            <h1>Create Account</h1>
+            <p>Sign Up To Get Started</p>
+          </div>
+          <form>
+            <div class="input-box">
+              <p>Username<span class="required">*</span></p>
+              <input type="text" placeholder="Create Username" required />
+            </div>
+            <div class="input-box">
+              <p>Email<span class="required">*</span></p>
+              <input type="email" placeholder="Enter Email" required />
+            </div>
+            <div class="input-box">
+              <p>Password<span class="required">*</span></p>
+              <input type="password" placeholder="Create Password" required />
+            </div>
+            <div class="input-box">
+              <p>Confirm Password<span class="required">*</span></p>
+              <input type="password" placeholder="Confirm Password" required />
+            </div>
+            <button type="submit" class="btn">Register</button>
+          </form>
+          <div class="login-link">
+            Already have an account? <a href="login.html">Log in</a>
+          </div>
+        </div>
+      </div>
+    </main>
 
     <script src="js/form.js"></script>
   </body>
