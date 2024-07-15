@@ -37,16 +37,3 @@ googleLogin.addEventListener('click', function () {
       const errorMessage = error.message;
     });
 });
-
-import Spline from '@splinetool/react-spline';
-
-export default function Home() {
-  return (
-    <main>
-      <div id="login-container"></div>
-      <div id="spline-container">
-        <Spline scene="https://my.spline.design/blackabstractart-c2ac559b4606c2da81a9f2cd234dd757/" />
-      </div>
-    </main>
-  );
-}

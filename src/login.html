@@ -33,6 +33,10 @@
     />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
   </head>
@@ -40,6 +44,8 @@
     <main>
       <div id="login-container">
         <section class="login">
+          <div class="blob blob1"></div>
+          <div class="blob blob2"></div>
           <div class="login-text">
             <h1 id="login-h1">Sign In</h1>
             <p id="login-p">Enter your credentials to access your account.</p>
@@ -52,7 +58,22 @@
               </div>
               <div class="input-box">
                 <p id="login-password-p" class="required">Password</p>
-                <input type="password" placeholder="Password" required />
+                <div class="password-container">
+                  <input
+                    type="password"
+                    id="password-input"
+                    placeholder="Password"
+                    required
+                  />
+                  <span class="password-toggle" id="password-toggle">
+                    <i class="far fa-eye" id="show-password"></i>
+                    <i
+                      class="far fa-eye-slash"
+                      id="hide-password"
+                      style="display: none"
+                    ></i>
+                  </span>
+                </div>
               </div>
               <div class="remember-forgot">
                 <label><input type="checkbox" />Remember Me</label>
@@ -78,6 +99,26 @@
           </div>
         </section>
       </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const passwordInput = document.getElementById('password-input');
+          const passwordToggle = document.getElementById('password-toggle');
+          const showPasswordIcon = document.getElementById('show-password');
+          const hidePasswordIcon = document.getElementById('hide-password');
+
+          passwordToggle.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+              passwordInput.type = 'text';
+              showPasswordIcon.style.display = 'none';
+              hidePasswordIcon.style.display = 'inline-block';
+            } else {
+              passwordInput.type = 'password';
+              showPasswordIcon.style.display = 'inline-block';
+              hidePasswordIcon.style.display = 'none';
+            }
+          });
+        });
+      </script>
     </main>
   </body>
 </html>

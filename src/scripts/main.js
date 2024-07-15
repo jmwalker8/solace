@@ -132,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const navMenu = document.querySelector('.nav-menu');
 
   hamburger.addEventListener('click', function () {
-    navMenu.classList.toggle('active');
     hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
   });
 
   // Close menu when a nav link is clicked (including login and get started buttons)
@@ -204,5 +204,39 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error(
       'Feature elements not found. Check your HTML structure and class names.'
     );
+  }
+
+  // Tilt effect for hero card
+  const heroCard = document.querySelector('.text-card');
+  const heroSection = document.querySelector('#hero');
+
+  if (heroCard && heroSection) {
+    const tiltEffect = (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const moveX = (x - centerX) / centerX;
+      const moveY = (y - centerY) / centerY;
+
+      heroCard.style.transform = `perspective(1000px) rotateY(${
+        moveX * 5
+      }deg) rotateX(${-moveY * 5}deg)`;
+    };
+
+    const resetTilt = () => {
+      heroCard.style.transform =
+        'perspective(1000px) rotateY(0deg) rotateX(0deg)';
+    };
+
+    heroSection.addEventListener('mousemove', tiltEffect);
+    heroSection.addEventListener('mouseleave', resetTilt);
+
+    // Add a small delay to the initial application of the tilt effect
+    setTimeout(() => {
+      heroCard.style.transition = 'transform 0.1s ease-out';
+    }, 100);
   }
 });

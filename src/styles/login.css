@@ -13,8 +13,8 @@ html {
 
 main {
   display: flex;
-  height: 100vh;
-  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 #login-container {
@@ -24,30 +24,26 @@ main {
   justify-content: center;
   align-items: center;
   background-color: white;
-  padding: 20px;
+  position: relative;
+  overflow: hidden;
 }
 
 .login {
-  width: 100%;
-  max-width: 400px;
-}
-
-.login-img img {
-  height: auto;
-  width: 200px;
-  object-fit: contain;
-  margin-left: -20px;
+  width: 80%;
+  max-width: 450px;
+  position: relative;
+  z-index: 2;
 }
 
 .login-text h1 {
-  font-size: 35px;
+  font-size: 40px;
   margin-bottom: 20px;
   color: #333;
   font-family: 'Montserrat', sans-serif;
 }
 
 .login-text p {
-  font-size: 16px;
+  font-size: 18px;
   color: #666;
   margin-bottom: 30px;
 }
@@ -57,21 +53,17 @@ main {
 }
 
 .input-box p {
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 5px;
   color: #333;
 }
 
 .input-box input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
-}
-
-.password-container {
-  position: relative;
+  font-size: 16px;
 }
 
 .remember-forgot {
@@ -89,24 +81,7 @@ main {
 }
 
 .remember-forgot input[type='checkbox'] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  background-color: white;
-  border: 2px solid #5138ee;
-  border-radius: 3px;
   margin-right: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.remember-forgot input[type='checkbox']:checked::before {
-  content: '✔';
-  color: #5138ee;
-  font-size: 14px;
 }
 
 .remember-forgot a {
@@ -114,18 +89,14 @@ main {
   text-decoration: none;
 }
 
-.remember-forgot a:hover {
-  text-decoration: underline;
-}
-
 .btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background-color: #5138ee;
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
   margin-bottom: 20px;
 }
@@ -136,7 +107,7 @@ main {
   text-align: center;
   color: #666;
   margin: 20px 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 #spacer::before,
@@ -156,7 +127,7 @@ main {
 
 .google-button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background-color: white;
   color: #333;
   border: 1px solid #ddd;
@@ -172,12 +143,11 @@ main {
 .google-button img {
   width: 20px;
   margin-right: 10px;
-  margin-top: 5px;
 }
 
 .register {
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
   color: #666;
 }
 
@@ -186,12 +156,51 @@ main {
   text-decoration: none;
 }
 
-.required {
+.required::after {
   content: '*';
   color: red;
-  font-size: 0.8em;
-  vertical-align: super;
+  font-size: 0.9em;
   margin-left: 2px;
+}
+
+.blob {
+  position: absolute;
+  filter: blur(60px);
+  z-index: 1;
+  opacity: 0.3;
+}
+
+.blob1 {
+  width: 40%;
+  height: 40%;
+  background-color: rgba(0, 85, 212, 0.1);
+  top: -10%;
+  left: -10%;
+}
+
+.blob2 {
+  width: 40%;
+  height: 40%;
+  background-color: rgba(255, 107, 107, 0.1);
+  bottom: -10%;
+  right: -10%;
+}
+
+.password-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+}
+
+.password-toggle i {
+  font-size: 18px;
 }
 
 @media (max-width: 768px) {
@@ -200,12 +209,34 @@ main {
   }
 
   #login-container {
-    width: 100%;
-    height: auto;
-    padding: 20px;
+    min-height: 100vh;
+    padding: 30px;
   }
 
   .login {
     width: 100%;
+  }
+
+  .login-text h1 {
+    font-size: 36px;
+  }
+
+  .login-text p {
+    font-size: 17px;
+  }
+
+  .blob {
+    width: 50%;
+    height: 50%;
+  }
+
+  .blob1 {
+    top: -25%;
+    left: -25%;
+  }
+
+  .blob2 {
+    bottom: -25%;
+    right: -25%;
   }
 }

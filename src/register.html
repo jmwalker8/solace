@@ -3,22 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solace - Register</title>
-
+    <title>Sign Up - Solace</title>
+    <script src="scripts/form.js"></script>
     <link rel="stylesheet" href="styles/register.css" />
   </head>
   <body>
     <main>
       <div id="register-container">
         <div class="register">
+          <div class="blob blob1">
+            <img
+              src="assets/magicpattern-blob-1720887191658-removebg-preview.png"
+            />
+          </div>
           <div class="register-text">
             <h1>Create Account</h1>
             <p>Sign Up To Get Started</p>
           </div>
-          <form>
+          <form id="registerForm">
             <div class="input-box">
               <p>Username<span class="required">*</span></p>
-              <input type="text" placeholder="Create Username" required />
+              <input
+                type="text"
+                id="username"
+                placeholder="Create Username"
+                required
+              />
+              <span id="usernameError" class="error"></span>
             </div>
             <div class="input-box">
               <p>Email<span class="required">*</span></p>
@@ -37,10 +48,42 @@
           <div class="login-link">
             Already have an account? <a href="login.html">Log in</a>
           </div>
+          <div class="blob blob2">
+            <img
+              src="assets/magicpattern-blob-1720953229967-removebg-preview.png"
+            />
+          </div>
         </div>
       </div>
-    </main>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const usernameInput = document.getElementById('username');
+          const usernameError = document.getElementById('usernameError');
+          const form = document.getElementById('registerForm');
 
-    <script src="js/form.js"></script>
+          const forbiddenSymbols = /[!@#$%^&*()+\-~`=\[\]{};':"\\|,.<>\/?]+/;
+
+          usernameInput.addEventListener('input', function (e) {
+            const value = e.target.value;
+            const match = value.match(forbiddenSymbols);
+            if (match) {
+              const forbiddenSymbol = match[0];
+              usernameError.textContent = `Symbol "${forbiddenSymbol}" is not allowed`;
+              e.target.value = value.replace(forbiddenSymbols, '');
+            } else {
+              usernameError.textContent = '';
+            }
+          });
+
+          form.addEventListener('submit', function (e) {
+            if (forbiddenSymbols.test(usernameInput.value)) {
+              e.preventDefault();
+              usernameError.textContent =
+                'Please remove forbidden symbols before submitting';
+            }
+          });
+        });
+      </script>
+    </main>
   </body>
 </html>
