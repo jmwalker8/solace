@@ -1,242 +1,352 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // FAQ toggle functionality
-  const faqItems = document.querySelectorAll('.faq-item');
-  const filterButtons = document.querySelectorAll('.filter-btn');
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendEmailVerification,
+} from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+import {
+  getDatabase,
+  ref,
+  get,
+} from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js';
 
-  faqItems.forEach((item) => {
-    item.addEventListener('click', (event) => {
-      // Prevent the click event from bubbling up if clicking on a link inside the answer
-      if (event.target.tagName === 'A') return;
+const firebaseConfig = {
+  apiKey: 'AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI',
+  authDomain: 'solace-83466.firebaseapp.com',
+  projectId: 'solace-83466',
+  databaseURL: 'https://solace-83466-default-rtdb.firebaseio.com',
+  storageBucket: 'solace-83466.appspot.com',
+  messagingSenderId: '1035507922270',
+  appId: '1:1035507922270:web:496b548ba710523eb18bcf',
+  measurementId: 'G-H8RRCK340M',
+};
 
-      item.classList.toggle('active');
-      const answer = item.querySelector('.faq-answer');
-      if (answer) {
-        answer.style.maxHeight = item.classList.contains('active')
-          ? answer.scrollHeight + 'px'
-          : '0';
-      }
-    });
-  });
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const database = getDatabase(app);
+const provider = new GoogleAuthProvider();
 
-  // FAQ filtering
-  filterButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const filter = button.getAttribute('data-filter');
-      filterFAQs(filter);
-      setActiveButton(button);
-    });
-  });
+const signUp = document.getElementById('signUp');
+const googleSignUp = document.getElementById('google-signup-btn');
+const errorMessageElement = document.getElementById('error-message');
+const errorTextElement = document.getElementById('error-text');
+const errorCloseButton = document.getElementById('error-close');
 
-  function filterFAQs(filter) {
-    faqItems.forEach((item) => {
-      if (
-        filter === 'general' ||
-        item.getAttribute('data-category') === filter
-      ) {
-        item.style.display = 'block';
-      } else {
-        item.style.display = 'none';
-      }
-    });
-  }
+// List of offensive usernames
+const offensiveUsernames = [
+  'admin',
+  'moderator',
+  'fuck',
+  'shit',
+  'asshole',
+  'bitch',
+  'cunt',
+  'nigger',
+  'faggot',
+  'slut',
+  'whore',
+  'nazi',
+  'hitler',
+  'terrorist',
+  'rape',
+  'pedophile',
+  'kike',
+  'spic',
+  'chink',
+  'retard',
+  'dickhead',
+  'pussy',
+  'twat',
+  'wanker',
+  'motherfucker',
+  'cocksucker',
+  'bastard',
+  'douchebag',
+  'bangbros',
+  'brazzers',
+  'pornhub',
+  'xvideos',
+];
 
-  function setActiveButton(activeButton) {
-    filterButtons.forEach((button) => {
-      button.classList.remove('active');
-    });
-    activeButton.classList.add('active');
-  }
+// List of disallowed symbols (excluding '.')
+const disallowedSymbols = [
+  '!',
+  '@',
+  '#',
+  '$',
+  '%',
+  '^',
+  '&',
+  '*',
+  '(',
+  ')',
+  '+',
+  '=',
+  '{',
+  '}',
+  '[',
+  ']',
+  '|',
+  '\\',
+  ':',
+  ';',
+  '"',
+  "'",
+  '<',
+  '>',
+  ',',
+  '?',
+  '/',
+  '`',
+  '~',
+];
 
-  // Smooth scrolling
-  const smoothScrollLinks = document.querySelectorAll('.smooth-scroll');
+function displayErrorMessage(message) {
+  errorTextElement.textContent = message;
+  errorMessageElement.style.display = 'flex';
+}
 
-  smoothScrollLinks.forEach((link) => {
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
+function clearErrorMessage() {
+  errorTextElement.textContent = '';
+  errorMessageElement.style.display = 'none';
+}
 
-      const targetId = this.getAttribute('href').substring(1);
-      const targetElement = document.getElementById(targetId);
+errorCloseButton.addEventListener('click', clearErrorMessage);
 
-      if (targetElement) {
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-        });
-      }
-    });
-  });
-
-  // Close menu when a nav link is clicked
-  const navLinks = document.querySelectorAll('.nav-links a');
-  navLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      navContent.classList.remove('active');
-      hamburger.classList.remove('active');
-    });
-  });
-
-  // Active section highlighting
-  const sections = document.querySelectorAll('.section');
-
-  function onScroll() {
-    let current = '';
-
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-      if (pageYOffset >= sectionTop - sectionHeight / 3) {
-        current = section.getAttribute('id');
-      }
-    });
-
-    navLinks.forEach((link) => {
-      link.classList.remove('active');
-      if (link.getAttribute('href').slice(1) === current) {
-        link.classList.add('active');
-      }
-    });
-  }
-
-  window.addEventListener('scroll', onScroll);
-
-  // Update navbar based on section
-  const header = document.querySelector('header');
-  const fullHeightSections = document.querySelectorAll('.full-height-section');
-
-  function updateNavbar() {
-    const scrollPosition = window.scrollY;
-
-    fullHeightSections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-
-      if (
-        scrollPosition >= sectionTop - 60 &&
-        scrollPosition < sectionTop + sectionHeight - 60
-      ) {
-        if (section.classList.contains('light')) {
-          header.classList.remove('nav-dark');
-          header.classList.add('nav-light');
-        } else {
-          header.classList.remove('nav-light');
-          header.classList.add('nav-dark');
-        }
-      }
-    });
-  }
-
-  window.addEventListener('scroll', updateNavbar);
-  updateNavbar(); // Call once to set initial state
-
-  // Hamburger menu functionality
-  const hamburger = document.querySelector('.hamburger-menu');
-  const navMenu = document.querySelector('.nav-menu');
-
-  hamburger.addEventListener('click', function () {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-  });
-
-  // Close menu when a nav link is clicked (including login and get started buttons)
-  const allNavLinks = document.querySelectorAll(
-    '.nav-links a, .login-link, .get-started-btn'
+function checkUsernameAvailability(username) {
+  return get(ref(database, 'usernames/' + username)).then(
+    (snapshot) => !snapshot.exists()
   );
-  allNavLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-      hamburger.classList.remove('active');
+}
+
+function isValidUsername(username) {
+  // Check for offensive usernames
+  if (offensiveUsernames.includes(username.toLowerCase())) {
+    return false;
+  }
+
+  // Check for disallowed symbols
+  for (let symbol of disallowedSymbols) {
+    if (username.includes(symbol)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+signUp.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  var username = document.getElementById('username').value;
+  var email = document.getElementById('email').value;
+  var password = document.getElementById('password').value;
+
+  clearErrorMessage();
+
+  console.log('Starting user creation process...');
+  console.log('Username:', username);
+  console.log('Email:', email);
+
+  if (!isValidUsername(username)) {
+    displayErrorMessage('Invalid username. Please choose a different one.');
+    return;
+  }
+
+  checkUsernameAvailability(username)
+    .then((isAvailable) => {
+      if (!isAvailable) {
+        throw new Error('Username already taken');
+      }
+      console.log('Username is available');
+      return createUserWithEmailAndPassword(auth, email, password);
+    })
+    .then((userCredential) => {
+      console.log('User account created successfully');
+      const user = userCredential.user;
+      return sendEmailVerification(user).then(() => user);
+    })
+    .then((user) => {
+      console.log('Verification email sent');
+      // Store user data in localStorage temporarily
+      const pendingUser = {
+        uid: user.uid,
+        email: email,
+        username: username,
+      };
+      console.log('Storing pending user data:', pendingUser);
+      localStorage.setItem('pendingUser', JSON.stringify(pendingUser));
+      window.location.href = `email_verification.html?email=${encodeURIComponent(
+        email
+      )}`;
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      displayErrorMessage(error.message);
     });
-  });
+});
 
-  // Learn more button smooth scroll
-  const learnMoreBtn = document.querySelector('.learn-more-btn');
+function handleGoogleSignUp() {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      console.log('Google sign-in successful');
 
-  learnMoreBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    const targetId = this.getAttribute('href');
-    const targetElement = document.querySelector(targetId);
+      if (user.emailVerified) {
+        // Generate a random username for Google users
+        const randomUsername =
+          'user_' + Math.random().toString(36).substr(2, 9);
 
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-      });
+        // Check if the random username is available
+        return checkUsernameAvailability(randomUsername).then((isAvailable) => {
+          if (!isAvailable) {
+            throw new Error('Username generation failed. Please try again.');
+          }
+          return { user, username: randomUsername };
+        });
+      } else {
+        throw new Error(
+          'Email not verified. Please verify your email with Google.'
+        );
+      }
+    })
+    .then(({ user, username }) => {
+      // Store user data in localStorage temporarily
+      const pendingUser = {
+        uid: user.uid,
+        email: user.email,
+        username: username,
+      };
+      console.log('Storing pending Google user data:', pendingUser);
+      localStorage.setItem('pendingUser', JSON.stringify(pendingUser));
+      window.location.href = 'email_verification.html';
+    })
+    .catch((error) => {
+      console.error('Google sign-up error:', error);
+      displayErrorMessage(error.message);
+    });
+}
+
+googleSignUp.addEventListener('click', handleGoogleSignUp);
+
+document.addEventListener('DOMContentLoaded', function () {
+  const usernameInput = document.getElementById('username');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const passwordToggle = document.getElementById('password-toggle');
+  const showPasswordIcon = document.getElementById('show-password');
+  const hidePasswordIcon = document.getElementById('hide-password');
+  const passwordStrength = document.getElementById('password-strength');
+  const form = document.getElementById('registerForm');
+
+  const forbiddenSymbols = new RegExp(
+    disallowedSymbols.map((s) => '\\' + s).join('|')
+  );
+
+  usernameInput.addEventListener('input', function (e) {
+    const value = e.target.value;
+    const match = value.match(forbiddenSymbols);
+    if (match) {
+      const forbiddenSymbol = match[0];
+      displayErrorMessage(
+        `Symbol "${forbiddenSymbol}" is not allowed in username`
+      );
+      e.target.value = value.replace(forbiddenSymbols, '');
+    } else if (offensiveUsernames.includes(value.toLowerCase())) {
+      displayErrorMessage('This username is not allowed');
+    } else {
+      clearErrorMessage();
     }
   });
 
-  // Function to check if an element is in viewport
-  function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-  }
+  form.addEventListener('submit', function (e) {
+    if (
+      forbiddenSymbols.test(usernameInput.value) ||
+      offensiveUsernames.includes(usernameInput.value.toLowerCase())
+    ) {
+      e.preventDefault();
+      displayErrorMessage(
+        'Please choose a different username before submitting'
+      );
+    }
+  });
 
-  // Features section horizontal scrolling
-  const featuresSection = document.getElementById('features');
-  const scrollContainer = featuresSection.querySelector(
-    '.feature-scroll-container'
-  );
-  const scrollIndicator = document.getElementById('scroll-indicator');
-  const featureScroll = document.querySelector('.feature-scroll');
-  const featureCards = document.querySelectorAll('.feature-card');
+  // Clear error styling on input
+  usernameInput.addEventListener('input', function () {
+    this.classList.remove('input-error');
+  });
 
-  if (
-    featuresSection &&
-    scrollContainer &&
-    featureScroll &&
-    featureCards.length > 0
-  ) {
-    // Handle vertical scrolling
-    window.addEventListener(
-      'wheel',
-      (e) => {
-        if (isElementInViewport(featuresSection)) {
-          e.preventDefault();
-          scrollContainer.scrollLeft += e.deltaY;
-        }
-      },
-      { passive: false }
-    );
-  } else {
-    console.error(
-      'Feature elements not found. Check your HTML structure and class names.'
-    );
-  }
+  emailInput.addEventListener('input', function () {
+    this.classList.remove('input-error');
+  });
 
-  // Tilt effect for hero card
-  const heroCard = document.querySelector('.text-card');
-  const heroSection = document.querySelector('#hero');
+  // Password visibility toggle
+  passwordToggle.addEventListener('click', function () {
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      showPasswordIcon.style.display = 'none';
+      hidePasswordIcon.style.display = 'inline-block';
+    } else {
+      passwordInput.type = 'password';
+      showPasswordIcon.style.display = 'inline-block';
+      hidePasswordIcon.style.display = 'none';
+    }
+  });
 
-  if (heroCard && heroSection) {
-    const tiltEffect = (e) => {
-      const rect = heroSection.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+  // Password strength checker
+  passwordInput.addEventListener('input', function () {
+    const password = this.value;
+    let strength = 0;
+    let status = '';
 
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const moveX = (x - centerX) / centerX;
-      const moveY = (y - centerY) / centerY;
+    if (password.length >= 8) strength += 1;
+    if (password.match(/[0-9]+/)) strength += 1;
+    if (password.match(/[!@#$%^&*]+/)) strength += 1;
+    if (password.match(/[a-z]+/)) strength += 1;
+    if (password.match(/[A-Z]+/)) strength += 1;
 
-      heroCard.style.transform = `perspective(1000px) rotateY(${
-        moveX * 5
-      }deg) rotateX(${-moveY * 5}deg)`;
-    };
+    switch (strength) {
+      case 0:
+      case 1:
+        status = 'Weak';
+        passwordStrength.className = 'password-strength weak';
+        break;
+      case 2:
+      case 3:
+        status = 'Medium';
+        passwordStrength.className = 'password-strength medium';
+        break;
+      case 4:
+        status = 'Strong';
+        passwordStrength.className = 'password-strength strong';
+        break;
+      case 5:
+        status = 'Excellent';
+        passwordStrength.className = 'password-strength excellent';
+        break;
+    }
 
-    const resetTilt = () => {
-      heroCard.style.transform =
-        'perspective(1000px) rotateY(0deg) rotateX(0deg)';
-    };
-
-    heroSection.addEventListener('mousemove', tiltEffect);
-    heroSection.addEventListener('mouseleave', resetTilt);
-
-    // Add a small delay to the initial application of the tilt effect
-    setTimeout(() => {
-      heroCard.style.transition = 'transform 0.1s ease-out';
-    }, 100);
-  }
+    passwordStrength.textContent = status;
+  });
 });
+
+// Ensure password visibility toggle works even if clicked before DOMContentLoaded
+document
+  .getElementById('password-toggle')
+  .addEventListener('click', function () {
+    const passwordInput = document.getElementById('password');
+    const showPasswordIcon = document.getElementById('show-password');
+    const hidePasswordIcon = document.getElementById('hide-password');
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      showPasswordIcon.style.display = 'none';
+      hidePasswordIcon.style.display = 'inline-block';
+    } else {
+      passwordInput.type = 'password';
+      showPasswordIcon.style.display = 'inline-block';
+      hidePasswordIcon.style.display = 'none';
+    }
+  });

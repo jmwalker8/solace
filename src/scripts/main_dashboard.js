@@ -61,6 +61,96 @@ const sections = document.querySelectorAll('.profile-card-content > div');
 
 let loadingTimeout;
 
+// List of disallowed symbols (excluding '.')
+const disallowedSymbols = [
+  '!',
+  '@',
+  '#',
+  '$',
+  '%',
+  '^',
+  '&',
+  '*',
+  '(',
+  ')',
+  '+',
+  '=',
+  '{',
+  '}',
+  '[',
+  ']',
+  '|',
+  '\\',
+  ':',
+  ';',
+  '"',
+  "'",
+  '<',
+  '>',
+  ',',
+  '?',
+  '/',
+  '`',
+  '~',
+];
+
+// List of offensive usernames (add more as needed)
+const offensiveUsernames = [
+  'admin',
+  'moderator',
+  'fuck',
+  'shit',
+  'asshole',
+  'bitch',
+  'cunt',
+  'nigger',
+  'faggot',
+  'slut',
+  'whore',
+  'nazi',
+  'hitler',
+  'terrorist',
+  'rape',
+  'pedophile',
+  'kike',
+  'spic',
+  'chink',
+  'retard',
+  'dickhead',
+  'pussy',
+  'twat',
+  'wanker',
+  'motherfucker',
+  'cocksucker',
+  'bastard',
+  'douchebag',
+  'bangbros',
+  'brazzers',
+  'pornhub',
+  'xvideos',
+];
+
+function isValidUsername(username) {
+  // Convert username to lowercase for case-insensitive matching
+  const lowercaseUsername = username.toLowerCase();
+
+  // Check for disallowed symbols (case-sensitive)
+  for (let symbol of disallowedSymbols) {
+    if (username.includes(symbol)) {
+      return false;
+    }
+  }
+
+  // Check if the username contains any offensive words (partial and case-insensitive matching)
+  for (let offensiveWord of offensiveUsernames) {
+    if (lowercaseUsername.includes(offensiveWord.toLowerCase())) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 function showLoading() {
   loadingOverlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -478,52 +568,35 @@ if (manageNotificationsBtn) {
   console.error('manage-notifications-btn element not found');
 }
 
-function populateRecentNotifications() {
-  const notificationsList = document.getElementById('recent-notifications');
-  if (notificationsList) {
-    const notifications = [
-      'New message from John Doe',
-      'Your post received 10 likes',
-      'Reminder: Event starting in 1 hour',
-    ];
-
-    notificationsList.innerHTML = notifications
-      .map((notification) => `<li>${notification}</li>`)
-      .join('');
-  } else {
-    console.error('recent-notifications element not found');
-  }
-}
-
-const notificationsLink = document.getElementById('notifications-link');
-if (notificationsLink) {
-  notificationsLink.addEventListener('click', populateRecentNotifications);
-} else {
-  console.error('notifications-link element not found');
-}
-
 function updateUserProfile() {
   const user = auth.currentUser;
   const displayNameInput = document.getElementById('display-name-input');
 
   if (user && displayNameInput) {
-    const newDisplayName = displayNameInput.value;
+    const newDisplayName = displayNameInput.value.trim();
     if (newDisplayName) {
-      Promise.all([
-        firebaseUpdateProfile(user, { displayName: newDisplayName }),
-        update(ref(database, 'users/' + user.uid), {
-          username: newDisplayName,
-        }),
-      ])
-        .then(() => {
-          setUserGreeting(user);
-          updateUserInfo(user);
-          showUpdateStatus('Profile updated successfully', true);
-        })
-        .catch((error) => {
-          console.error('Error updating profile:', error);
-          showUpdateStatus('Failed to update profile', false);
-        });
+      if (isValidUsername(newDisplayName)) {
+        Promise.all([
+          firebaseUpdateProfile(user, { displayName: newDisplayName }),
+          update(ref(database, 'users/' + user.uid), {
+            username: newDisplayName,
+          }),
+        ])
+          .then(() => {
+            setUserGreeting(user);
+            updateUserInfo(user);
+            showUpdateStatus('Profile updated successfully', true);
+          })
+          .catch((error) => {
+            console.error('Error updating profile:', error);
+            showUpdateStatus('Failed to update profile', false);
+          });
+      } else {
+        showUpdateStatus(
+          'Invalid username. Please avoid special characters and offensive terms.',
+          false
+        );
+      }
     } else {
       showUpdateStatus('Please enter a display name', false);
     }
@@ -563,6 +636,19 @@ initProfileCard();
 document.addEventListener('DOMContentLoaded', () => {
   // Any additional initialization code can go here
   console.log('DOM fully loaded and parsed');
+
+  const displayNameInput = document.getElementById('display-name-input');
+  if (displayNameInput) {
+    displayNameInput.addEventListener('input', function () {
+      if (!isValidUsername(this.value.trim())) {
+        this.setCustomValidity(
+          'Invalid username. Please avoid special characters and offensive terms.'
+        );
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+  }
 });
 
 // Function to handle profile picture change
