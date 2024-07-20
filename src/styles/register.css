@@ -30,18 +30,20 @@ main {
 
 .register {
   width: 80%;
-  max-width: 450px; /* Increased max-width */
+  max-width: 450px;
+  position: relative;
+  z-index: 2;
 }
 
 .register-text h1 {
-  font-size: 40px; /* Increased from 35px */
+  font-size: 40px;
   margin-bottom: 20px;
   color: #333;
   font-family: 'Montserrat', sans-serif;
 }
 
 .register-text p {
-  font-size: 18px; /* Increased from 16px */
+  font-size: 18px;
   color: #666;
   margin-bottom: 30px;
 }
@@ -51,34 +53,78 @@ main {
 }
 
 .input-box p {
-  font-size: 16px; /* Increased from 14px */
+  font-size: 16px;
   margin-bottom: 5px;
   color: #333;
 }
 
 .input-box input {
   width: 100%;
-  padding: 12px; /* Increased from 10px /
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 16px; / Increased from 14px */
+  font-size: 16px;
 }
 
 .btn {
   width: 100%;
-  padding: 12px; /* Increased from 10px /
+  padding: 12px;
   background-color: #5138ee;
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 18px; / Increased from 16px */
+  font-size: 18px;
   cursor: pointer;
   margin-bottom: 20px;
 }
 
+#spacer {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #666;
+  margin: 20px 0;
+  font-size: 16px;
+}
+
+#spacer::before,
+#spacer::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+#spacer::before {
+  margin-right: 10px;
+}
+
+#spacer::after {
+  margin-left: 10px;
+}
+
+.google-button {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.google-button img {
+  width: 20px;
+  margin-right: 10px;
+}
+
 .login-link {
   text-align: center;
-  font-size: 16px; /* Increased from 14px */
+  font-size: 16px;
   color: #666;
 }
 
@@ -87,61 +133,112 @@ main {
   text-decoration: none;
 }
 
-.required {
-  content: '';
+.required::after {
+  content: '*';
   color: red;
   font-size: 0.9em;
   margin-left: 2px;
 }
 
-.blob {
+.password-container {
+  position: relative;
+}
+
+.password-toggle {
   position: absolute;
-  filter: blur(40px);
-  z-index: 1;
-  opacity: 0.5;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
 }
 
-.blob1 {
-  width: 30%;
-  height: 30%;
-  background-color: rgba(0, 85, 212, 0.1);
-  top: 10%;
-  left: -5%;
+.password-toggle i {
+  font-size: 18px;
 }
 
-.blob2 {
-  width: 30%;
-  height: 30%;
-  background-color: rgba(255, 107, 107, 0.1);
-  bottom: 7%;
-  right: -5%;
+/* Styles for error messages */
+
+.error-message {
+  border: 1px solid #f8514966;
+  background-color: #f851491a;
+  color: #000000;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Media query for mobile devices */
+.error-close {
+  background: none;
+  border: none;
+  color: #000000;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+}
+
+.error-close:hover {
+  color: #2b2b2b;
+}
+
+/* Styles for password strength indicator */
+
+.password-strength {
+  display: inline-block;
+  padding: 2px 5px;
+  font-size: 12px;
+  margin-top: 5px;
+  border-radius: 3px;
+}
+
+.weak {
+  color: #ff4136;
+  background-color: #ff413620;
+}
+
+.medium {
+  color: #ff851b;
+  background-color: #ff851b20;
+}
+
+.strong {
+  color: #2ecc40;
+  background-color: #2ecc4020;
+}
+
+.excellent {
+  color: #3d9970;
+  background-color: #3d997020;
+}
+
+/* Responsive styles */
+
 @media (max-width: 768px) {
   main {
     flex-direction: column;
   }
 
   #register-container {
-    width: 100%;
-    height: auto;
-    padding: 30px; /* Increased from 20px */
+    min-height: 100vh;
+    padding: 30px;
   }
 
   .register {
     width: 100%;
   }
 
-  .image-container {
-    display: none;
-  }
-
   .register-text h1 {
-    font-size: 36px; /* Slightly smaller for mobile */
+    font-size: 36px;
   }
 
   .register-text p {
-    font-size: 17px; /* Slightly smaller for mobile */
+    font-size: 17px;
   }
 }

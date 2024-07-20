@@ -3,9 +3,187 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Solace Dashboard</title>
+    <link href="styles/main.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1>poop</h1>
+    <div id="loading-overlay">
+      <div class="spinner"></div>
+    </div>
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <a href="#">Solace</a>
+      </div>
+
+      <div class="navbar-profile">
+        <button id="notifications-btn" class="notifications-btn">
+          <span class="notifications-icon">🔔</span>
+          <span id="notifications-count" class="notifications-count">0</span>
+        </button>
+        <img
+          id="profile-picture"
+          src="assets/undraw_drink_coffee_v3au.svg"
+          alt="Profile Picture"
+        />
+      </div>
+    </nav>
+
+    <main>
+      <h1>Welcome to Solace Dashboard</h1>
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <h2>Recent Activity</h2>
+          <div class="dashboard-card-content">
+            <ul>
+              <li>Completed task: Project proposal</li>
+              <li>New message from team lead</li>
+              <li>Upcoming deadline: Client presentation</li>
+            </ul>
+          </div>
+          <div class="dashboard-card-footer">
+            <a href="#">View all activity</a>
+          </div>
+        </div>
+        <div class="dashboard-card">
+          <h2>Quick Stats</h2>
+          <div class="dashboard-card-content">
+            <p>Tasks completed: 15</p>
+            <p>Projects in progress: 3</p>
+            <p>Team efficiency: 92%</p>
+          </div>
+          <div class="dashboard-card-footer">
+            <a href="#">See detailed stats</a>
+          </div>
+        </div>
+        <div class="dashboard-card">
+          <h2>Team Chat</h2>
+          <div class="dashboard-card-content">
+            <p>Connect with your team members and discuss ongoing projects.</p>
+          </div>
+          <div class="dashboard-card-footer">
+            <a href="#">Open chat</a>
+          </div>
+        </div>
+        <div class="dashboard-card">
+          <h2>Resources</h2>
+          <div class="dashboard-card-content">
+            <ul>
+              <li>Company handbook</li>
+              <li>Project templates</li>
+              <li>Training materials</li>
+            </ul>
+          </div>
+          <div class="dashboard-card-footer">
+            <a href="#">Browse all resources</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="profile-card" class="profile-card">
+      <div class="profile-card-header">
+        <h2 id="user-greeting"></h2>
+        <button id="close-profile-card" class="close-button">&times;</button>
+      </div>
+      <nav class="profile-card-nav">
+        <a href="#profile-section">Profile</a>
+        <a href="#settings-section">Settings</a>
+        <a href="#privacy-section">Privacy</a>
+        <a href="#notifications-section">Notifications</a>
+        <a href="#" id="logout-btn">Logout</a>
+      </nav>
+      <div class="profile-card-content">
+        <div id="profile-section">
+          <h3>Profile Information</h3>
+          <p>Username: <span id="user-full-name"></span></p>
+          <p>Email: <span id="user-email"></span></p>
+          <p>Member Since: <span id="user-join-date"></span></p>
+          <div class="profile-picture-settings">
+            <img
+              id="current-profile-picture"
+              src="assets/undraw_drink_coffee_v3au.svg"
+              class="lazy-load"
+              alt="Current Profile Picture"
+            />
+            <input type="file" id="profile-picture-input" accept="image/*" />
+            <button id="change-profile-picture-btn">
+              Change Profile Picture
+            </button>
+          </div>
+          <div>
+            <input
+              type="text"
+              id="display-name-input"
+              placeholder="New Display Name"
+            />
+            <button id="update-profile-btn">Update Profile</button>
+          </div>
+          <p id="profile-update-status"></p>
+        </div>
+        <div id="settings-section">
+          <h3>Account Settings</h3>
+          <div id="change-password-section">
+            <h3 style="font-weight: 100">Change Password</h3>
+            <input
+              type="password"
+              id="current-password"
+              placeholder="Current Password"
+            />
+            <input
+              type="password"
+              id="new-password"
+              placeholder="New Password"
+            />
+            <input
+              type="password"
+              id="confirm-new-password"
+              placeholder="Confirm New Password"
+            />
+            <button id="change-password-btn">Change Password</button>
+            <div id="password-update-status" style="display: none"></div>
+          </div>
+          <div>
+            <label for="language-select">Language:</label>
+            <select id="language-select">
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <!-- Add more language options -->
+            </select>
+          </div>
+          <div class="form-group theme-toggle-wrapper">
+            <label for="theme-toggle">Dark Mode:</label>
+            <input type="checkbox" id="theme-toggle" />
+          </div>
+        </div>
+        <div id="privacy-section">
+          <h3>Privacy Settings</h3>
+          <div>
+            <label for="profile-visibility">Profile Visibility:</label>
+            <select id="profile-visibility">
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+            </select>
+          </div>
+          <button id="export-data-btn">Export My Data</button>
+        </div>
+        <div id="notifications-section">
+          <h3>Notifications</h3>
+          <ul id="recent-notifications">
+            <!-- Dynamically populated list of recent notifications -->
+          </ul>
+          <button id="manage-notifications-btn">
+            Manage Notification Settings
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts/main_dashboard.js" type="module"></script>
   </body>
 </html>

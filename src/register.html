@@ -4,86 +4,191 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up - Solace</title>
-    <script src="scripts/form.js"></script>
     <link rel="stylesheet" href="styles/register.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      .password-strength {
+        display: inline-block;
+        padding: 2px 5px;
+        font-size: 12px;
+        margin-top: 5px;
+        border-radius: 3px;
+      }
+
+      .weak {
+        color: #ff4136;
+        background-color: #ff413620;
+      }
+
+      .medium {
+        color: #ff851b;
+        background-color: #ff851b20;
+      }
+
+      .strong {
+        color: #2ecc40;
+        background-color: #2ecc4020;
+      }
+
+      .excellent {
+        color: #ffffff;
+        background: linear-gradient(45deg, #00f260, #0575e6);
+        animation: glow 1.5s ease-in-out infinite alternate;
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+      }
+
+      @keyframes glow {
+        from {
+          box-shadow: 0 0 5px #00f260, 0 0 10px #00f260, 0 0 15px #00f260;
+        }
+        to {
+          box-shadow: 0 0 10px #0575e6, 0 0 20px #0575e6, 0 0 30px #0575e6;
+        }
+      }
+    </style>
   </head>
   <body>
     <main>
       <div id="register-container">
         <div class="register">
-          <div class="blob blob1">
-            <img
-              src="assets/magicpattern-blob-1720887191658-removebg-preview.png"
-            />
-          </div>
           <div class="register-text">
             <h1>Create Account</h1>
             <p>Sign Up To Get Started</p>
           </div>
+          <div id="error-message" class="error-message" style="display: none">
+            <span id="error-text"></span>
+            <button id="error-close" class="error-close">&times;</button>
+          </div>
           <form id="registerForm">
             <div class="input-box">
-              <p>Username<span class="required">*</span></p>
+              <p>Username<span class="required"></span></p>
               <input
                 type="text"
                 id="username"
                 placeholder="Create Username"
                 required
+                name="username"
               />
-              <span id="usernameError" class="error"></span>
             </div>
             <div class="input-box">
-              <p>Email<span class="required">*</span></p>
-              <input type="email" placeholder="Enter Email" required />
+              <p>Email<span class="required"></span></p>
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter Email"
+                required
+                name="email"
+              />
             </div>
             <div class="input-box">
-              <p>Password<span class="required">*</span></p>
-              <input type="password" placeholder="Create Password" required />
+              <p>Password<span class="required"></span></p>
+              <div class="password-container">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Create Password"
+                  required
+                  name="password"
+                />
+                <span class="password-toggle" id="password-toggle">
+                  <i class="fas fa-eye" id="show-password"></i>
+                  <i
+                    class="fas fa-eye-slash"
+                    id="hide-password"
+                    style="display: none"
+                  ></i>
+                </span>
+              </div>
+              <span id="password-strength" class="password-strength"></span>
             </div>
-            <div class="input-box">
-              <p>Confirm Password<span class="required">*</span></p>
-              <input type="password" placeholder="Confirm Password" required />
-            </div>
-            <button type="submit" class="btn">Register</button>
+            <button class="btn" id="signUp" name="signup_submit" type="submit">
+              Register
+            </button>
           </form>
+          <div id="spacer">or</div>
+          <button class="google-button" id="google-signup-btn">
+            <img
+              src="assets/google-icon-logo-svgrepo-com.svg"
+              alt="Google Icon"
+            />
+            Sign up with Google
+          </button>
           <div class="login-link">
             Already have an account? <a href="login.html">Log in</a>
           </div>
-          <div class="blob blob2">
-            <img
-              src="assets/magicpattern-blob-1720953229967-removebg-preview.png"
-            />
-          </div>
         </div>
       </div>
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          const usernameInput = document.getElementById('username');
-          const usernameError = document.getElementById('usernameError');
-          const form = document.getElementById('registerForm');
-
-          const forbiddenSymbols = /[!@#$%^&*()+\-~`=\[\]{};':"\\|,.<>\/?]+/;
-
-          usernameInput.addEventListener('input', function (e) {
-            const value = e.target.value;
-            const match = value.match(forbiddenSymbols);
-            if (match) {
-              const forbiddenSymbol = match[0];
-              usernameError.textContent = `Symbol "${forbiddenSymbol}" is not allowed`;
-              e.target.value = value.replace(forbiddenSymbols, '');
-            } else {
-              usernameError.textContent = '';
-            }
-          });
-
-          form.addEventListener('submit', function (e) {
-            if (forbiddenSymbols.test(usernameInput.value)) {
-              e.preventDefault();
-              usernameError.textContent =
-                'Please remove forbidden symbols before submitting';
-            }
-          });
-        });
-      </script>
     </main>
+    <script src="scripts/form.js" type="module"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('password-toggle');
+        const showPasswordIcon = document.getElementById('show-password');
+        const hidePasswordIcon = document.getElementById('hide-password');
+        const passwordStrength = document.getElementById('password-strength');
+
+        passwordToggle.addEventListener('click', function () {
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            showPasswordIcon.style.display = 'none';
+            hidePasswordIcon.style.display = 'inline-block';
+          } else {
+            passwordInput.type = 'password';
+            showPasswordIcon.style.display = 'inline-block';
+            hidePasswordIcon.style.display = 'none';
+          }
+        });
+
+        passwordInput.addEventListener('input', function () {
+          const password = this.value;
+          let strength = 0;
+          let status = '';
+
+          // Check each condition separately
+          const hasLength = password.length >= 8;
+          const hasNumber = /[0-9]/.test(password);
+          const hasSymbol = /[!@#$%^&*]/.test(password);
+          const hasLowercase = /[a-z]/.test(password);
+          const hasUppercase = /[A-Z]/.test(password);
+
+          // Count how many conditions are met
+          strength = [
+            hasLength,
+            hasNumber,
+            hasSymbol,
+            hasLowercase,
+            hasUppercase,
+          ].filter(Boolean).length;
+
+          switch (strength) {
+            case 0:
+            case 1:
+              status = 'Weak';
+              passwordStrength.className = 'password-strength weak';
+              break;
+            case 2:
+            case 3:
+              status = 'Medium';
+              passwordStrength.className = 'password-strength medium';
+              break;
+            case 4:
+              status = 'Strong';
+              passwordStrength.className = 'password-strength strong';
+              break;
+            case 5:
+              status = 'Excellent';
+              passwordStrength.className = 'password-strength excellent';
+              break;
+          }
+
+          passwordStrength.textContent = status;
+        });
+      });
+    </script>
   </body>
 </html>

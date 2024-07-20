@@ -20,44 +20,30 @@
     <script src="scripts/login.js" defer type="module"></script>
     <script src="scripts/server.js" defer type="module"></script>
     <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/favicon_package_v0/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/favicon_package_v0/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="theme-color" content="#ffffff" />
   </head>
   <body>
     <main>
       <div id="login-container">
         <section class="login">
-          <div class="blob blob1"></div>
-          <div class="blob blob2"></div>
           <div class="login-text">
-            <h1 id="login-h1">Sign In</h1>
-            <p id="login-p">Enter your credentials to access your account.</p>
+            <h1>Sign In</h1>
+            <p>Enter your credentials to access your account.</p>
+          </div>
+          <div id="error-message" class="error-message" style="display: none">
+            <span id="error-text"></span>
+            <button id="error-close" class="error-close">&times;</button>
           </div>
           <div class="login-forms">
-            <form id="login-form" action="">
+            <form id="login-form">
               <div class="input-box">
-                <p id="login-email-p" class="required">Email</p>
-                <input type="text" placeholder="Username" required />
+                <p class="required">Email</p>
+                <input type="text" placeholder="Email" id="email" required />
               </div>
               <div class="input-box">
-                <p id="login-password-p" class="required">Password</p>
+                <p class="required">Password</p>
                 <div class="password-container">
                   <input
                     type="password"
@@ -76,49 +62,83 @@
                 </div>
               </div>
               <div class="remember-forgot">
-                <label><input type="checkbox" />Remember Me</label>
-                <a href="#">Forgot Password?</a>
+                <label class="remember-me">
+                  <input type="checkbox" id="remember-me" />
+                  <span class="checkmark"></span>
+                  Remember Me
+                </label>
+                <div id="forgot-password">
+                  <a style="cursor: pointer">Forgot Password?</a>
+                </div>
               </div>
-              <button type="submit" class="btn">Login</button>
+              <div class="btn" id="login" role="button" tabindex="0">Login</div>
             </form>
             <p id="spacer">Or, Login With</p>
             <button type="button" class="google-button" id="google-login-btn">
-              <span class="svg" id="google-svg">
-                <img
-                  src="assets/google-icon-logo-svgrepo-com.svg"
-                  alt="Google logo"
-                />
-              </span>
-              Sign Up With Google
+              <img
+                src="assets/google-icon-logo-svgrepo-com.svg"
+                alt="Google logo"
+              />
+              Sign In With Google
             </button>
-            <div class="register">
-              <p id="register-p">
+            <div class="register-link">
+              <p>
                 Don't have an account? <a href="register.html">Register Here</a>
               </p>
             </div>
           </div>
         </section>
       </div>
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          const passwordInput = document.getElementById('password-input');
-          const passwordToggle = document.getElementById('password-toggle');
-          const showPasswordIcon = document.getElementById('show-password');
-          const hidePasswordIcon = document.getElementById('hide-password');
-
-          passwordToggle.addEventListener('click', function () {
-            if (passwordInput.type === 'password') {
-              passwordInput.type = 'text';
-              showPasswordIcon.style.display = 'none';
-              hidePasswordIcon.style.display = 'inline-block';
-            } else {
-              passwordInput.type = 'password';
-              showPasswordIcon.style.display = 'inline-block';
-              hidePasswordIcon.style.display = 'none';
-            }
-          });
-        });
-      </script>
     </main>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password-input');
+        const passwordToggle = document.getElementById('password-toggle');
+        const showPasswordIcon = document.getElementById('show-password');
+        const hidePasswordIcon = document.getElementById('hide-password');
+        const loginButton = document.getElementById('login');
+        const emailInput = document.getElementById('email');
+
+        passwordToggle.addEventListener('click', function () {
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            showPasswordIcon.style.display = 'none';
+            hidePasswordIcon.style.display = 'inline-block';
+          } else {
+            passwordInput.type = 'password';
+            showPasswordIcon.style.display = 'inline-block';
+            hidePasswordIcon.style.display = 'none';
+          }
+        });
+
+        function handleLogin() {
+          const email = emailInput.value;
+          const password = passwordInput.value;
+
+          // Your login logic here
+          console.log('Login attempted with:', email, password);
+
+          // Clear the input fields
+          emailInput.value = '';
+          passwordInput.value = '';
+        }
+
+        loginButton.addEventListener('click', handleLogin);
+
+        loginButton.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleLogin();
+          }
+        });
+
+        // Prevent form submission
+        document
+          .getElementById('login-form')
+          .addEventListener('submit', function (event) {
+            event.preventDefault();
+          });
+      });
+    </script>
   </body>
 </html>
