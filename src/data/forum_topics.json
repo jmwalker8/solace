@@ -1,0 +1,18 @@
+[
+  {
+    "objectID": "1",
+    "title": "Introduction to ADHD",
+    "category": "wellness",
+    "content": "ADHD is a neurodevelopmental disorder...",
+    "posts": 5,
+    "lastPost": "2023-07-26T12:00:00Z"
+  },
+  {
+    "objectID": "2",
+    "title": "Productivity tips for students",
+    "category": "productivity",
+    "content": "Here are some tips to boost your productivity...",
+    "posts": 3,
+    "lastPost": "2023-07-25T15:30:00Z"
+  }
+]

@@ -88,7 +88,7 @@ header {
   z-index: 1000;
   transition: background-color 0.3s ease;
   border-bottom: 1px solid;
-  background-color: rgba(18, 18, 18, 0.95);
+  background-color: #1a1a2e;
   backdrop-filter: blur(10px);
 }
 

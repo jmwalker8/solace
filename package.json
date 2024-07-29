@@ -25,5 +25,8 @@
       "/node_modules/"
     ],
     "coverageDirectory": "coverage"
+  },
+  "dependencies": {
+    "algoliasearch": "^4.24.0"
   }
 }
