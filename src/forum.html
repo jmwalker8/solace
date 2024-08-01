@@ -72,19 +72,37 @@
       </header>
 
       <div class="forum-search">
-        <input type="text" id="search-input" placeholder="Search topics..." />
+        <input type="text" id="search-input" placeholder="Search Posts" />
         <button id="search-btn"><i class="fas fa-search"></i></button>
       </div>
 
-      <div class="forum-categories">
-        <button class="category-btn active" data-category="all">All</button>
-        <button class="category-btn" data-category="wellness">Wellness</button>
-        <button class="category-btn" data-category="productivity">
-          Productivity
-        </button>
-        <button class="category-btn" data-category="mindfulness">
-          Mindfulness
-        </button>
+      <div class="forum-categories-container">
+        <div class="forum-categories">
+          <button class="category-btn active" data-category="all">All</button>
+          <button class="category-btn" data-category="Wellness">
+            Wellness
+          </button>
+          <button class="category-btn" data-category="productivity">
+            Productivity
+          </button>
+          <button class="category-btn" data-category="mindfulness">
+            Mindfulness
+          </button>
+          <button class="category-btn" data-category="adhd-strategies">
+            ADHD Strategies
+          </button>
+          <div class="categories-dropdown">
+            <button id="more-categories-btn" class="category-btn">
+              More <i class="fas fa-chevron-down"></i>
+            </button>
+            <div
+              id="more-categories-content"
+              class="categories-dropdown-content"
+            >
+              <!-- Additional categories will be added here dynamically -->
+            </div>
+          </div>
+        </div>
       </div>
 
       <div id="forum-topics">
@@ -105,7 +123,7 @@
     <div id="create-topic-modal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <h2>Whats On Your Mind?</h2>
+        <h2>What's On Your Mind?</h2>
         <form id="new-topic-form">
           <div class="form-group">
             <label for="new-topic-title">Title:</label>
@@ -134,7 +152,12 @@
           </div>
           <div class="form-group">
             <label for="new-topic-content">Content:</label>
-            <textarea id="new-topic-content" required></textarea>
+            <textarea
+              id="new-topic-content"
+              placeholder="Max 2000 characters"
+              required
+            ></textarea>
+            <small id="char-count">0 / 2000 characters</small>
           </div>
           <button type="submit" id="submit-new-topic">Post</button>
         </form>
@@ -170,5 +193,8 @@
     </script>
 
     <script src="scripts/forums.js" type="module"></script>
+    <button id="dark-mode-toggle" class="dark-mode-toggle">
+      <i class="fas fa-moon"></i>
+    </button>
   </body>
 </html>
