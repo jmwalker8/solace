@@ -13,14 +13,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI',
-  authDomain: 'solace-83466.firebaseapp.com',
-  projectId: 'solace-83466',
-  databaseURL: 'https://solace-83466-default-rtdb.firebaseio.com',
-  storageBucket: 'solace-83466.appspot.com',
-  messagingSenderId: '1035507922270',
-  appId: '1:1035507922270:web:496b548ba710523eb18bcf',
-  measurementId: 'G-H8RRCK340M',
+  skibidi,
 };
 
 const app = initializeApp(firebaseConfig);
