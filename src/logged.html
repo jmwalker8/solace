@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solace - Your Personal Wellbeing Dashboard</title>
+    <title>Solace - Your Wellbeing Journey</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
@@ -12,330 +12,2317 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
-    <link href="styles/main.css" rel="stylesheet" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/Solace-Title-Logo.png"
-    />
-  </head>
-  <body>
-    <div id="loading-overlay">
-      <div class="spinner"></div>
-    </div>
+    <style>
+      /* Root Variables */
+      :root {
+        --primary-color: #8b5cf6;
+        --primary-light: #a78bfa;
+        --primary-dark: #7c3aed;
+        --secondary-color: #4c1d95;
+        --text-color: #1e1b4b;
+        --background-color: #ffffff;
+        --card-background: #f3f4f6;
+        --accent-color: #4338ca;
+        --navbar-background: #1e1b4b;
+        --button-text: #ffffff;
+        --input-background: #ffffff;
+        --input-text: #1e1b4b;
+        --border-color: #d1d5db;
+        --welcome-gradient-start: #6366f1;
+        --welcome-gradient-end: #8b5cf6;
+        --welcome-text: #ffffff;
+        --error-color: #ef4444;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      }
 
+      /* Global Styles */
+      body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* Navbar Styles */
+      .navbar {
+        background-color: var(--navbar-background);
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: var(--shadow-md);
+      }
+
+      .navbar-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .navbar-logo a {
+        display: flex;
+        align-items: center;
+        color: var(--background-color);
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 700;
+        transition: opacity 0.2s ease;
+      }
+
+      .navbar-logo a:hover {
+        opacity: 0.9;
+      }
+
+      .navbar-logo img {
+        height: 40px;
+        margin-right: 12px;
+      }
+
+      .navbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .navbar-btn {
+        background: none;
+        border: none;
+        color: var(--background-color);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        padding: 8px;
+        border-radius: 8px;
+      }
+
+      .navbar-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-1px);
+      }
+
+      /* Profile Picture Styles */
+      .profile-dropdown {
+        position: relative;
+      }
+
+      #profile-picture {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary-light);
+        transition: transform 0.2s ease;
+        cursor: pointer;
+      }
+
+      #profile-picture:hover {
+        transform: scale(1.05);
+      }
+
+      /* Quick Add Dropdown Styles */
+      .quick-add-dropdown {
+        position: relative;
+      }
+
+      .quick-add-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: var(--background-color);
+        border-radius: 8px;
+        box-shadow: var(--shadow-lg);
+        min-width: 200px;
+        z-index: 1000;
+        margin-top: 8px;
+      }
+
+      .quick-add-item {
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .quick-add-item:hover {
+        background-color: var(--card-background);
+      }
+
+      .quick-add-item i {
+        color: var(--primary-color);
+        width: 20px;
+        text-align: center;
+      }
+
+      /* Notifications Styles */
+      .notifications-dropdown {
+        position: relative;
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: var(--error-color);
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.75rem;
+        display: none;
+      }
+
+      .notifications-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: var(--background-color);
+        border-radius: 8px;
+        box-shadow: var(--shadow-lg);
+        min-width: 300px;
+        max-width: 400px;
+        z-index: 1000;
+        margin-top: 8px;
+      }
+
+      .notifications-header {
+        padding: 16px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .notifications-header h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--text-color);
+      }
+
+      .mark-all-read {
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        cursor: pointer;
+        font-size: 0.9rem;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+      }
+
+      .mark-all-read:hover {
+        background-color: var(--card-background);
+      }
+
+      .notifications-list {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .notification-item {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border-color);
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .notification-item:hover {
+        background-color: var(--card-background);
+      }
+
+      .notification-item.unread {
+        background-color: #f0f9ff;
+      }
+
+      .notification-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: var(--text-color);
+      }
+
+      .notification-content {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        opacity: 0.8;
+      }
+
+      .notification-time {
+        font-size: 0.8rem;
+        color: var(--text-color);
+        opacity: 0.6;
+        margin-top: 4px;
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background-color: var(--background-color);
+        margin: 10% auto;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 12px;
+        box-shadow: var(--shadow-lg);
+      }
+
+      .modal-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--primary-color);
+        color: var(--button-text);
+        border-radius: 12px 12px 0 0;
+      }
+
+      .modal-header h2 {
+        margin: 0;
+        font-size: 1.25rem;
+      }
+
+      .modal-close {
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: var(--button-text);
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+      }
+
+      .modal-close:hover {
+        opacity: 1;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      /* Profile Modal Specific Styles */
+      .profile-content {
+        display: flex;
+        gap: 32px;
+        padding: 24px;
+      }
+
+      .profile-picture-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      #profile-modal-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary-color);
+        box-shadow: var(--shadow-md);
+      }
+
+      .change-picture-btn {
+        background-color: var(--primary-color);
+        color: var(--button-text);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      .change-picture-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .profile-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .profile-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .profile-field label {
+        font-weight: 600;
+        color: var(--text-color);
+        font-size: 0.9rem;
+      }
+
+      .profile-field input {
+        padding: 8px 12px;
+        border: 2px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+      }
+
+      .profile-field input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        background-color: var(--input-background);
+        color: var(--input-text);
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+      }
+
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      /* Button Styles */
+      .submit-btn {
+        background-color: var(--primary-color);
+        color: var(--button-text);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+
+      .submit-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      /* Main Content and Existing Styles */
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      .section {
+        background: linear-gradient(
+          135deg,
+          var(--welcome-gradient-start),
+          var(--welcome-gradient-end)
+        );
+        color: var(--welcome-text);
+        border-radius: 20px;
+        box-shadow: var(--shadow-lg);
+        padding: 40px;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .section:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Loading State Styles */
+      .loading {
+        position: relative;
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      .loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 24px;
+        height: 24px;
+        margin: -12px 0 0 -12px;
+        border: 2px solid var(--primary-color);
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        .profile-content {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .profile-info {
+          width: 100%;
+        }
+
+        .modal-content {
+          width: 95%;
+          margin: 5% auto;
+        }
+
+        .quick-add-menu,
+        .notifications-menu {
+          position: fixed;
+          top: auto;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          border-radius: 12px 12px 0 0;
+          margin: 0;
+        }
+
+        .notifications-list {
+          max-height: 60vh;
+        }
+      }
+
+      /* Accessibility Styles */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* Welcome section styles */
+      .welcome-section h1 {
+        font-size: 3.5em;
+        margin-bottom: 20px;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .date-time {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        font-weight: 300;
+        opacity: 0.9;
+      }
+
+      .quote {
+        font-style: italic;
+        margin: 30px auto;
+        font-size: 1.2em;
+        max-width: 80%;
+        line-height: 1.6;
+        position: relative;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        backdrop-filter: blur(8px);
+      }
+
+      .quote::before,
+      .quote::after {
+        content: '"';
+        font-size: 4em;
+        position: absolute;
+        opacity: 0.2;
+        font-family: Georgia, serif;
+      }
+
+      .quote::before {
+        top: -20px;
+        left: -10px;
+      }
+
+      .quote::after {
+        bottom: -50px;
+        right: -10px;
+      }
+
+      .mood-question h2 {
+        font-size: 1.75rem;
+        margin-bottom: 24px;
+        font-weight: 600;
+      }
+
+      .mood-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+      }
+
+      .mood-button {
+        padding: 14px 36px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--button-text);
+        box-shadow: var(--shadow-md);
+        letter-spacing: 0.05em;
+      }
+
+      .mood-button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .good {
+        background-color: var(--success-color);
+      }
+
+      .ok {
+        background-color: var(--warning-color);
+      }
+
+      .bad {
+        background-color: var(--error-color);
+      }
+
+      /* Content Section and Tools Section */
+      .content-section,
+      .adhd-tools-section {
+        padding: 64px 0;
+        background-color: var(--card-background);
+        border-radius: 24px;
+        margin: 24px 0;
+      }
+
+      .section-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--text-color);
+        text-align: center;
+        margin-bottom: 48px;
+      }
+
+      .content-grid,
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 32px;
+        margin-bottom: 48px;
+      }
+
+      .content-item,
+      .tool-item {
+        background-color: var(--background-color);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: all 0.3s ease;
+      }
+
+      .content-item:hover,
+      .tool-item:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .content-item-inner,
+      .tool-item-inner {
+        padding: 32px;
+      }
+
+      .content-item h3,
+      .tool-item h3 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: var(--text-color);
+        margin-bottom: 16px;
+      }
+
+      .content-item p,
+      .tool-item p {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: var(--text-color);
+        opacity: 0.8;
+      }
+
+      /* Video Grid Styles */
+      .content-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      .video-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: transform 0.2s ease;
+        cursor: pointer;
+      }
+
+      .video-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .video-thumbnail {
+        position: relative;
+        padding-top: 56.25%;
+      }
+
+      .video-thumbnail img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Modal Styles */
+      .video-embed {
+        position: relative;
+        padding-top: 56.25%;
+        margin-bottom: 24px;
+      }
+
+      .video-embed iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .video-stats {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 16px;
+      }
+
+      .like-btn {
+        background: none;
+        border: none;
+        color: var(--text-color);
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+
+      .like-btn.liked {
+        color: #ff4b4b;
+      }
+
+      .video-description {
+        margin-bottom: 32px;
+        line-height: 1.6;
+      }
+
+      .comment-input {
+        margin-bottom: 24px;
+      }
+
+      .comment-input textarea {
+        width: 100%;
+        min-height: 80px;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-bottom: 12px;
+        resize: vertical;
+      }
+
+      .comments-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .comment {
+        padding: 16px;
+        background: var(--card-background);
+        border-radius: 8px;
+      }
+
+      /* Task and Goal Lists */
+      .task-list,
+      .goal-list {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+      }
+
+      .task-item,
+      .goal-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border-bottom: 1px solid var(--border-color);
+        transition: background-color 0.2s ease;
+      }
+
+      .task-item:hover,
+      .goal-item:hover {
+        background-color: var(--card-background);
+      }
+
+      .task-checkbox,
+      .goal-checkbox {
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        border: 2px solid var(--primary-color);
+        cursor: pointer;
+      }
+
+      .task-text,
+      .goal-text {
+        flex: 1;
+        font-size: 1rem;
+      }
+
+      .task-text.completed,
+      .goal-text.completed {
+        text-decoration: line-through;
+        opacity: 0.7;
+      }
+
+      .task-time,
+      .goal-deadline {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        opacity: 0.7;
+      }
+
+      /* Tools Controls */
+      .timer-display {
+        font-size: 2.5rem;
+        font-weight: 600;
+        text-align: center;
+        margin: 20px 0;
+        font-family: monospace;
+      }
+
+      .timer-controls {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .timer-controls button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background-color: var(--primary-color);
+        color: var(--button-text);
+      }
+
+      .timer-controls button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* Exercise Display */
+      #exercise-display {
+        background-color: var(--card-background);
+        padding: 20px;
+        border-radius: 12px;
+        margin: 20px 0;
+      }
+
+      #random-exercise {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--primary-color);
+        color: var(--button-text);
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      #random-exercise:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      /* Explore Button */
+      .explore-btn {
+        background-color: var(--primary-color);
+        color: var(--button-text);
+        border: none;
+        padding: 14px 36px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        box-shadow: var(--shadow-md);
+      }
+
+      .explore-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      /* Points Display */
+      #navbar-points {
+        background-color: var(--primary-color);
+        color: var(--button-text);
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .content-item {
+        background: var(--background-color);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .content-item:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .video-thumbnail {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 aspect ratio */
+        overflow: hidden;
+      }
+
+      .video-thumbnail img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .video-duration {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+      }
+
+      .video-meta {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+        font-size: 0.9rem;
+      }
+
+      .video-category {
+        background: var(--primary-color);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+      }
+
+      .video-tags {
+        color: var(--text-color);
+        opacity: 0.7;
+      }
+
+      /* Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--card-background);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary-color);
+        border-radius: 6px;
+        border: 3px solid var(--card-background);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+      }
+    </style>
+  </head>
+
+  <body>
     <nav class="navbar">
-      <div class="navbar-logo">
-        <a href="#"> <img src="assets/Solace-Title-Logo.png" /> Solace</a>
-      </div>
-      <div class="navbar-actions">
-        <button id="quick-add-btn" class="navbar-btn" title="Quick Add">
-          <i class="fas fa-plus"></i>
-        </button>
-        <span id="navbar-points">0</span>
-        <button id="gamification-btn" class="navbar-btn" title="Achievements">
-          <i class="fas fa-award"></i>
-        </button>
-        <button id="notifications-btn" class="navbar-btn" title="Notifications">
-          <i class="fas fa-bell"></i>
-        </button>
-        <button id="forum-btn" class="navbar-btn" title="Forum">
-          <i class="fas fa-comments"></i>
-        </button>
-        <img
-          id="profile-picture"
-          src="assets/default-avatar.png"
-          alt="Profile Picture"
-          class="navbar-btn"
-        />
-        <button id="logout-btn" class="navbar-btn" title="Logout">
-          <i class="fas fa-sign-out-alt"></i>
-        </button>
+      <div class="navbar-content">
+        <div class="navbar-logo">
+          <a href="#">
+            <img src="assets/Solace-Title-Logo.png" alt="Solace Logo" /> Solace
+          </a>
+        </div>
+        <div class="navbar-actions">
+          <div class="quick-add-dropdown">
+            <button id="quick-add-btn" class="navbar-btn" title="Quick Add">
+              <i class="fas fa-plus"></i>
+              <span class="sr-only">Quick Add</span>
+            </button>
+            <div class="quick-add-menu">
+              <div class="quick-add-item" data-type="task">
+                <i class="fas fa-tasks"></i>
+                <span>Add Task</span>
+              </div>
+              <div class="quick-add-item" data-type="goal">
+                <i class="fas fa-bullseye"></i>
+                <span>Add Goal</span>
+              </div>
+              <div class="quick-add-item" data-type="note">
+                <i class="fas fa-sticky-note"></i>
+                <span>Add Note</span>
+              </div>
+            </div>
+          </div>
+
+          <span id="navbar-points">0</span>
+
+          <button id="gamification-btn" class="navbar-btn" title="Achievements">
+            <i class="fas fa-award"></i>
+            <span class="sr-only">Achievements</span>
+          </button>
+
+          <div class="notifications-dropdown">
+            <button
+              id="notifications-btn"
+              class="navbar-btn"
+              title="Notifications"
+            >
+              <i class="fas fa-bell"></i>
+              <span class="notification-badge">0</span>
+              <span class="sr-only">Notifications</span>
+            </button>
+            <div class="notifications-menu">
+              <div class="notifications-header">
+                <h3>Notifications</h3>
+                <button class="mark-all-read">Mark all as read</button>
+              </div>
+              <div class="notifications-list">
+                <!-- Notifications will be dynamically inserted here -->
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-dropdown">
+            <img
+              id="profile-picture"
+              src="assets/default-avatar.png"
+              alt="Profile Picture"
+              class="navbar-btn"
+            />
+            <input
+              type="file"
+              id="profile-picture-input"
+              accept="image/*"
+              style="display: none"
+            />
+          </div>
+
+          <button id="logout-btn" class="navbar-btn" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="sr-only">Logout</span>
+          </button>
+        </div>
       </div>
     </nav>
 
-    <div id="quick-add-modal" class="modal">
-      <div class="modal-content">
-        <h2>Quick Add</h2>
-        <button id="quick-add-task" class="btn-primary">
-          <i class="fas fa-tasks"></i> New Task
-        </button>
-        <button id="quick-add-mood" class="btn-primary">
-          <i class="fas fa-smile"></i> Log Mood
-        </button>
-        <button id="quick-add-note" class="btn-primary">
-          <i class="fas fa-sticky-note"></i> New Note
-        </button>
+    <main class="main-content">
+      <section class="welcome-section section">
+        <h1>Welcome to Solace</h1>
+        <div class="date-time" id="date-time"></div>
+        <div class="quote" id="motivational-quote">Loading quote...</div>
+        <div class="mood-question">
+          <h2>How are you feeling today?</h2>
+          <div class="mood-buttons">
+            <button class="mood-button good">Good</button>
+            <button class="mood-button ok">OK</button>
+            <button class="mood-button bad">Bad</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="section-inner">
+          <h2 class="section-title">Videos, Articles, & More</h2>
+          <div class="content-grid" id="content-grid">
+            <!-- Videos will be loaded here -->
+          </div>
+          <div class="explore-more">
+            <button
+              class="explore-btn"
+              id="explore-more-btn"
+              onclick="window.location.href='community-exploration.html'"
+            >
+              EXPLORE MORE
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Video Modal -->
+      <div id="video-modal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="modal-video-title"></h2>
+            <span class="modal-close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <div class="video-embed"></div>
+            <div class="video-details">
+              <div class="video-stats">
+                <span class="views"
+                  ><i class="fas fa-eye"></i>
+                  <span id="video-views">0</span> views</span
+                >
+                <span class="likes">
+                  <button id="like-button" class="like-btn">
+                    <i class="fas fa-heart"></i>
+                    <span id="video-likes">0</span>
+                  </button>
+                </span>
+              </div>
+              <div class="video-description"></div>
+              <div class="video-comments">
+                <h3>Comments</h3>
+                <div class="comment-input">
+                  <textarea placeholder="Add a comment..."></textarea>
+                  <button class="submit-comment">Comment</button>
+                </div>
+                <div class="comments-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <main class="dashboard">
-      <header class="dashboard-header">
-        <h1 id="user-greeting">
-          Welcome back, <span class="username">User</span>
-        </h1>
-        <p id="motivational-quote">
-          Your daily dose of inspiration goes here.
-          <span class="quote-actions">
-            <i
-              id="edit-quote-btn"
-              class="fas fa-pencil-alt"
-              title="Edit custom quote"
-            ></i>
-            <i
-              id="random-quote-btn"
-              class="fas fa-random"
-              title="Get random quote"
-            ></i>
-          </span>
-        </p>
-      </header>
+      <section class="adhd-tools-section">
+        <div class="section-inner">
+          <h2 class="section-title">ADHD Tools</h2>
+          <div class="tools-grid">
+            <div class="tool-item">
+              <div class="tool-item-inner">
+                <h3>Daily Planner</h3>
+                <p>Organize your day with our intuitive planner.</p>
+                <div class="task-input">
+                  <input
+                    type="text"
+                    id="new-task"
+                    placeholder="Add a new task"
+                  />
+                  <input type="time" id="task-time" />
+                  <button id="add-task">Add</button>
+                </div>
+                <ul id="task-list"></ul>
+              </div>
+            </div>
 
-      <div class="dashboard-grid">
-        <section class="dashboard-card" id="mood-tracker">
-          <h2><i class="fas fa-chart-line"></i> Mood Tracker</h2>
-          <div id="mood-chart"></div>
-          <button id="log-mood-btn" class="btn-primary">
-            Log Today's Mood
-          </button>
-        </section>
+            <div class="tool-item">
+              <div class="tool-item-inner">
+                <h3>Pomodoro Timer</h3>
+                <p>Boost productivity with timed work sessions.</p>
+                <div id="timer-display">25:00</div>
+                <div class="timer-controls">
+                  <button id="start-timer">Start</button>
+                  <button id="pause-timer" disabled>Pause</button>
+                  <button id="reset-timer">Reset</button>
+                </div>
+              </div>
+            </div>
 
-        <section class="dashboard-card" id="task-manager">
-          <h2><i class="fas fa-tasks"></i> Task Manager</h2>
-          <div id="task-list"></div>
-          <button id="add-task-btn" class="btn-primary">Add New Task</button>
-        </section>
+            <div class="tool-item">
+              <div class="tool-item-inner">
+                <h3>Mindfulness Exercises</h3>
+                <p>Practice mindfulness with guided exercises.</p>
+                <div id="exercise-display">
+                  Click 'Try Random Exercise' to begin
+                </div>
+                <button id="random-exercise">Try Random Exercise</button>
+              </div>
+            </div>
 
-        <section class="dashboard-card" id="daily-reflection">
-          <h2><i class="fas fa-book"></i> Daily Reflection</h2>
-          <textarea
-            id="reflection-input"
-            placeholder="What are you grateful for today?"
-          ></textarea>
-          <button id="save-reflection-btn" class="btn-primary">
-            Save Reflection
-          </button>
-        </section>
-
-        <section class="dashboard-card" id="wellness-tips">
-          <h2><i class="fas fa-hand-holding-heart"></i> Wellness Tip</h2>
-          <p id="wellness-tip-content">Your daily wellness tip goes here.</p>
-          <button id="new-tip-btn" class="btn-secondary">New Tip</button>
-        </section>
-
-        <section class="dashboard-card" id="habits-tracker">
-          <h2><i class="fas fa-calendar-check"></i> Habit Tracker</h2>
-          <div id="habits-list"></div>
-          <button id="add-habit-btn" class="btn-primary">Add New Habit</button>
-        </section>
-
-        <section class="dashboard-card" id="meditation-timer">
-          <h2><i class="fas fa-om"></i> Meditation Timer</h2>
-          <div id="timer-display">00:00</div>
-          <button id="start-timer-btn" class="btn-primary">
-            Start Session
-          </button>
-        </section>
-      </div>
+            <div class="tool-item">
+              <div class="tool-item-inner">
+                <h3>Goal Tracker</h3>
+                <p>Set and track your personal and professional goals.</p>
+                <div class="goal-input">
+                  <input
+                    type="text"
+                    id="new-goal"
+                    placeholder="Enter a new goal"
+                  />
+                  <input type="date" id="goal-deadline" />
+                  <button id="add-goal">Add Goal</button>
+                </div>
+                <ul id="goal-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <div id="profile-card" class="modal">
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal">
       <div class="modal-content">
-        <header class="modal-header">
-          <h2 id="profile-greeting">Your Profile</h2>
-          <button id="close-profile-card" class="close-button">&times;</button>
-        </header>
-        <nav class="profile-nav">
-          <a href="#profile-info" class="active">Profile</a>
-          <a href="#account-settings">Settings</a>
-          <a href="#privacy-settings">Privacy</a>
-          <a href="#notification-preferences">Notifications</a>
-        </nav>
-        <div class="profile-sections">
-          <section id="profile-info" class="active">
+        <div class="modal-header">
+          <h2>Your Profile</h2>
+          <span class="modal-close" id="profile-modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="profile-content">
             <div class="profile-picture-container">
               <img
-                id="current-profile-picture"
+                id="profile-modal-picture"
                 src="assets/default-avatar.png"
-                alt="Current Profile Picture"
+                alt="Profile Picture"
               />
-              <input type="file" id="profile-picture-input" accept="image/*" />
-              <button id="change-profile-picture-btn" class="btn-secondary">
+              <label for="profile-picture-input" class="change-picture-btn">
                 Change Picture
-              </button>
+              </label>
             </div>
-            <div class="profile-details">
-              <p>Name: <span id="user-full-name">John Doe</span></p>
-              <p>Email: <span id="user-email">john@example.com</span></p>
-              <p>
-                Member Since: <span id="user-join-date">January 1, 2023</span>
-              </p>
-            </div>
-            <div class="profile-edit">
-              <input
-                type="text"
-                id="display-name-input"
-                placeholder="New Display Name"
-              />
-              <button id="update-profile-btn" class="btn-primary">
+            <div class="profile-info">
+              <div class="profile-field">
+                <label for="display-name-input">Display Name</label>
+                <input
+                  type="text"
+                  id="display-name-input"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div class="profile-field">
+                <label>Email</label>
+                <p id="profile-email"></p>
+              </div>
+              <div class="profile-field">
+                <label>Member Since</label>
+                <p id="member-since"></p>
+              </div>
+              <button id="update-profile-btn" class="explore-btn">
                 Update Profile
               </button>
-              <div id="profile-update-status" style="display: none"></div>
             </div>
-          </section>
-          <section id="account-settings">
-            <h3>Account Settings</h3>
-            <div class="password-change">
-              <input
-                type="password"
-                id="current-password"
-                placeholder="Current Password"
-              />
-              <input
-                type="password"
-                id="new-password"
-                placeholder="New Password"
-              />
-              <input
-                type="password"
-                id="confirm-new-password"
-                placeholder="Confirm New Password"
-              />
-              <button id="change-password-btn" class="btn-primary">
-                Change Password
-              </button>
-            </div>
-            <div class="language-settings">
-              <label for="language-select">Language:</label>
-              <select id="language-select">
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-              </select>
-            </div>
-            <div class="theme-settings">
-              <label for="theme-toggle">Dark Mode:</label>
-              <input type="checkbox" id="theme-toggle" />
-            </div>
-          </section>
-          <section id="privacy-settings">
-            <h3>Privacy Settings</h3>
-            <div class="privacy-options">
-              <label for="profile-visibility">Profile Visibility:</label>
-              <select id="profile-visibility">
-                <option value="public">Public</option>
-                <option value="friends">Friends Only</option>
-                <option value="private">Private</option>
-              </select>
-            </div>
-            <button id="export-data-btn" class="btn-secondary">
-              Export My Data
-            </button>
-          </section>
-          <section id="notification-preferences">
-            <h3>Notification Preferences</h3>
-            <div class="notification-options">
-              <label>
-                <input type="checkbox" id="email-notifications" /> Receive Email
-                Notifications
-              </label>
-              <label>
-                <input type="checkbox" id="push-notifications" /> Receive Push
-                Notifications
-              </label>
-            </div>
-            <button id="update-notifications-btn" class="btn-primary">
-              Update Preferences
-            </button>
-          </section>
-        </div>
-      </div>
-    </div>
-
-    <div id="achievements-card" class="modal">
-      <div class="modal-content">
-        <header class="modal-header">
-          <h2><i class="fas fa-award"></i> Achievements</h2>
-          <button id="close-achievements-card" class="close-button">
-            &times;
-          </button>
-        </header>
-        <div class="achievements-content">
-          <div class="achievements-summary">
-            <p>Total Points: <span id="total-points">0</span></p>
-            <p>
-              Achievements Unlocked: <span id="achievements-unlocked">0</span>
-            </p>
-          </div>
-          <ul id="achievements-list"></ul>
-        </div>
-      </div>
-    </div>
-
-    <div id="notifications-dropdown" class="dropdown">
-      <h3><i class="fas fa-bell"></i> Notifications</h3>
-      <ul id="notifications-list"></ul>
-      <button id="clear-notifications-btn" class="btn-secondary">
-        Clear All
-      </button>
-    </div>
-
-    <div id="mood-log-modal" class="modal">
-      <div class="modal-content">
-        <h2>Log Your Mood</h2>
-        <div class="mood-input">
-          <input type="date" id="mood-date" />
-          <div class="mood-selector">
-            <button class="mood-btn" data-mood="1">😢</button>
-            <button class="mood-btn" data-mood="2">😕</button>
-            <button class="mood-btn" data-mood="3">😐</button>
-            <button class="mood-btn" data-mood="4">🙂</button>
-            <button class="mood-btn" data-mood="5">😄</button>
           </div>
         </div>
-        <textarea
-          id="mood-notes"
-          placeholder="Any thoughts about your day?"
-        ></textarea>
-        <button id="save-mood-btn" class="btn-primary">Save Mood</button>
       </div>
     </div>
 
-    <div id="add-task-modal" class="modal">
+    <!-- Quick Add Modal -->
+    <div id="quick-add-modal" class="modal">
       <div class="modal-content">
-        <h2>Add New Task</h2>
-        <input
-          type="text"
-          id="new-task-input"
-          placeholder="Enter task description"
-        />
-        <select id="new-task-priority">
-          <option value="low">Low Priority</option>
-          <option value="medium">Medium Priority</option>
-          <option value="high">High Priority</option>
-        </select>
-        <button id="save-new-task-btn" class="btn-primary">Add Task</button>
+        <div class="modal-header">
+          <h2 id="quick-add-title">Add New Task</h2>
+          <span class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="quick-add-form">
+            <div class="form-group">
+              <label for="quick-add-title-input">Title</label>
+              <input type="text" id="quick-add-title-input" required />
+            </div>
+            <div class="form-group">
+              <label for="quick-add-description">Description</label>
+              <textarea id="quick-add-description"></textarea>
+            </div>
+            <div class="form-group" id="quick-add-date-group">
+              <label for="quick-add-date">Due Date</label>
+              <input type="datetime-local" id="quick-add-date" />
+            </div>
+            <div class="form-group">
+              <label for="quick-add-priority">Priority</label>
+              <select id="quick-add-priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            <button type="submit" class="submit-btn">Add</button>
+          </form>
+        </div>
       </div>
     </div>
 
-    <div id="add-habit-modal" class="modal">
-      <div class="modal-content">
-        <h2>Add New Habit</h2>
-        <input
-          type="text"
-          id="new-habit-input"
-          placeholder="Enter habit name"
-        />
-        <select id="habit-frequency">
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-        </select>
-        <button id="save-new-habit-btn" class="btn-primary">Add Habit</button>
-      </div>
-    </div>
+    <script type="module">
+      // Import Firebase modules
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+      import {
+        getAuth,
+        updateProfile,
+        signOut,
+      } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+      import {
+        getDatabase,
+        ref,
+        get,
+        update,
+        set,
+        push,
+      } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+      import {
+        getStorage,
+        ref as storageRef,
+        uploadBytes,
+        getDownloadURL,
+      } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
-    <script src="scripts/main_dashboard.js" type="module"></script>
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: 'AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI',
+        authDomain: 'solace-83466.firebaseapp.com',
+        projectId: 'solace-83466',
+        databaseURL: 'https://solace-83466-default-rtdb.firebaseio.com',
+        storageBucket: 'solace-83466.appspot.com',
+        messagingSenderId: '1035507922270',
+        appId: '1:1035507922270:web:496b548ba710523eb18bcf',
+        measurementId: 'G-H8RRCK340M',
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const database = getDatabase(app);
+      const storage = getStorage(app);
+
+      // Notification System
+      class NotificationSystem {
+        constructor() {
+          this.notifications = [];
+          this.badge = document.querySelector('.notification-badge');
+          this.list = document.querySelector('.notifications-list');
+          this.setup();
+          this.loadNotifications();
+        }
+
+        async setup() {
+          // Toggle notifications menu
+          document
+            .getElementById('notifications-btn')
+            .addEventListener('click', () => {
+              const menu = document.querySelector('.notifications-menu');
+              menu.style.display =
+                menu.style.display === 'block' ? 'none' : 'block';
+            });
+
+          // Mark all as read
+          document
+            .querySelector('.mark-all-read')
+            .addEventListener('click', () => {
+              this.markAllAsRead();
+            });
+
+          // Close menu when clicking outside
+          document.addEventListener('click', (e) => {
+            if (!e.target.closest('.notifications-dropdown')) {
+              document.querySelector('.notifications-menu').style.display =
+                'none';
+            }
+          });
+        }
+
+        async loadNotifications() {
+          const user = auth.currentUser;
+          if (user) {
+            const notificationsRef = ref(
+              database,
+              `users/${user.uid}/notifications`
+            );
+            try {
+              const snapshot = await get(notificationsRef);
+              this.notifications = snapshot.val() || [];
+              this.updateBadge();
+              this.renderNotifications();
+            } catch (error) {
+              console.error('Error loading notifications:', error);
+            }
+          }
+        }
+
+        async addNotification(notification) {
+          const user = auth.currentUser;
+          if (user) {
+            const newNotification = {
+              ...notification,
+              id: Date.now(),
+              read: false,
+              timestamp: new Date().toISOString(),
+            };
+
+            this.notifications.unshift(newNotification);
+
+            try {
+              const notificationsRef = ref(
+                database,
+                `users/${user.uid}/notifications`
+              );
+              await set(notificationsRef, this.notifications);
+              this.updateBadge();
+              this.renderNotifications();
+            } catch (error) {
+              console.error('Error adding notification:', error);
+            }
+          }
+        }
+
+        async markAsRead(id) {
+          const notification = this.notifications.find((n) => n.id === id);
+          if (notification) {
+            notification.read = true;
+
+            const user = auth.currentUser;
+            if (user) {
+              try {
+                const notificationsRef = ref(
+                  database,
+                  `users/${user.uid}/notifications`
+                );
+                await set(notificationsRef, this.notifications);
+                this.updateBadge();
+                this.renderNotifications();
+              } catch (error) {
+                console.error('Error marking notification as read:', error);
+              }
+            }
+          }
+        }
+
+        async markAllAsRead() {
+          this.notifications.forEach((n) => (n.read = true));
+
+          const user = auth.currentUser;
+          if (user) {
+            try {
+              const notificationsRef = ref(
+                database,
+                `users/${user.uid}/notifications`
+              );
+              await set(notificationsRef, this.notifications);
+              this.updateBadge();
+              this.renderNotifications();
+            } catch (error) {
+              console.error('Error marking all notifications as read:', error);
+            }
+          }
+        }
+
+        updateBadge() {
+          const unreadCount = this.notifications.filter((n) => !n.read).length;
+          this.badge.style.display = unreadCount > 0 ? 'block' : 'none';
+          this.badge.textContent = unreadCount;
+        }
+
+        renderNotifications() {
+          this.list.innerHTML = this.notifications.length
+            ? this.notifications
+                .map(
+                  (n) => `
+              <div class="notification-item ${n.read ? '' : 'unread'}" 
+                   onclick="notificationSystem.markAsRead(${n.id})">
+                <div class="notification-title">${n.title}</div>
+                <div class="notification-content">${n.content}</div>
+                <div class="notification-time">${this.formatTime(
+                  n.timestamp
+                )}</div>
+              </div>
+            `
+                )
+                .join('')
+            : '<div class="notification-item">No notifications</div>';
+        }
+
+        formatTime(timestamp) {
+          const date = new Date(timestamp);
+          const now = new Date();
+          const diff = now - date;
+
+          if (diff < 60000) return 'Just now';
+          if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
+          if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
+          return date.toLocaleDateString();
+        }
+      }
+
+      // Initialize NotificationSystem
+      const notificationSystem = new NotificationSystem();
+      window.notificationSystem = notificationSystem; // Make it globally available for onclick handlers
+
+      // Profile Functionality
+      document
+        .getElementById('profile-picture')
+        .addEventListener('click', () => {
+          const profileModal = document.getElementById('profile-modal');
+          profileModal.style.display = 'block';
+
+          const user = auth.currentUser;
+          if (user) {
+            const profileModalPicture = document.getElementById(
+              'profile-modal-picture'
+            );
+            profileModalPicture.src =
+              user.photoURL || 'assets/default-avatar.png';
+
+            document.getElementById('display-name-input').value =
+              user.displayName || '';
+            document.getElementById('profile-email').textContent = user.email;
+            document.getElementById('member-since').textContent = new Date(
+              user.metadata.creationTime
+            ).toLocaleDateString();
+          }
+        });
+
+      // Profile Picture Update
+      async function updateProfilePicture(file) {
+        const user = auth.currentUser;
+        if (!user || !file) {
+          console.error('No user logged in or no file selected');
+          return;
+        }
+
+        try {
+          const fileSize = file.size / 1024 / 1024; // Convert to MB
+          if (fileSize > 5) {
+            throw new Error('File size must be less than 5MB');
+          }
+
+          const imageRef = storageRef(storage, `profile_pictures/${user.uid}`);
+          const snapshot = await uploadBytes(imageRef, file);
+          const downloadURL = await getDownloadURL(snapshot.ref);
+
+          await Promise.all([
+            updateProfile(user, { photoURL: downloadURL }),
+            update(ref(database, `users/${user.uid}`), {
+              profile_picture: downloadURL,
+            }),
+          ]);
+
+          document.getElementById('profile-picture').src = downloadURL;
+          document.getElementById('profile-modal-picture').src = downloadURL;
+
+          // Add success notification
+          notificationSystem.addNotification({
+            title: 'Profile Updated',
+            content: 'Your profile picture has been successfully updated.',
+          });
+        } catch (error) {
+          console.error('Error uploading profile picture:', error);
+          alert('Failed to update profile picture: ' + error.message);
+        }
+      }
+
+      // Profile Picture Input Handler
+      document
+        .getElementById('profile-picture-input')
+        .addEventListener('change', async (e) => {
+          if (e.target.files && e.target.files[0]) {
+            await updateProfilePicture(e.target.files[0]);
+          }
+        });
+
+      // Profile Update
+      document
+        .getElementById('update-profile-btn')
+        .addEventListener('click', async () => {
+          const newDisplayName = document
+            .getElementById('display-name-input')
+            .value.trim();
+          if (newDisplayName) {
+            const user = auth.currentUser;
+            try {
+              await updateProfile(user, { displayName: newDisplayName });
+              await update(ref(database, `users/${user.uid}`), {
+                displayName: newDisplayName,
+              });
+
+              notificationSystem.addNotification({
+                title: 'Profile Updated',
+                content: 'Your display name has been successfully updated.',
+              });
+            } catch (error) {
+              console.error('Error updating profile:', error);
+              alert('Failed to update profile: ' + error.message);
+            }
+          }
+        });
+
+      // Quick Add Functionality
+      document
+        .getElementById('quick-add-btn')
+        .addEventListener('click', (e) => {
+          e.stopPropagation();
+          const menu = document.querySelector('.quick-add-menu');
+          menu.style.display =
+            menu.style.display === 'block' ? 'none' : 'block';
+        });
+
+      document.querySelectorAll('.quick-add-item').forEach((item) => {
+        item.addEventListener('click', () => {
+          const type = item.dataset.type;
+          const modal = document.getElementById('quick-add-modal');
+          const title = document.getElementById('quick-add-title');
+          title.textContent = `Add New ${
+            type.charAt(0).toUpperCase() + type.slice(1)
+          }`;
+          modal.style.display = 'block';
+        });
+      });
+
+      // Modal Close Handlers
+      document.querySelectorAll('.modal-close').forEach((closeBtn) => {
+        closeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const modal = closeBtn.closest('.modal');
+          if (modal) {
+            modal.style.display = 'none';
+          }
+        });
+      });
+
+      // Close modals when clicking outside
+      window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) {
+          e.target.style.display = 'none';
+        }
+      });
+
+      // Quick Add Form Handler
+      document
+        .getElementById('quick-add-form')
+        .addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const title = document.getElementById('quick-add-title-input').value;
+          const description = document.getElementById(
+            'quick-add-description'
+          ).value;
+          const date = document.getElementById('quick-add-date').value;
+          const priority = document.getElementById('quick-add-priority').value;
+
+          const user = auth.currentUser;
+          if (user) {
+            try {
+              const itemRef = ref(database, `users/${user.uid}/tasks`);
+              await push(itemRef, {
+                title,
+                description,
+                date,
+                priority,
+                completed: false,
+                createdAt: new Date().toISOString(),
+              });
+
+              notificationSystem.addNotification({
+                title: 'Task Added',
+                content: `New task "${title}" has been added.`,
+              });
+
+              document.getElementById('quick-add-modal').style.display = 'none';
+              document.getElementById('quick-add-form').reset();
+            } catch (error) {
+              console.error('Error adding task:', error);
+              alert('Failed to add task: ' + error.message);
+            }
+          }
+        });
+
+      // Authentication State Change Handler
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          initDashboard();
+          loadUserData();
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+
+      // Initialize Dashboard
+      async function initDashboard() {
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
+        displayQuote();
+        checkMoodAvailability();
+        await initializeVideoDatabase(); // Add this
+        await renderContent(); // And this
+        await loadTasks();
+        await loadGoals();
+      }
+
+      // Load User Data
+      async function loadUserData() {
+        const user = auth.currentUser;
+        if (user) {
+          document.getElementById('profile-picture').src =
+            user.photoURL || 'assets/default-avatar.png';
+          // Load other user data as needed
+        }
+      }
+
+      // Logout Handler
+      document
+        .getElementById('logout-btn')
+        .addEventListener('click', async () => {
+          try {
+            await signOut(auth);
+            window.location.href = 'login.html';
+          } catch (error) {
+            console.error('Error signing out:', error);
+            alert('Failed to sign out: ' + error.message);
+          }
+        });
+
+      // DateTime Update
+      function updateDateTime() {
+        const now = new Date();
+        const dateTimeString = now.toLocaleString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        });
+        document.getElementById('date-time').textContent = dateTimeString;
+      }
+
+      // Initialize the dashboard when the DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        if (auth.currentUser) {
+          initDashboard();
+        }
+      });
+
+      // Add this to your JavaScript
+
+      async function initializeVideoDatabase() {
+        const videosRef = ref(database, 'videos');
+        const snapshot = await get(videosRef);
+
+        // Only initialize if no videos exist
+        if (!snapshot.exists()) {
+          const initialVideos = [
+            {
+              id: 1,
+              title: 'Understanding ADHD: A Guide',
+              description:
+                'A comprehensive overview of ADHD, its symptoms, and impact.',
+              url: 'https://www.youtube.com/watch?v=xMWtGozn5jU',
+              category: 'education',
+              type: 'all',
+              ageGroup: 'adults',
+              duration: 'long',
+              tags: ['overview', 'symptoms', 'diagnosis'],
+              thumbnail: getThumbnailUrl(
+                'https://www.youtube.com/watch?v=xMWtGozn5jU'
+              ),
+            },
+            // Add all your other videos here...
+          ];
+
+          await set(videosRef, initialVideos);
+        }
+      }
+
+      // Function to get random videos for the main page
+      async function getRandomVideos(count = 4) {
+        try {
+          const videosRef = ref(database, 'videos');
+          const snapshot = await get(videosRef);
+          const videos = snapshot.val() || [];
+
+          // Shuffle array and get first 'count' items
+          const shuffled = [...videos].sort(() => 0.5 - Math.random());
+          return shuffled.slice(0, count);
+        } catch (error) {
+          console.error('Error getting random videos:', error);
+          return [];
+        }
+      }
+
+      // Update your renderContent function in the main page
+      async function renderContent() {
+        const contentGrid = document.getElementById('content-grid');
+        if (!contentGrid) return;
+
+        try {
+          const videos = await getRandomVideos(4);
+          contentGrid.innerHTML = videos
+            .map(
+              (video) => `
+      <div class="content-item" data-id="${video.id}">
+        <div class="content-item-inner">
+          <div class="video-thumbnail">
+            <img src="${video.thumbnail}" alt="${video.title}">
+            <div class="video-duration">${video.duration}</div>
+          </div>
+          <h3>${video.title}</h3>
+          <p>${video.description}</p>
+          <div class="video-meta">
+            <span class="video-category">${video.category}</span>
+            <span class="video-tags">${video.tags.slice(0, 2).join(', ')}</span>
+          </div>
+        </div>
+      </div>
+    `
+            )
+            .join('');
+
+          // Add click handlers
+          document.querySelectorAll('.content-item').forEach((item) => {
+            item.addEventListener('click', () => {
+              const videoId = item.dataset.id;
+              window.location.href = `content-database.html?id=${videoId}`;
+            });
+          });
+        } catch (error) {
+          console.error('Error rendering content:', error);
+          contentGrid.innerHTML =
+            '<p>Error loading content. Please try again later.</p>';
+        }
+      }
+
+      // Task Management
+      let isSaving = false;
+
+      async function saveTasks() {
+        if (isSaving) return;
+        isSaving = true;
+
+        const user = auth.currentUser;
+        if (user) {
+          try {
+            const tasks = Array.from(
+              document.getElementById('task-list').children
+            ).map((task) => ({
+              text: task.querySelector('.task-text').textContent,
+              time: task.querySelector('.task-time').textContent,
+              completed: task.querySelector('.task-checkbox').checked,
+            }));
+
+            await set(ref(database, `users/${user.uid}/tasks`), tasks);
+          } catch (error) {
+            console.error('Error saving tasks:', error);
+          } finally {
+            isSaving = false;
+          }
+        }
+      }
+
+      async function loadTasks() {
+        const user = auth.currentUser;
+        if (user) {
+          try {
+            const tasksRef = ref(database, `users/${user.uid}/tasks`);
+            const snapshot = await get(tasksRef);
+            const tasks = snapshot.val() || [];
+
+            const taskList = document.getElementById('task-list');
+            taskList.innerHTML = '';
+
+            tasks.forEach((task) => {
+              const taskItem = createTaskElement(task.text, task.time);
+              if (task.completed) {
+                taskItem.querySelector('.task-checkbox').checked = true;
+                taskItem.querySelector('.task-text').classList.add('completed');
+              }
+              taskList.appendChild(taskItem);
+            });
+          } catch (error) {
+            console.error('Error loading tasks:', error);
+          }
+        }
+      }
+
+      // Goal Management
+      async function saveGoals() {
+        const user = auth.currentUser;
+        if (user) {
+          try {
+            const goals = Array.from(
+              document.getElementById('goal-list').children
+            ).map((goal) => ({
+              text: goal.querySelector('.goal-text').textContent,
+              deadline: goal.querySelector('.goal-deadline').value,
+              completed: goal.querySelector('.goal-checkbox').checked,
+            }));
+
+            await set(ref(database, `users/${user.uid}/goals`), goals);
+          } catch (error) {
+            console.error('Error saving goals:', error);
+          }
+        }
+      }
+
+      async function loadGoals() {
+        const user = auth.currentUser;
+        if (user) {
+          try {
+            const goalsRef = ref(database, `users/${user.uid}/goals`);
+            const snapshot = await get(goalsRef);
+            const goals = snapshot.val() || [];
+
+            const goalList = document.getElementById('goal-list');
+            goalList.innerHTML = '';
+
+            goals.forEach((goal) => {
+              const goalItem = createGoalElement(goal.text);
+              goalItem.querySelector('.goal-deadline').value = goal.deadline;
+              if (goal.completed) {
+                goalItem.querySelector('.goal-checkbox').checked = true;
+                goalItem.querySelector('.goal-text').classList.add('completed');
+              }
+              goalList.appendChild(goalItem);
+            });
+          } catch (error) {
+            console.error('Error loading goals:', error);
+          }
+        }
+      }
+
+      // Pomodoro Timer
+      let timer;
+      let timeLeft = 25 * 60; // 25 minutes
+      let isTimerRunning = false;
+
+      function startTimer() {
+        if (!isTimerRunning) {
+          isTimerRunning = true;
+          clearInterval(timer);
+
+          timer = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+
+            if (timeLeft <= 0) {
+              clearInterval(timer);
+              isTimerRunning = false;
+              notificationSystem.addNotification({
+                title: 'Pomodoro Complete',
+                content: 'Time for a break! Take 5 minutes to rest.',
+              });
+              resetTimer();
+            }
+          }, 1000);
+
+          document.getElementById('start-timer').textContent = 'Pause';
+          document.getElementById('pause-timer').disabled = false;
+        }
+      }
+
+      function pauseTimer() {
+        clearInterval(timer);
+        isTimerRunning = false;
+        document.getElementById('start-timer').textContent = 'Resume';
+        document.getElementById('pause-timer').disabled = true;
+      }
+
+      function resetTimer() {
+        clearInterval(timer);
+        isTimerRunning = false;
+        timeLeft = 25 * 60;
+        updateTimerDisplay();
+        document.getElementById('start-timer').textContent = 'Start';
+        document.getElementById('pause-timer').disabled = true;
+      }
+
+      function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timer-display').textContent = `${minutes
+          .toString()
+          .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }
+
+      // Function to load random videos on the main page
+      async function loadRandomVideos() {
+        const videoRef = ref(database, 'videos');
+        try {
+          const snapshot = await get(videoRef);
+          if (snapshot.exists()) {
+            const allVideos = Object.values(snapshot.val());
+            const randomVideos = [];
+
+            // Get 4 random videos
+            while (randomVideos.length < 4 && allVideos.length > 0) {
+              const randomIndex = Math.floor(Math.random() * allVideos.length);
+              randomVideos.push(allVideos[randomIndex]);
+              allVideos.splice(randomIndex, 1);
+            }
+
+            const contentGrid = document.getElementById('content-grid');
+            contentGrid.innerHTML = randomVideos
+              .map(
+                (video) => `
+                <div class="video-card" data-video-id="${video.id}">
+                    <div class="video-thumbnail">
+                        <img src="${video.thumbnail}" alt="${video.title}">
+                    </div>
+                    <div class="video-info">
+                        <h3>${video.title}</h3>
+                        <p>${video.description.slice(0, 100)}...</p>
+                    </div>
+                </div>
+            `
+              )
+              .join('');
+
+            // Add click handlers
+            document.querySelectorAll('.video-card').forEach((card) => {
+              card.addEventListener('click', () =>
+                openVideoModal(card.dataset.videoId)
+              );
+            });
+          }
+        } catch (error) {
+          console.error('Error loading videos:', error);
+        }
+      }
+
+      // Function to open video modal
+      async function openVideoModal(videoId) {
+        const videoRef = ref(database, `videos/${videoId}`);
+        const likesRef = ref(database, `videoLikes/${videoId}`);
+        const commentsRef = ref(database, `videoComments/${videoId}`);
+
+        try {
+          const [videoSnapshot, likesSnapshot, commentsSnapshot] =
+            await Promise.all([get(videoRef), get(likesRef), get(commentsRef)]);
+
+          const video = videoSnapshot.val();
+          const likes = likesSnapshot.val() || {};
+          const comments = commentsSnapshot.val() || {};
+
+          // Update modal content
+          document.getElementById('modal-video-title').textContent =
+            video.title;
+          document.querySelector('.video-embed').innerHTML = `
+            <iframe src="https://www.youtube.com/embed/${video.id}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        `;
+          document.querySelector('.video-description').textContent =
+            video.description;
+          document.getElementById('video-views').textContent =
+            video.viewCount || 0;
+          document.getElementById('video-likes').textContent =
+            Object.keys(likes).length;
+
+          // Update comments
+          const commentsList = document.querySelector('.comments-list');
+          commentsList.innerHTML =
+            Object.entries(comments)
+              .map(
+                ([commentId, comment]) => `
+                <div class="comment">
+                    <div class="comment-author">${comment.authorName}</div>
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-date">${new Date(
+                      comment.timestamp
+                    ).toLocaleDateString()}</div>
+                </div>
+            `
+              )
+              .join('') || '<p>No comments yet</p>';
+
+          // Show modal
+          document.getElementById('video-modal').style.display = 'block';
+        } catch (error) {
+          console.error('Error opening video:', error);
+        }
+      }
+
+      // Add like functionality
+      async function likeVideo(videoId) {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const likeRef = ref(database, `videoLikes/${videoId}/${user.uid}`);
+        const snapshot = await get(likeRef);
+
+        if (snapshot.exists()) {
+          await remove(likeRef);
+        } else {
+          await set(likeRef, true);
+        }
+
+        // Update like count
+        const allLikesSnapshot = await get(
+          ref(database, `videoLikes/${videoId}`)
+        );
+        const likeCount = allLikesSnapshot.val()
+          ? Object.keys(allLikesSnapshot.val()).length
+          : 0;
+        document.getElementById('video-likes').textContent = likeCount;
+      }
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', () => {
+        loadRandomVideos();
+      });
+
+      // Close modal when clicking outside
+      window.addEventListener('click', (e) => {
+        const modal = document.getElementById('video-modal');
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      // Mood Tracking
+      async function saveMood(mood) {
+        const user = auth.currentUser;
+        if (user) {
+          try {
+            const moodRef = ref(database, `users/${user.uid}/moods`);
+            await push(moodRef, {
+              mood,
+              timestamp: new Date().toISOString(),
+            });
+
+            notificationSystem.addNotification({
+              title: 'Mood Logged',
+              content: `Your mood has been recorded as "${mood}".`,
+            });
+
+            hideMoodButtons();
+            const nextAvailableTime =
+              new Date().getTime() + 12 * 60 * 60 * 1000;
+            localStorage.setItem(
+              'lastMoodTime',
+              new Date().getTime().toString()
+            );
+            showCountdownMessage(nextAvailableTime);
+          } catch (error) {
+            console.error('Error saving mood:', error);
+          }
+        }
+      }
+
+      function checkMoodAvailability() {
+        const lastMoodTime = localStorage.getItem('lastMoodTime');
+        if (lastMoodTime) {
+          const nextAvailableTime =
+            parseInt(lastMoodTime) + 12 * 60 * 60 * 1000;
+          const currentTime = new Date().getTime();
+
+          if (currentTime < nextAvailableTime) {
+            hideMoodButtons();
+            showCountdownMessage(nextAvailableTime);
+          } else {
+            showMoodButtons();
+            localStorage.removeItem('lastMoodTime');
+          }
+        } else {
+          showMoodButtons();
+        }
+      }
+
+      // Mindfulness Exercises
+      const exercises = [
+        {
+          name: 'Deep Breathing',
+          description:
+            'Take 5 deep breaths, inhaling for 4 counts and exhaling for 6 counts.',
+        },
+        {
+          name: 'Body Scan',
+          description:
+            'Starting from your toes, gradually focus on each part of your body, noticing any sensations.',
+        },
+        {
+          name: 'Grounding Technique',
+          description:
+            'Name 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste.',
+        },
+      ];
+
+      document
+        .getElementById('random-exercise')
+        .addEventListener('click', () => {
+          const randomExercise =
+            exercises[Math.floor(Math.random() * exercises.length)];
+          const display = document.getElementById('exercise-display');
+          display.innerHTML = `
+          <h3>${randomExercise.name}</h3>
+          <p>${randomExercise.description}</p>
+        `;
+          display.style.display = 'block';
+        });
+
+      // Quotes System
+      const quotes = [
+        {
+          content:
+            'Your journey of a thousand miles begins with a single step.',
+          author: 'Lao Tzu',
+        },
+        {
+          content: 'The only way to do great work is to love what you do.',
+          author: 'Steve Jobs',
+        },
+        {
+          content: "Believe you can and you're halfway there.",
+          author: 'Theodore Roosevelt',
+        },
+        {
+          content:
+            'It does not matter how slowly you go as long as you do not stop.',
+          author: 'Confucius',
+        },
+        {
+          content:
+            'Success is not final, failure is not fatal: it is the courage to continue that counts.',
+          author: 'Winston Churchill',
+        },
+      ];
+
+      function displayQuote() {
+        const quote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById(
+          'motivational-quote'
+        ).textContent = `"${quote.content}" - ${quote.author}`;
+      }
+
+      // Cleanup function for event listeners
+      function cleanup() {
+        clearInterval(timer);
+        // Remove event listeners
+        window.removeEventListener('click', modalClickHandler);
+      }
+
+      // Add cleanup on page unload
+      window.addEventListener('unload', cleanup);
+
+      // Initialize all event listeners
+      function initializeEventListeners() {
+        document
+          .getElementById('start-timer')
+          .addEventListener('click', startTimer);
+        document
+          .getElementById('pause-timer')
+          .addEventListener('click', pauseTimer);
+        document
+          .getElementById('reset-timer')
+          .addEventListener('click', resetTimer);
+
+        document.querySelectorAll('.mood-button').forEach((button) => {
+          button.addEventListener('click', () =>
+            saveMood(button.textContent.toLowerCase())
+          );
+        });
+
+        // Add any additional event listeners here
+      }
+
+      // Call initialization functions
+      initializeEventListeners();
+    </script>
   </body>
 </html>

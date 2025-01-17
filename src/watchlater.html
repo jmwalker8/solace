@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watch Later - Solace</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Additional Styles for Watch Later page */
+      .watch-later-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: var(--card-background);
+        border-radius: 12px;
+        box-shadow: var(--shadow-md);
+      }
+
+      .watch-later-header h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        color: var(--text-color);
+      }
+
+      .watch-later-actions {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: var(--card-background);
+        border-radius: 12px;
+        margin: 2rem 0;
+      }
+
+      .empty-state i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .empty-state h2 {
+        margin: 1rem 0;
+        color: var(--text-color);
+      }
+
+      .empty-state p {
+        color: var(--text-color);
+        opacity: 0.8;
+      }
+
+      .added-time {
+        font-size: 0.8rem;
+        color: var(--text-color);
+        opacity: 0.7;
+        margin-top: 8px;
+      }
+
+      .video-card .video-thumbnail {
+        cursor: pointer;
+      }
+
+      .video-duration {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-content">
+        <a href="community-exploration.html" class="navbar-logo">
+          <i class="fas fa-arrow-left"></i>
+          Back to Videos
+        </a>
+        <div class="navbar-actions">
+          <button class="btn" id="clear-all" title="Clear All">
+            <i class="fas fa-trash"></i>
+            Clear All
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="watch-later-header">
+        <h1>Watch Later</h1>
+        <div class="watch-later-actions">
+          <select id="sort-select" class="btn">
+            <option value="date-added-desc">Recently Added</option>
+            <option value="date-added-asc">Oldest Added</option>
+            <option value="title">Title</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="videos-grid" class="video-grid">
+        <!-- Videos will be loaded here -->
+      </div>
+
+      <div id="empty-state" class="empty-state" style="display: none">
+        <i class="fas fa-clock"></i>
+        <h2>Your Watch Later list is empty</h2>
+        <p>Save videos to watch them later</p>
+        <button
+          class="btn"
+          onclick="window.location.href='community-exploration.html'"
+        >
+          Browse Videos
+        </button>
+      </div>
+    </div>
+
+    <script type="module">
+      // Import Firebase modules (same as main page)
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+      import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+      import {
+        getDatabase,
+        ref,
+        get,
+        set,
+        query,
+        orderByChild,
+      } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+      const firebaseConfig = {
+        apiKey: 'AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI',
+        authDomain: 'solace-83466.firebaseapp.com',
+        databaseURL: 'https://solace-83466-default-rtdb.firebaseio.com',
+        projectId: 'solace-83466',
+        storageBucket: 'solace-83466.appspot.com',
+        messagingSenderId: '1035507922270',
+        appId: '1:1035507922270:web:496b548ba710523eb18bcf',
+        measurementId: 'G-H8RRCK340M',
+      };
+
+      // Initialize Firebase (same config as main page)
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const database = getDatabase(app);
+
+      let watchLaterVideos = [];
+
+      async function loadWatchLaterVideos() {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+          const watchLaterRef = ref(database, `users/${user.uid}/watchLater`);
+          const videosRef = ref(database, 'videos');
+
+          const [watchLaterSnapshot, videosSnapshot] = await Promise.all([
+            get(watchLaterRef),
+            get(videosRef),
+          ]);
+
+          const watchLater = watchLaterSnapshot.val() || {};
+          const allVideos = videosSnapshot.val() || {};
+
+          // Combine watch later data with video data
+          watchLaterVideos = Object.entries(watchLater)
+            .map(([videoId, data]) => ({
+              ...allVideos[videoId],
+              addedAt: data.addedAt,
+            }))
+            .filter((video) => video.id); // Filter out any missing videos
+
+          sortVideos(document.getElementById('sort-select').value);
+          displayVideos();
+        } catch (error) {
+          console.error('Error loading watch later videos:', error);
+        }
+      }
+
+      function sortVideos(sortBy) {
+        switch (sortBy) {
+          case 'date-added-desc':
+            watchLaterVideos.sort(
+              (a, b) => new Date(b.addedAt) - new Date(a.addedAt)
+            );
+            break;
+          case 'date-added-asc':
+            watchLaterVideos.sort(
+              (a, b) => new Date(a.addedAt) - new Date(b.addedAt)
+            );
+            break;
+          case 'title':
+            watchLaterVideos.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+        }
+        displayVideos();
+      }
+
+      // Add this function in watchlater.html script
+      function createVideoCard(video) {
+        return `
+    <div class="video-card">
+        <div class="video-thumbnail" onclick="window.open('https://www.youtube.com/watch?v=${
+          video.id
+        }', '_blank')">
+            <img src="${video.thumbnail || ''}" alt="${
+          video.title
+        }" loading="lazy">
+            ${
+              video.duration
+                ? `<span class="video-duration">${formatDuration(
+                    video.duration
+                  )}</span>`
+                : ''
+            }
+        </div>
+        <div class="video-info">
+            <h3 class="video-title">${video.title || 'Untitled'}</h3>
+            <p class="video-description">${(video.description || '').slice(
+              0,
+              100
+            )}...</p>
+            
+            <div class="video-community">
+                <div class="video-meta">
+                    <span><i class="fas fa-user"></i> ${
+                      video.channelTitle || 'Unknown Channel'
+                    }</span>
+                    ${
+                      video.viewCount
+                        ? `<span><i class="fas fa-eye"></i> ${parseInt(
+                            video.viewCount
+                          ).toLocaleString()} views</span>`
+                        : ''
+                    }
+                </div>
+                
+                <div class="actions">
+                    <button class="btn-icon" onclick="removeFromWatchLater('${
+                      video.id
+                    }', event)" title="Remove from Watch Later">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tag-list">
+                ${(video.tags || [])
+                  .map((tag) => `<span class="tag">${tag}</span>`)
+                  .join('')}
+            </div>
+            
+            <div class="added-time">
+                Added ${formatTimeAgo(video.addedAt)}
+            </div>
+        </div>
+    </div>`;
+      }
+
+      // Add helper functions
+      function formatDuration(duration) {
+        if (!duration) return '';
+
+        const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+        if (!match) return '';
+
+        const hours = (match[1] || '0H').slice(0, -1);
+        const minutes = (match[2] || '0M').slice(0, -1);
+        const seconds = (match[3] || '0S').slice(0, -1);
+
+        let formattedDuration = '';
+
+        if (hours !== '0') {
+          formattedDuration += `${hours}:`;
+        }
+
+        formattedDuration += `${minutes.padStart(2, '0')}:${seconds.padStart(
+          2,
+          '0'
+        )}`;
+
+        return formattedDuration;
+      }
+
+      function formatTimeAgo(timestamp) {
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return `${days} day${days === 1 ? '' : 's'} ago`;
+        if (hours > 0) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+        if (minutes > 0)
+          return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+        return 'just now';
+      }
+
+      // Add remove function
+      window.removeFromWatchLater = async function (videoId, event) {
+        event.stopPropagation();
+
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+          await set(
+            ref(database, `users/${user.uid}/watchLater/${videoId}`),
+            null
+          );
+          watchLaterVideos = watchLaterVideos.filter((v) => v.id !== videoId);
+          displayVideos();
+        } catch (error) {
+          console.error('Error removing video:', error);
+          alert('Error removing video. Please try again.');
+        }
+      };
+
+      function displayVideos() {
+        const grid = document.getElementById('videos-grid');
+        const emptyState = document.getElementById('empty-state');
+
+        if (watchLaterVideos.length === 0) {
+          grid.style.display = 'none';
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        grid.style.display = 'grid';
+        emptyState.style.display = 'none';
+
+        grid.innerHTML = watchLaterVideos
+          .map((video) => createVideoCard(video))
+          .join('');
+      }
+
+      // Clear all watch later videos
+      document
+        .getElementById('clear-all')
+        .addEventListener('click', async () => {
+          if (!confirm('Are you sure you want to clear your Watch Later list?'))
+            return;
+
+          const user = auth.currentUser;
+          if (!user) return;
+
+          try {
+            await set(ref(database, `users/${user.uid}/watchLater`), null);
+            watchLaterVideos = [];
+            displayVideos();
+          } catch (error) {
+            console.error('Error clearing watch later:', error);
+            alert('Error clearing list. Please try again.');
+          }
+        });
+
+      // Sort handler
+      document.getElementById('sort-select').addEventListener('change', (e) => {
+        sortVideos(e.target.value);
+      });
+
+      // Initialize
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          loadWatchLaterVideos();
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+    </script>
+  </body>
+</html>

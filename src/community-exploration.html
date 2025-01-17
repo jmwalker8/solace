@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solace - ADHD Video Database</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Use the same root variables as your main site */
+
+      /* Theme Variables */
+      :root {
+        /* Light Theme (default) */
+        --primary-color: #8b5cf6;
+        --primary-light: #a78bfa;
+        --primary-dark: #7c3aed;
+        --secondary-color: #4c1d95;
+        --text-color: #1f2937;
+        --background-color: #f9fafb;
+        --card-background: #ffffff;
+        --navbar-background: #1e1b4b;
+        --input-background: #ffffff;
+        --input-text: #1f2937;
+        --border-color: #e5e7eb;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Dark Theme */
+      [data-theme='dark'] {
+        --primary-color: #a78bfa;
+        --primary-light: #8b5cf6;
+        --primary-dark: #7c3aed;
+        --secondary-color: #4c1d95;
+        --text-color: #f3f4f6;
+        --background-color: #111827;
+        --card-background: #1f2937;
+        --navbar-background: #0f172a;
+        --input-background: #374151;
+        --input-text: #f3f4f6;
+        --border-color: #374151;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Additional Dark Mode Specific Styles */
+      [data-theme='dark'] .video-card {
+        background-color: var(--card-background);
+        box-shadow: var(--card-shadow);
+      }
+
+      [data-theme='dark'] .video-card:hover {
+        box-shadow: var(--hover-shadow);
+      }
+
+      [data-theme='dark'] .video-title {
+        color: var(--text-color);
+      }
+
+      [data-theme='dark'] .video-description {
+        color: var(--text-color);
+        opacity: 0.9;
+      }
+
+      [data-theme='dark'] .filters {
+        background-color: var(--card-background);
+      }
+
+      [data-theme='dark'] .filter-group select,
+      [data-theme='dark'] .filter-group input {
+        background-color: var(--input-background);
+        color: var(--input-text);
+        border-color: var(--border-color);
+      }
+
+      [data-theme='dark'] .comment {
+        background-color: var(--card-background);
+      }
+
+      [data-theme='dark'] .comment-input textarea {
+        background-color: var(--input-background);
+        color: var(--input-text);
+        border-color: var(--border-color);
+      }
+
+      [data-theme='dark'] .tag {
+        background-color: var(--primary-dark);
+      }
+
+      [data-theme='dark'] .star {
+        color: var(--primary-light);
+      }
+
+      [data-theme='dark'] .btn-icon {
+        color: var(--text-color);
+      }
+
+      [data-theme='dark'] .btn-icon:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Additional Theme Toggle Styles */
+      #theme-toggle {
+        padding: 8px 12px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      #theme-toggle:hover {
+        transform: rotate(15deg);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      #theme-toggle i {
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
+
+      /* Navigation */
+      .navbar {
+        background-color: var(--navbar-background);
+        padding: 1rem 0;
+        box-shadow: var(--shadow-md);
+      }
+
+      .navbar-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      /* Main Container */
+      .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      /* Filter Section */
+      .filters {
+        background: var(--card-background);
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-md);
+      }
+
+      .filter-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .filter-group label {
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      .filter-group select,
+      .filter-group input {
+        padding: 0.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+      }
+
+      .filter-group select:focus,
+      .filter-group input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+      }
+
+      /* Video Grid */
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .video-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: transform 0.2s ease;
+      }
+
+      .video-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .video-thumbnail {
+        position: relative;
+        padding-top: 56.25%;
+        background: #f0f0f0;
+      }
+
+      .video-thumbnail img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .video-info {
+        padding: 1rem;
+      }
+
+      .video-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+      }
+
+      .video-description {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        opacity: 0.8;
+        margin-bottom: 0.5rem;
+      }
+
+      .video-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.8rem;
+        color: var(--text-color);
+        opacity: 0.6;
+      }
+
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .tag {
+        background: var(--primary-light);
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+      }
+
+      /* Community Feature Styles */
+      .video-community {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 12px 0;
+        padding: 8px 0;
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .rating-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .stars {
+        display: flex;
+        gap: 2px;
+      }
+
+      .star {
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .star:hover {
+        color: var(--primary-dark);
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .btn-icon {
+        background: none;
+        border: none;
+        color: var(--text-color);
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .btn-icon:hover {
+        background: var(--card-background);
+        color: var(--primary-color);
+      }
+
+      /* Comments Section */
+
+      .comment {
+        background: white;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+
+      .comment-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .comment-author {
+        font-weight: 600;
+        color: var(--text-color);
+      }
+
+      .comment-time {
+        font-size: 0.8rem;
+        color: var(--text-color);
+        opacity: 0.7;
+      }
+
+      .comment-content {
+        color: var(--text-color);
+        line-height: 1.4;
+      }
+
+      .comment-input {
+        margin-top: 16px;
+      }
+
+      .comment-input textarea {
+        width: 100%;
+        min-height: 80px;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-bottom: 8px;
+        resize: vertical;
+      }
+
+      .btn-comment {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-comment:hover {
+        background: var(--primary-dark);
+      }
+
+      .video-duration {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+      }
+
+      /* List View Styles */
+      .video-grid.list-view {
+        grid-template-columns: 1fr;
+      }
+
+      .list-view .video-card {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 1rem;
+      }
+
+      .list-view .video-thumbnail {
+        height: 100%;
+        padding-top: 0;
+      }
+
+      .list-view .video-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      /* Watch Later Styles */
+      .btn-icon.active {
+        color: var(--primary-color);
+      }
+
+      .btn-icon.active i {
+        animation: pulse 1s;
+      }
+
+      /* Notification Styles */
+      .notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 24px;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 8px;
+        box-shadow: var(--shadow-md);
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Toggle Button Styles */
+      #view-toggle.list-active i {
+        color: var(--primary-color);
+      }
+
+      /* Playlist Modal */
+      .playlist-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: var(--shadow-lg);
+        max-width: 400px;
+        width: 90%;
+        z-index: 1000;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+
+      /* Buttons */
+      .btn {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: var(--secondary-color);
+      }
+
+      /* Loading States */
+      .loading {
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .loading-spinner {
+        border: 4px solid var(--card-background);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .filter-row {
+          grid-template-columns: 1fr;
+        }
+
+        .video-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-content">
+        <a href="logged.html" class="navbar-logo">
+          <i class="fas fa-arrow-left"></i>
+          Back to Dashboard
+        </a>
+        <div class="navbar-actions">
+          <button class="btn" id="refresh-videos" title="Check for new videos">
+            <i class="fas fa-sync-alt"></i>
+            Refresh Videos
+          </button>
+          <button class="btn" id="clear-filters" title="Clear all filters">
+            <i class="fas fa-times"></i>
+            Clear Filters
+          </button>
+          <button class="btn" id="view-toggle" title="Toggle View">
+            <i class="fas fa-th-list"></i>
+            Toggle View
+          </button>
+          <button class="btn" id="theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button
+            class="btn"
+            id="watch-later-btn"
+            onclick="window.location.href='watchlater.html'"
+            title="Watch Later"
+          >
+            <i class="fas fa-clock"></i>
+            Watch Later
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="category-filter">Category</label>
+            <select id="category-filter">
+              <option value="">All Categories</option>
+              <option value="tips">Tips & Strategies</option>
+              <option value="education">Education</option>
+              <option value="motivation">Motivation</option>
+              <option value="lifestyle">Lifestyle</option>
+              <option value="medication">Medication</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="type-filter">ADHD Type</label>
+            <select id="type-filter">
+              <option value="">All Types</option>
+              <option value="inattentive">Inattentive</option>
+              <option value="hyperactive">Hyperactive</option>
+              <option value="combined">Combined</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="age-filter">Age Group</label>
+            <select id="age-filter">
+              <option value="">All Ages</option>
+              <option value="children">Children</option>
+              <option value="teenagers">Teenagers</option>
+              <option value="adults">Adults</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="duration-filter">Duration</label>
+            <select id="duration-filter">
+              <option value="">Any Length</option>
+              <option value="short">Short (< 5 min)</option>
+              <option value="medium">Medium (5-15 min)</option>
+              <option value="long">Long (> 15 min)</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="search-input">Search</label>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search videos..."
+            />
+          </div>
+
+          <div class="filter-group">
+            <label>&nbsp;</label>
+            <button id="apply-filters" class="btn">Apply Filters</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="video-grid" class="video-grid">
+        <!-- Videos will be dynamically inserted here -->
+      </div>
+
+      <div id="loading" class="loading" style="display: none">
+        <div class="loading-spinner"></div>
+        <p>Loading more videos... (typically takes 30 seconds)</p>
+      </div>
+
+      <button
+        id="load-more"
+        class="btn"
+        style="display: block; margin: 2rem auto"
+      >
+        Load More Videos
+      </button>
+    </div>
+
+    <!-- Include Firebase -->
+    <script type="module">
+      // Import Firebase modules
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+      import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+      import {
+        getDatabase,
+        ref,
+        get,
+        set,
+        push,
+      } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+      // Your Firebase config
+      const firebaseConfig = {
+        apiKey: 'AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI',
+        authDomain: 'solace-83466.firebaseapp.com',
+        databaseURL: 'https://solace-83466-default-rtdb.firebaseio.com',
+        projectId: 'solace-83466',
+        storageBucket: 'solace-83466.appspot.com',
+        messagingSenderId: '1035507922270',
+        appId: '1:1035507922270:web:496b548ba710523eb18bcf',
+        measurementId: 'G-H8RRCK340M',
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const database = getDatabase(app);
+
+      // Make functions globally available
+      window.rateVideo = async function (videoId, rating, event) {
+        event.stopPropagation(); // Prevent video click
+        const user = auth.currentUser;
+        if (!user) {
+          alert('Please log in to rate videos');
+          return;
+        }
+
+        try {
+          const ratingRef = ref(database, `ratings/${videoId}/${user.uid}`);
+          await set(ratingRef, {
+            rating: rating,
+            timestamp: new Date().toISOString(),
+          });
+
+          // Update UI
+          const starsContainer = event.target.closest('.stars');
+          updateStarDisplay(starsContainer, rating);
+
+          // Update rating count
+          const ratingsRef = ref(database, `ratings/${videoId}`);
+          const snapshot = await get(ratingsRef);
+          const ratingCount = snapshot.exists()
+            ? Object.keys(snapshot.val()).length
+            : 0;
+          const countDisplay = starsContainer.nextElementSibling;
+          countDisplay.textContent = `(${ratingCount})`;
+        } catch (error) {
+          console.error('Error saving rating:', error);
+          alert('Error saving rating. Please try again.');
+        }
+      };
+
+      window.addToPlaylist = async function (videoId, event) {
+        event.stopPropagation(); // Prevent video click
+        alert('Playlist feature coming soon!');
+      };
+
+      window.toggleComments = async function (videoId, event) {
+        event.stopPropagation(); // Prevent video click
+        const commentsSection = document.getElementById(`comments-${videoId}`);
+        commentsSection.style.display =
+          commentsSection.style.display === 'none' ? 'block' : 'none';
+
+        // Load comments when section is opened
+        if (commentsSection.style.display === 'block') {
+          loadComments(videoId);
+        }
+      };
+
+      // Database Schema for Community Features
+      const communitySchema = {
+        ratings: {
+          $videoId: {
+            $userId: {
+              rating: Number, // Value between 1 and 5
+              timestamp: String, // ISO date string
+            },
+          },
+        },
+        comments: {
+          $videoId: {
+            $commentId: {
+              userId: String,
+              username: String,
+              content: String,
+              timestamp: String, // ISO date string
+              likes: Number,
+              replies: {
+                $replyId: {
+                  userId: String,
+                  username: String,
+                  content: String,
+                  timestamp: String, // ISO date string
+                },
+              },
+            },
+          },
+        },
+        playlists: {
+          $userId: {
+            $playlistId: {
+              name: String,
+              description: String,
+              videos: Array, // Array of video IDs
+              isPublic: Boolean,
+              createdAt: String, // ISO date string
+              updatedAt: String, // ISO date string
+            },
+          },
+        },
+      };
+
+      const videoSchema = {
+        id: String,
+        title: String,
+        description: String,
+        thumbnail: String,
+        publishedAt: String,
+        channelTitle: String,
+        duration: String,
+        viewCount: Number,
+        category: String,
+        type: String,
+        ageGroup: String,
+        tags: Array,
+        stats: {
+          ratingCount: Number,
+          commentCount: Number,
+          averageRating: Number,
+        },
+      };
+
+      // YouTube API Configuration
+      const YOUTUBE_API_KEY = 'AIzaSyAoXITyBKjS9vcfTZDCGRRCfvDojJXorsg';
+      const SEARCH_TERMS = [
+        'ADHD tips and tricks',
+        'ADHD explained',
+        'ADHD strategies',
+        'ADHD motivation',
+        'ADHD productivity',
+        'ADHD organization',
+        'ADHD focus techniques',
+        'ADHD lifestyle',
+        'ADHD management',
+      ];
+
+      let nextPageToken = '';
+      let currentVideos = [];
+      let isLoading = false;
+
+      // Function to fetch videos from YouTube
+      async function fetchYouTubeVideos(searchTerm, pageToken = '') {
+        const params = {
+          part: 'snippet',
+          q: searchTerm,
+          maxResults: 50,
+          type: 'video',
+          videoEmbeddable: true,
+          relevanceLanguage: 'en',
+          key: YOUTUBE_API_KEY,
+          pageToken: pageToken,
+        };
+
+        const queryString = Object.entries(params)
+          .filter(([, value]) => value)
+          .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+          .join('&');
+
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?${queryString}`
+        );
+        return await response.json();
+      }
+
+      // Function to get video details
+      async function getVideoDetails(videoId) {
+        const params = {
+          part: 'contentDetails,statistics',
+          id: videoId,
+          key: YOUTUBE_API_KEY,
+        };
+
+        const queryString = Object.entries(params)
+          .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+          .join('&');
+
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?${queryString}`
+        );
+        const data = await response.json();
+
+        return data.items?.[0] || null; // Return the first item or null
+      }
+
+      // Function to process and store videos
+      async function processAndStoreVideos(searchResults) {
+        try {
+          const videoRef = ref(database, 'videos');
+          const processedVideos = [];
+
+          for (const item of searchResults.items) {
+            try {
+              const videoDetails = await getVideoDetails(item.id.videoId);
+              const duration = videoDetails.items[0]?.contentDetails?.duration;
+              const viewCount = videoDetails.items[0]?.statistics?.viewCount;
+
+              const video = {
+                id: item.id.videoId,
+                title: item.snippet.title,
+                description: item.snippet.description,
+                thumbnail: item.snippet.thumbnails.high.url,
+                publishedAt: item.snippet.publishedAt,
+                channelTitle: item.snippet.channelTitle,
+                duration: videoDetails?.contentDetails?.duration || null,
+                viewCount: videoDetails?.statistics?.viewCount || 0,
+                category: determineCategory(
+                  item.snippet.title,
+                  item.snippet.description
+                ),
+                type: determineType(
+                  item.snippet.title,
+                  item.snippet.description
+                ),
+                ageGroup: determineAgeGroup(
+                  item.snippet.title,
+                  item.snippet.description
+                ),
+                tags: generateTags(
+                  item.snippet.title,
+                  item.snippet.description
+                ),
+              };
+
+              processedVideos.push(video);
+            } catch (error) {
+              console.error('Error processing video:', error);
+              continue; // Skip this video if there's an error
+            }
+          }
+
+          // Store each video individually
+          const user = auth.currentUser;
+          if (user) {
+            for (const video of processedVideos) {
+              try {
+                const newVideoRef = ref(database, `videos/${video.id}`);
+                await set(newVideoRef, video);
+              } catch (error) {
+                console.error('Error storing video:', error);
+              }
+            }
+          }
+
+          return processedVideos;
+        } catch (error) {
+          console.error('Error in processAndStoreVideos:', error);
+          throw error;
+        }
+      }
+
+      // Helper functions for categorizing videos
+      function determineCategory(title, description) {
+        const text = (title + ' ' + description).toLowerCase();
+        if (
+          text.includes('tip') ||
+          text.includes('strategy') ||
+          text.includes('how to')
+        )
+          return 'tips';
+        if (
+          text.includes('explain') ||
+          text.includes('what is') ||
+          text.includes('understanding')
+        )
+          return 'education';
+        if (text.includes('motivation') || text.includes('inspire'))
+          return 'motivation';
+        if (
+          text.includes('lifestyle') ||
+          text.includes('daily') ||
+          text.includes('routine')
+        )
+          return 'lifestyle';
+        if (
+          text.includes('medication') ||
+          text.includes('treatment') ||
+          text.includes('therapy')
+        )
+          return 'medication';
+        return 'education';
+      }
+
+      function determineType(title, description) {
+        const text = (title + ' ' + description).toLowerCase();
+        if (text.includes('inattentive') || text.includes('inattention'))
+          return 'inattentive';
+        if (text.includes('hyperactive') || text.includes('impulsive'))
+          return 'hyperactive';
+        if (text.includes('combined')) return 'combined';
+        return 'all';
+      }
+
+      function determineAgeGroup(title, description) {
+        const text = (title + ' ' + description).toLowerCase();
+        if (
+          text.includes('child') ||
+          text.includes('kid') ||
+          text.includes('parent')
+        )
+          return 'children';
+        if (text.includes('teen') || text.includes('adolescent'))
+          return 'teenagers';
+        if (text.includes('adult') || text.includes('workplace'))
+          return 'adults';
+        return 'all';
+      }
+
+      function generateTags(title, description) {
+        const text = (title + ' ' + description).toLowerCase();
+        const tags = [];
+        const commonTags = [
+          'focus',
+          'productivity',
+          'organization',
+          'symptoms',
+          'treatment',
+          'strategies',
+          'management',
+          'tips',
+          'motivation',
+          'lifestyle',
+          'education',
+          'work',
+          'school',
+          'relationships',
+          'self-help',
+        ];
+
+        commonTags.forEach((tag) => {
+          if (text.includes(tag)) tags.push(tag);
+        });
+
+        return tags.slice(0, 5); // Limit to 5 tags
+      }
+
+      // Initialize video display
+      let displayedVideos = 12;
+      let filteredVideos = [];
+
+      async function refreshVideos() {
+        const button = document.getElementById('refresh-videos');
+        button.disabled = true;
+        button.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Checking quota...';
+
+        try {
+          // First check if we've hit our quota
+          const quotaRef = ref(database, 'youtubeQuota');
+          const quotaSnapshot = await get(quotaRef);
+          const quota = quotaSnapshot.val() || {
+            count: 0,
+            date: new Date().toDateString(),
+          };
+
+          // Reset quota if it's a new day
+          if (quota.date !== new Date().toDateString()) {
+            quota.count = 0;
+            quota.date = new Date().toDateString();
+          }
+
+          // If we've hit our quota, just load existing videos
+          if (quota.count >= 100) {
+            alert('Daily quota reached. Loading existing videos only.');
+            await loadVideos();
+            return;
+          }
+
+          // If we have quota available, proceed with refresh
+          isLoading = true;
+          document.getElementById('loading').style.display = 'block';
+          button.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+
+          for (const searchTerm of SEARCH_TERMS) {
+            if (quota.count >= 100) break; // Stop if we hit quota during processing
+
+            const results = await fetchYouTubeVideos(searchTerm);
+            quota.count += 1; // Increment quota counter
+
+            if (results && results.items) {
+              for (const item of results.items) {
+                const videoRef = ref(database, `videos/${item.id.videoId}`);
+                const snapshot = await get(videoRef);
+
+                // Only process video if it's not already in database
+                if (!snapshot.exists()) {
+                  // Get video stats before storing
+                  const ratingsRef = ref(
+                    database,
+                    `ratings/${item.id.videoId}`
+                  );
+                  const commentsRef = ref(
+                    database,
+                    `videoComments/${item.id.videoId}`
+                  );
+
+                  const [ratingsSnapshot, commentsSnapshot] = await Promise.all(
+                    [get(ratingsRef), get(commentsRef)]
+                  );
+
+                  const ratings = ratingsSnapshot.val() || {};
+                  const ratingCount = Object.keys(ratings).length;
+                  const ratingSum = Object.values(ratings).reduce(
+                    (sum, r) => sum + r.rating,
+                    0
+                  );
+                  const averageRating =
+                    ratingCount > 0 ? ratingSum / ratingCount : 0;
+                  const commentCount = commentsSnapshot.exists()
+                    ? Object.keys(commentsSnapshot.val()).length
+                    : 0;
+
+                  const video = {
+                    id: item.id.videoId,
+                    title: item.snippet.title,
+                    description: item.snippet.description,
+                    thumbnail: item.snippet.thumbnails.high.url,
+                    publishedAt: item.snippet.publishedAt,
+                    channelTitle: item.snippet.channelTitle,
+                    category: determineCategory(
+                      item.snippet.title,
+                      item.snippet.description
+                    ),
+                    type: determineType(
+                      item.snippet.title,
+                      item.snippet.description
+                    ),
+                    ageGroup: determineAgeGroup(
+                      item.snippet.title,
+                      item.snippet.description
+                    ),
+                    tags: generateTags(
+                      item.snippet.title,
+                      item.snippet.description
+                    ),
+                    stats: {
+                      ratingCount,
+                      commentCount,
+                      averageRating,
+                    },
+                  };
+
+                  await set(videoRef, video);
+                }
+              }
+            }
+          }
+
+          // Update quota in database
+          await set(quotaRef, quota);
+
+          // Reload videos from database
+          await loadVideos();
+        } catch (error) {
+          console.error('Error refreshing videos:', error);
+          alert('Error updating video database. Loading existing videos.');
+          await loadVideos();
+        } finally {
+          isLoading = false;
+          document.getElementById('loading').style.display = 'none';
+          button.disabled = false;
+          button.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Videos';
+        }
+      }
+
+      function updateStarDisplay(container, rating) {
+        if (!container) return;
+
+        const stars = container.querySelectorAll('.star');
+        stars.forEach((star, index) => {
+          if (index < rating) {
+            star.classList.remove('far');
+            star.classList.add('fas');
+          } else {
+            star.classList.remove('fas');
+            star.classList.add('far');
+          }
+        });
+      }
+
+      document.getElementById('clear-filters').addEventListener('click', () => {
+        // Clear all filter inputs
+        document.getElementById('category-filter').value = '';
+        document.getElementById('type-filter').value = '';
+        document.getElementById('age-filter').value = '';
+        document.getElementById('duration-filter').value = '';
+        document.getElementById('search-input').value = '';
+
+        // Reset to show all videos
+        filteredVideos = [...currentVideos];
+        displayVideos();
+      });
+
+      function processVideoData(item, details) {
+        const duration = details.items[0]?.contentDetails?.duration;
+        const viewCount = details.items[0]?.statistics?.viewCount;
+
+        return {
+          id: item.id.videoId,
+          title: item.snippet.title,
+          description: item.snippet.description,
+          thumbnail: item.snippet.thumbnails.high.url,
+          publishedAt: item.snippet.publishedAt,
+          channelTitle: item.snippet.channelTitle,
+          duration: duration,
+          viewCount: viewCount,
+          category: determineCategory(
+            item.snippet.title,
+            item.snippet.description
+          ),
+          type: determineType(item.snippet.title, item.snippet.description),
+          ageGroup: determineAgeGroup(
+            item.snippet.title,
+            item.snippet.description
+          ),
+          tags: generateTags(item.snippet.title, item.snippet.description),
+        };
+      }
+
+      // Display videos in the grid
+      async function displayVideos() {
+        const videoGrid = document.getElementById('video-grid');
+        const fragment = document.createDocumentFragment();
+
+        for (const video of filteredVideos.slice(0, displayedVideos)) {
+          const card = createVideoCard(video);
+
+          // Load existing states
+          const [rating, watchLater] = await Promise.all([
+            loadVideoRatings(video.id),
+            loadWatchLaterStatus(video.id),
+          ]);
+
+          if (rating) {
+            const starsContainer = card.querySelector('.stars');
+            updateStarDisplay(starsContainer, rating);
+          }
+
+          if (watchLater) {
+            const watchLaterBtn = card.querySelector(
+              `[onclick*="addToWatchLater('${video.id}"]`
+            );
+            watchLaterBtn?.classList.add('active');
+          }
+
+          fragment.appendChild(card);
+        }
+
+        videoGrid.innerHTML = '';
+        videoGrid.appendChild(fragment);
+
+        document.getElementById('load-more').style.display =
+          displayedVideos >= filteredVideos.length ? 'none' : 'block';
+      }
+
+      function createVideoCard(video) {
+        const card = document.createElement('div');
+        card.className = 'video-card';
+
+        // Add click handler to open video
+        const handleCardClick = (e) => {
+          // Only open video if not clicking on interactive elements
+          if (
+            !e.target.closest('.video-community') &&
+            !e.target.closest('.comments-section')
+          ) {
+            window.open(
+              `https://www.youtube.com/watch?v=${video.id}`,
+              '_blank'
+            );
+          }
+        };
+
+        card.addEventListener('click', handleCardClick);
+
+        // Get stats or default values
+        const stats = video.stats || {
+          ratingCount: 0,
+          commentCount: 0,
+          averageRating: 0,
+        };
+
+        card.innerHTML = `
+    <div class="video-thumbnail">
+      <img src="${video.thumbnail || ''}" alt="${video.title}" loading="lazy">
+      ${
+        video.duration
+          ? `<span class="video-duration">${formatDuration(
+              video.duration
+            )}</span>`
+          : ''
+      }
+    </div>
+    <div class="video-info">
+      <h3 class="video-title">${video.title || 'Untitled'}</h3>
+      <p class="video-description">${(video.description || '').slice(
+        0,
+        100
+      )}...</p>
+      
+      <div class="video-community">
+        <div class="rating-container">
+          <div class="stars">
+            ${[1, 2, 3, 4, 5]
+              .map(
+                (num) => `
+              <i class="far fa-star star" 
+                 data-rating="${num}" 
+                 onclick="window.rateVideo('${video.id}', ${num}, event)">
+              </i>
+            `
+              )
+              .join('')}
+          </div>
+          <span class="rating-count">(${stats.ratingCount || 0})</span>
+        </div>
+        
+        <div class="actions">
+  <button class="btn-icon save-video" onclick="window.addToWatchLater('${
+    video.id
+  }', event)" title="Save to Watch Later">
+    <i class="fas fa-clock"></i>
+  </button>
+  <button class="btn-icon save-video" onclick="window.addToPlaylist('${
+    video.id
+  }', event)" title="Save to Playlist">
+    <i class="fas fa-bookmark"></i>
+  </button>
+  <button class="btn-icon" onclick="window.toggleComments('${
+    video.id
+  }', event)" title="Show Comments">
+    <i class="fas fa-comment"></i>
+    <span class="comment-count">${stats.commentCount || 0}</span>
+  </button>
+</div>
+      </div>
+
+      <div class="video-meta">
+        <span><i class="fas fa-user"></i> ${
+          video.channelTitle || 'Unknown Channel'
+        }</span>
+        ${
+          video.viewCount
+            ? `<span><i class="fas fa-eye"></i> ${parseInt(
+                video.viewCount
+              ).toLocaleString()} views</span>`
+            : ''
+        }
+      </div>
+      
+      <div class="tag-list">
+        ${(video.tags || [])
+          .map((tag) => `<span class="tag">${tag}</span>`)
+          .join('')}
+      </div>
+    </div>
+
+    <div class="comments-section" id="comments-${
+      video.id
+    }" style="display: none;">
+      <div class="comments-container"></div>
+      <div class="comment-input">
+        <textarea id="comment-input-${
+          video.id
+        }" placeholder="Add a comment..."></textarea>
+        <button onclick="window.postComment('${
+          video.id
+        }', document.getElementById('comment-input-${
+          video.id
+        }').value, event)" class="btn-comment">
+          Post Comment
+        </button>
+      </div>
+    </div>
+  `;
+
+        // Setup comment handlers after DOM elements are created
+        setTimeout(() => {
+          setupCommentHandlers(video.id);
+        }, 0);
+
+        return card;
+      }
+
+      function formatDuration(duration) {
+        if (!duration) return '';
+
+        const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+        if (!match) return '';
+
+        const hours = (match[1] || '0H').slice(0, -1);
+        const minutes = (match[2] || '0M').slice(0, -1);
+        const seconds = (match[3] || '0S').slice(0, -1);
+
+        let formattedDuration = '';
+
+        if (hours !== '0') {
+          formattedDuration += `${hours}:`;
+        }
+
+        formattedDuration += `${minutes.padStart(2, '0')}:${seconds.padStart(
+          2,
+          '0'
+        )}`;
+
+        return formattedDuration;
+      }
+
+      function validateVideo(video) {
+        // Ensure all required fields exist
+        const requiredFields = ['id', 'title', 'thumbnail'];
+        if (!video || typeof video !== 'object') return false;
+
+        for (const field of requiredFields) {
+          if (!video[field]) return false;
+        }
+
+        // Ensure all fields have proper types or defaults
+        return {
+          ...video,
+          description: video.description || '',
+          channelTitle: video.channelTitle || 'Unknown Channel',
+          tags: Array.isArray(video.tags) ? video.tags : [],
+          viewCount: video.viewCount || 0,
+          category: video.category || 'uncategorized',
+          type: video.type || 'all',
+          ageGroup: video.ageGroup || 'all',
+        };
+      }
+
+      // Star Rating Generation and Handling
+      function generateStarRating(videoId) {
+        return `
+    <div class="stars" data-video-id="${videoId}">
+      ${[1, 2, 3, 4, 5]
+        .map(
+          (num) => `
+        <i class="far fa-star star" 
+           data-rating="${num}" 
+           onclick="window.rateVideo('${videoId}', ${num}, event)">
+        </i>
+      `
+        )
+        .join('')}
+    </div>
+  `;
+      }
+
+      async function loadRatingCount(videoId) {
+        try {
+          const ratingsRef = ref(database, `ratings/${videoId}`);
+          const snapshot = await get(ratingsRef);
+          return snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+        } catch (error) {
+          console.error('Error loading rating count:', error);
+          return 0;
+        }
+      }
+
+      window.postComment = async function (videoId, commentText, event) {
+        event?.stopPropagation();
+
+        if (!commentText.trim()) return;
+
+        const user = auth.currentUser;
+        if (!user) {
+          alert('Please log in to comment');
+          return;
+        }
+
+        try {
+          // Post the comment
+          const commentRef = ref(database, `videoComments/${videoId}`);
+          await push(commentRef, {
+            authorId: user.uid,
+            authorName: user.displayName || 'Anonymous',
+            text: commentText.trim(),
+            timestamp: new Date().toISOString(),
+          });
+
+          // Update comment count in video stats
+          const commentsSnapshot = await get(commentRef);
+          const commentCount = commentsSnapshot.exists()
+            ? Object.keys(commentsSnapshot.val()).length
+            : 0;
+
+          const videoStatsRef = ref(
+            database,
+            `videos/${videoId}/stats/commentCount`
+          );
+          await set(videoStatsRef, commentCount);
+
+          // Clear input
+          const textarea = document.getElementById(`comment-input-${videoId}`);
+          if (textarea) textarea.value = '';
+
+          // Refresh comments
+          await loadComments(videoId);
+        } catch (error) {
+          console.error('Error posting comment:', error);
+          alert('Error posting comment. Please try again.');
+        }
+      };
+
+      window.postComment = async function (videoId, commentText) {
+        const user = auth.currentUser;
+        if (!user) {
+          alert('Please log in to comment');
+          return;
+        }
+
+        try {
+          const commentRef = ref(database, `videoComments/${videoId}`);
+          await push(commentRef, {
+            authorId: user.uid,
+            authorName: user.displayName || 'Anonymous',
+            text: commentText,
+            timestamp: new Date().toISOString(),
+          });
+
+          // Refresh comments
+          await loadComments(videoId);
+        } catch (error) {
+          console.error('Error posting comment:', error);
+          alert('Error posting comment. Please try again.');
+        }
+      };
+
+      async function loadComments(videoId) {
+        const commentsContainer = document.querySelector(
+          `#comments-${videoId} .comments-container`
+        );
+        if (!commentsContainer) return;
+
+        try {
+          const commentsRef = ref(database, `videoComments/${videoId}`);
+          const snapshot = await get(commentsRef);
+
+          if (snapshot.exists()) {
+            const comments = Object.entries(snapshot.val())
+              .map(([id, comment]) => ({
+                id,
+                ...comment,
+              }))
+              .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sort newest first
+
+            commentsContainer.innerHTML = comments
+              .map(
+                (comment) => `
+          <div class="comment">
+            <div class="comment-header">
+              <span class="comment-author">${comment.authorName}</span>
+              <span class="comment-time">${new Date(
+                comment.timestamp
+              ).toLocaleString()}</span>
+            </div>
+            <div class="comment-content">${comment.text}</div>
+          </div>
+        `
+              )
+              .join('');
+
+            // Update both comment count displays
+            const commentCount = comments.length;
+            // Update count in comments section
+            const commentCountInSection = document.querySelector(
+              `#comments-${videoId} .comment-count`
+            );
+            if (commentCountInSection) {
+              commentCountInSection.textContent = commentCount;
+            }
+            // Update count in video card
+            const commentCountInCard = document.querySelector(
+              `.video-card:has([data-video-id="${videoId}"]) .comment-count`
+            );
+            if (commentCountInCard) {
+              commentCountInCard.textContent = commentCount;
+            }
+
+            // Update video stats in database
+            const videoStatsRef = ref(
+              database,
+              `videos/${videoId}/stats/commentCount`
+            );
+            await set(videoStatsRef, commentCount);
+          } else {
+            commentsContainer.innerHTML =
+              '<p class="no-comments">No comments yet. Be the first to comment!</p>';
+          }
+        } catch (error) {
+          console.error('Error loading comments:', error);
+          commentsContainer.innerHTML =
+            '<p class="error">Error loading comments</p>';
+        }
+      }
+
+      // Add comment submit handler
+      function setupCommentHandlers(videoId) {
+        const commentSection = document.getElementById(`comments-${videoId}`);
+        if (!commentSection) return;
+
+        const textarea = commentSection.querySelector('textarea');
+        const submitBtn = commentSection.querySelector('.btn-comment');
+
+        if (!textarea || !submitBtn) return;
+
+        // Clear existing event listeners
+        submitBtn.replaceWith(submitBtn.cloneNode(true));
+        const newSubmitBtn = commentSection.querySelector('.btn-comment');
+
+        // Add new event listener
+        newSubmitBtn.addEventListener('click', async () => {
+          const content = textarea.value.trim();
+          if (content) {
+            await window.postComment(videoId, content);
+            textarea.value = ''; // Clear textarea after posting
+          }
+        });
+
+        // Add enter key support
+        textarea.addEventListener('keypress', async (e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            const content = textarea.value.trim();
+            if (content) {
+              await window.postComment(videoId, content);
+              textarea.value = '';
+            }
+          }
+        });
+      }
+
+      // Add this to make the rating function globally available
+      window.rateVideo = async function (videoId, rating, event) {
+        event.stopPropagation();
+        const user = auth.currentUser;
+        if (!user) {
+          alert('Please log in to rate videos');
+          return;
+        }
+
+        try {
+          // Save the rating
+          const ratingRef = ref(database, `ratings/${videoId}/${user.uid}`);
+          await set(ratingRef, {
+            rating: rating,
+            timestamp: new Date().toISOString(),
+          });
+
+          // Update video stats
+          const ratingsRef = ref(database, `ratings/${videoId}`);
+          const snapshot = await get(ratingsRef);
+          const ratings = snapshot.val() || {};
+          const ratingCount = Object.keys(ratings).length;
+          const ratingSum = Object.values(ratings).reduce(
+            (sum, r) => sum + r.rating,
+            0
+          );
+          const averageRating = ratingSum / ratingCount;
+
+          // Update video stats in database
+          const videoRef = ref(database, `videos/${videoId}/stats`);
+          await set(videoRef, {
+            ratingCount: ratingCount,
+            averageRating: averageRating,
+          });
+
+          // Update UI
+          const starsContainer = event.target.closest('.stars');
+          updateStarDisplay(starsContainer, rating);
+          const countDisplay = starsContainer.nextElementSibling;
+          countDisplay.textContent = `(${ratingCount})`;
+        } catch (error) {
+          console.error('Error saving rating:', error);
+          alert('Error saving rating. Please try again.');
+        }
+      };
+
+      // Add this to the loadVideos function to load existing ratings
+      async function loadVideoRatings(videoId) {
+        try {
+          // Get all ratings for this video
+          const ratingsRef = ref(database, `ratings/${videoId}`);
+          const snapshot = await get(ratingsRef);
+
+          // Get current user's rating if they're logged in
+          const user = auth.currentUser;
+          let userRating = null;
+          if (user && snapshot.exists()) {
+            userRating = snapshot.val()[user.uid]?.rating || null;
+          }
+
+          // Update UI with rating count
+          const count = snapshot.exists()
+            ? Object.keys(snapshot.val()).length
+            : 0;
+          const countElement = document.querySelector(
+            `[data-video-id="${videoId}"]`
+          )?.nextElementSibling;
+          if (countElement) {
+            countElement.textContent = `(${count})`;
+          }
+
+          return userRating;
+        } catch (error) {
+          console.error('Error loading ratings:', error);
+          return null;
+        }
+      }
+
+      async function loadVideos() {
+        console.log('Loading videos from database...');
+        const videoRef = ref(database, 'videos');
+
+        try {
+          const snapshot = await get(videoRef);
+          if (snapshot.exists()) {
+            // Convert the snapshot to an array and validate each video
+            currentVideos = Object.values(snapshot.val())
+              .map((video) => validateVideo(video))
+              .filter(Boolean); // Remove any invalid videos
+
+            // Sort by newest first using publishedAt
+            currentVideos.sort((a, b) => {
+              return (
+                new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0)
+              );
+            });
+
+            filteredVideos = [...currentVideos];
+            displayVideos();
+            console.log(`Loaded ${currentVideos.length} videos from database`);
+          } else {
+            console.log('No videos found in database');
+            document.getElementById('video-grid').innerHTML =
+              '<p>No videos available. Please try again later.</p>';
+          }
+        } catch (error) {
+          console.error('Error loading videos:', error);
+          document.getElementById('video-grid').innerHTML =
+            '<p>Error loading videos. Please try again later.</p>';
+        }
+      }
+
+      // Add this with your other initialization code
+      function initializeViewToggle() {
+        const viewToggle = document.getElementById('view-toggle');
+        const videoGrid = document.getElementById('video-grid');
+
+        // Load saved preference
+        const currentView = localStorage.getItem('videoView') || 'grid';
+        if (currentView === 'list') {
+          videoGrid.classList.add('list-view');
+          viewToggle.classList.add('list-active');
+        }
+
+        viewToggle.addEventListener('click', () => {
+          videoGrid.classList.toggle('list-view');
+          viewToggle.classList.toggle('list-active');
+
+          // Save preference
+          const isListView = videoGrid.classList.contains('list-view');
+          localStorage.setItem('videoView', isListView ? 'list' : 'grid');
+        });
+      }
+
+      function initializeThemeToggle() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia(
+          '(prefers-color-scheme: dark)'
+        );
+
+        // Load saved theme or use system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemTheme = prefersDarkScheme.matches ? 'dark' : 'light';
+        const currentTheme = savedTheme || systemTheme;
+
+        // Set initial theme
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme === 'dark');
+
+        // Theme toggle handler
+        themeToggle.addEventListener('click', () => {
+          const isDark =
+            document.documentElement.getAttribute('data-theme') === 'dark';
+          const newTheme = isDark ? 'light' : 'dark';
+
+          document.documentElement.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          updateThemeIcon(!isDark);
+        });
+
+        // System theme change handler
+        prefersDarkScheme.addListener((e) => {
+          if (!localStorage.getItem('theme')) {
+            const newTheme = e.matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            updateThemeIcon(e.matches);
+          }
+        });
+      }
+
+      function updateThemeIcon(isDark) {
+        const icon = document.querySelector('#theme-toggle i');
+        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+      }
+
+      // Filter functionality
+      function applyFilters() {
+        // Get all filter values
+        const filters = {
+          category: document.getElementById('category-filter').value,
+          type: document.getElementById('type-filter').value,
+          ageGroup: document.getElementById('age-filter').value,
+          duration: document.getElementById('duration-filter').value,
+          search: document.getElementById('search-input').value.toLowerCase(),
+        };
+
+        // Save filter preferences for logged-in user
+        if (auth.currentUser) {
+          set(
+            ref(database, `users/${auth.currentUser.uid}/filterPreferences`),
+            filters
+          );
+        }
+
+        // Apply filters to videos
+        filteredVideos = currentVideos.filter((video) => {
+          // Category filter
+          if (filters.category && video.category !== filters.category) {
+            return false;
+          }
+
+          // ADHD Type filter
+          if (
+            filters.type &&
+            video.type !== filters.type &&
+            video.type !== 'all'
+          ) {
+            return false;
+          }
+
+          // Age group filter
+          if (
+            filters.ageGroup &&
+            video.ageGroup !== filters.ageGroup &&
+            video.ageGroup !== 'all'
+          ) {
+            return false;
+          }
+
+          // Duration filter
+          if (filters.duration && video.duration) {
+            const videoDuration = determineDuration(video.duration);
+            if (videoDuration !== filters.duration) {
+              return false;
+            }
+          }
+
+          // Search text filter
+          if (filters.search) {
+            const searchableContent = [
+              video.title,
+              video.description,
+              ...(video.tags || []),
+              video.channelTitle,
+            ].map((item) => (item || '').toLowerCase());
+
+            // Check if any content contains the search term
+            return searchableContent.some((content) =>
+              content.includes(filters.search)
+            );
+          }
+
+          return true;
+        });
+
+        // Sort results by relevance if searching
+        if (filters.search) {
+          filteredVideos.sort((a, b) => {
+            const aTitle = a.title.toLowerCase();
+            const bTitle = b.title.toLowerCase();
+            const searchTerm = filters.search;
+
+            // Exact title matches first
+            if (aTitle === searchTerm && bTitle !== searchTerm) return -1;
+            if (bTitle === searchTerm && aTitle !== searchTerm) return 1;
+
+            // Title contains search term next
+            const aTitleContains = aTitle.includes(searchTerm);
+            const bTitleContains = bTitle.includes(searchTerm);
+            if (aTitleContains && !bTitleContains) return -1;
+            if (bTitleContains && !aTitleContains) return 1;
+
+            // Description contains search term next
+            const aDescContains = a.description
+              .toLowerCase()
+              .includes(searchTerm);
+            const bDescContains = b.description
+              .toLowerCase()
+              .includes(searchTerm);
+            if (aDescContains && !bDescContains) return -1;
+            if (bDescContains && !aDescContains) return 1;
+
+            // Finally sort by date
+            return new Date(b.publishedAt) - new Date(a.publishedAt);
+          });
+        } else {
+          // If not searching, sort by newest first
+          filteredVideos.sort(
+            (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
+          );
+        }
+
+        // Reset displayed videos count and update display
+        displayedVideos = 12;
+        displayVideos();
+
+        // Log filter results for debugging
+        console.log(`Filtered videos: ${filteredVideos.length} results`);
+      }
+
+      async function loadFilterPreferences() {
+        if (!auth.currentUser) return;
+
+        try {
+          const preferencesRef = ref(
+            database,
+            `users/${auth.currentUser.uid}/filterPreferences`
+          );
+          const snapshot = await get(preferencesRef);
+
+          if (snapshot.exists()) {
+            const preferences = snapshot.val();
+
+            // Apply saved preferences to filter inputs
+            document.getElementById('category-filter').value =
+              preferences.category || '';
+            document.getElementById('type-filter').value =
+              preferences.type || '';
+            document.getElementById('age-filter').value =
+              preferences.ageGroup || '';
+            document.getElementById('duration-filter').value =
+              preferences.duration || '';
+            document.getElementById('search-input').value =
+              preferences.search || '';
+
+            // Apply filters if any were saved
+            if (Object.values(preferences).some((value) => value)) {
+              applyFilters();
+            }
+          }
+        } catch (error) {
+          console.error('Error loading filter preferences:', error);
+        }
+      }
+
+      function clearFilters() {
+        const filterInputs = [
+          'category-filter',
+          'type-filter',
+          'age-filter',
+          'duration-filter',
+          'search-input',
+        ];
+
+        // Clear all inputs
+        filterInputs.forEach((id) => {
+          document.getElementById(id).value = '';
+        });
+
+        // Clear saved preferences
+        if (auth.currentUser) {
+          set(
+            ref(database, `users/${auth.currentUser.uid}/filterPreferences`),
+            null
+          );
+        }
+
+        // Reset videos
+        filteredVideos = [...currentVideos];
+        displayVideos();
+      }
+
+      document
+        .getElementById('clear-filters')
+        .addEventListener('click', clearFilters);
+      document
+        .getElementById('apply-filters')
+        .addEventListener('click', applyFilters);
+
+      let searchTimeout;
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          applyFilters();
+        }, 300); // Wait 300ms after user stops typing
+      });
+
+      function parseDuration(duration) {
+        if (!duration) return 0;
+
+        const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+        if (!match) return 0;
+
+        const hours = parseInt(match[1] || '0');
+        const minutes = parseInt(match[2] || '0');
+        const seconds = parseInt(match[3] || '0');
+
+        return hours * 60 + minutes + seconds / 60;
+      }
+
+      function determineDuration(duration) {
+        const minutes = parseDuration(duration);
+        if (minutes === 0) return null;
+        if (minutes < 5) return 'short';
+        if (minutes < 15) return 'medium';
+        return 'long';
+      }
+
+      // Add to your global window functions
+      window.addToWatchLater = async function (videoId, event) {
+        event.stopPropagation();
+        const user = auth.currentUser;
+        if (!user) {
+          alert('Please log in to save videos');
+          return;
+        }
+
+        try {
+          const watchLaterRef = ref(
+            database,
+            `users/${user.uid}/watchLater/${videoId}`
+          );
+          const snapshot = await get(watchLaterRef);
+
+          if (snapshot.exists()) {
+            // Remove from Watch Later
+            await set(watchLaterRef, null);
+            event.target.closest('.btn-icon').classList.remove('active');
+            showNotification('Removed from Watch Later');
+          } else {
+            // Add to Watch Later
+            await set(watchLaterRef, {
+              addedAt: new Date().toISOString(),
+              videoId: videoId,
+            });
+            event.target.closest('.btn-icon').classList.add('active');
+            showNotification('Added to Watch Later');
+          }
+
+          // Update button state
+          updateWatchLaterButton(videoId);
+        } catch (error) {
+          console.error('Error updating Watch Later:', error);
+          alert('Error updating Watch Later. Please try again.');
+        }
+      };
+
+      // Add helper functions
+      function showNotification(message) {
+        // You can enhance this with a nicer notification system later
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      }
+
+      async function updateWatchLaterButton(videoId) {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const button = document.querySelector(
+          `[onclick*="addToWatchLater('${videoId}"]`
+        );
+        if (!button) return;
+
+        const watchLaterRef = ref(
+          database,
+          `users/${user.uid}/watchLater/${videoId}`
+        );
+        const snapshot = await get(watchLaterRef);
+
+        if (snapshot.exists()) {
+          button.classList.add('active');
+          button.title = 'Remove from Watch Later';
+        } else {
+          button.classList.remove('active');
+          button.title = 'Save to Watch Later';
+        }
+      }
+
+      // Add check for Watch Later status when loading videos
+      async function loadWatchLaterStatus(videoId) {
+        const user = auth.currentUser;
+        if (!user) return false;
+
+        const watchLaterRef = ref(
+          database,
+          `users/${user.uid}/watchLater/${videoId}`
+        );
+        const snapshot = await get(watchLaterRef);
+        return snapshot.exists();
+      }
+
+      // Event Listeners
+      document
+        .getElementById('apply-filters')
+        .addEventListener('click', applyFilters);
+      document
+        .getElementById('search-input')
+        .addEventListener('input', applyFilters);
+      document
+        .getElementById('refresh-videos')
+        .addEventListener('click', refreshVideos);
+      document.getElementById('load-more').addEventListener('click', () => {
+        displayedVideos += 12;
+        displayVideos();
+      });
+
+      // Initialize
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          loadVideos().then(() => {
+            loadFilterPreferences();
+          });
+          initializeViewToggle();
+          initializeThemeToggle();
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+    </script>
+  </body>
+</html>
