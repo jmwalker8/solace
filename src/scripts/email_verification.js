@@ -100,7 +100,7 @@ auth.onAuthStateChanged((user) => {
             }
           })
           .then(() => {
-            window.location.href = 'community-exploration.html';
+            window.location.href = '/community-exploration.html';
           })
           .catch((error) => {
             console.error('Error setting user data:', error);

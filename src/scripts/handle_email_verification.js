@@ -42,5 +42,5 @@ if (mode === 'verifyEmail') {
 } else {
   // Handle other cases or show error
   console.error('Invalid mode parameter');
-  window.location.href = 'email_verification.html';
+  window.location.href = '/email_verification.html';
 }

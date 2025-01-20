@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed');
 
   backToDashboardBtn.addEventListener('click', () => {
-    window.location.href = 'logged.html';
+    window.location.href = '/logged.html';
   });
 
   categoryBtns.forEach((button) => {
@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   loginBtn.addEventListener('click', () => {
-    window.location.href = 'login.html';
+    window.location.href = '/login.html';
   });
 
   logoutBtn.addEventListener('click', () => {

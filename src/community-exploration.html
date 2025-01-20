@@ -1742,7 +1742,7 @@ textarea.playlist-input {
             Toggle View
           </button>
           
-          <button class="btn" id="watch-later-btn" onclick="window.location.href='watchlater.html'" title="Watch Later">
+          <button class="btn" id="watch-later-btn" onclick="window.location.href='/watchlater.html'" title="Watch Later">
             <i class="fas fa-clock"></i>
             Watch Later
           </button>
@@ -4578,7 +4578,7 @@ auth.onAuthStateChanged((user) => {
     initializeThemeToggle();
     initializeProfile(user);
   } else {
-    window.location.href = 'login.html';
+    window.location.href = '/login.html';
   }
 });
 

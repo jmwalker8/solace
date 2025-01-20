@@ -146,7 +146,7 @@
       <div class="spinner" id="loading-spinner"></div>
       <div class="button-group">
         <button id="resend-email" class="resend-btn">Resend Email</button>
-        <button onclick="window.location.href='login.html'" class="return-btn">
+        <button onclick="window.location.href='/login.html'" class="return-btn">
           Return to Login
         </button>
       </div>
@@ -312,7 +312,7 @@
                       statusMessage.textContent =
                         'Account created successfully. Redirecting to dashboard...';
                       setTimeout(() => {
-                        window.location.href = 'community-exploration.html';
+                        window.location.href = '/community-exploration.html';
                       }, 3000); // Redirect after 3 seconds
                     })
                     .catch((error) => {

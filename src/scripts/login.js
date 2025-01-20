@@ -81,7 +81,7 @@ loginButton.addEventListener('click', (e) => {
       update(ref(database, 'users/' + user.uid), {
         last_login: dt,
       });
-      window.location.href = 'community-exploration.html';
+      window.location.href = '/community-exploration.html';
     })
     .catch((error) => {
       const errorCode = error.code;
