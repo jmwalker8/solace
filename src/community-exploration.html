@@ -593,29 +593,322 @@
       }
 
       /* Playlist Modal */
+      
       .playlist-modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        padding: 24px;
-        border-radius: 12px;
-        box-shadow: var(--shadow-lg);
-        max-width: 400px;
-        width: 90%;
-        z-index: 1000;
-      }
+  max-width: 500px;
+  width: 90%;
+}
 
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-      }
+.playlist-videos {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h3 {
+  margin: 0;
+}
+    
+
+      .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 12px;
+  min-width: 300px;
+  max-width: 500px;
+  width: 90%;
+}
+
+.category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-group select {
+  height: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0 1rem;
+  background: var(--input-background);
+  color: var(--input-text);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.user-categories {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-categories {
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+}
+
+.edit-categories:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.playlist-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.close-modal {
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: var(--background-color);
+}
+
+.playlists-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.5rem;
+}
+
+.playlist-item {
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+
+.playlist-item:hover {
+  background-color: rgba(139, 92, 246, 0.05);
+}
+.playlist-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.playlist-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.playlist-video-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: grab;
+  transition: all 0.2s ease;
+}
+
+.playlist-video-item .video-thumbnail {
+  position: relative;
+  width: 160px;
+  height: 90px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  padding-top: 0;
+}
+
+.playlist-video-item .video-thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.playlist-video-item .video-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.playlist-video-item .video-details h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playlist-video-item .video-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.playlist-video-item .video-duration {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.drag-handle {
+  color: var(--text-color);
+  opacity: 0.5;
+  cursor: grab;
+  padding: 0.5rem;
+}
+
+.drag-handle:hover {
+  opacity: 0.8;
+}
+
+.playlist-name {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.playlist-count {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.btn-playlist-toggle {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-playlist-toggle:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-playlist-toggle.added {
+  background: var(--primary-color);
+  color: white;
+}
+
+.floating-playlists {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 100;
+}
+
+.btn-show-playlists {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s;
+}
+
+
+
+.new-playlist-section h4 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.new-playlist-section {
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.playlist-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+textarea.playlist-input {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
 
       /* Buttons */
       .btn {
@@ -995,6 +1288,12 @@
       </button>
     </div>
 
+    <div class="floating-playlists">
+      <button class="btn-show-playlists" onclick="window.showPlaylists()">
+        <i class="fas fa-list-ul"></i>
+      </button>
+    </div>
+
     <!-- Include Firebase -->
     <script type="module">
       // Import Firebase modules
@@ -1067,22 +1366,440 @@
   }
 };
 
-      window.addToPlaylist = async function (videoId, event) {
-        event.stopPropagation(); // Prevent video click
-        alert('Playlist feature coming soon!');
-      };
+window.loadUserPlaylists = async function(videoId) {
+  const user = auth.currentUser;
+  const container = document.getElementById('playlists-container');
+  if (!container) return;
 
-      window.toggleComments = async function (videoId, event) {
-        event.stopPropagation(); // Prevent video click
-        const commentsSection = document.getElementById(`comments-${videoId}`);
-        commentsSection.style.display =
-          commentsSection.style.display === 'none' ? 'block' : 'none';
+  try {
+    const playlistsRef = ref(database, `users/${user.uid}/playlists`);
+    const snapshot = await get(playlistsRef);
+    
+    if (snapshot.exists()) {
+      const playlists = snapshot.val();
+      container.innerHTML = Object.entries(playlists)
+        .map(([playlistId, playlist]) => {
+          const isVideoInPlaylist = playlist.videos && playlist.videos.includes(videoId);
+          return `
+            <div class="playlist-item">
+              <div class="playlist-info">
+                <span class="playlist-name">${playlist.name}</span>
+                <span class="playlist-count">${playlist.videos ? playlist.videos.length : 0} videos</span>
+              </div>
+              <button 
+                class="btn-playlist-toggle ${isVideoInPlaylist ? 'added' : ''}"
+                onclick="window.toggleVideoInPlaylist('${videoId}', '${playlistId}', ${!isVideoInPlaylist})"
+              >
+                <i class="fas ${isVideoInPlaylist ? 'fa-check' : 'fa-plus'}"></i>
+                ${isVideoInPlaylist ? 'Added' : 'Add'}
+              </button>
+            </div>
+          `;
+        })
+        .join('') || '<p>No playlists yet</p>';
+    } else {
+      container.innerHTML = '<p>No playlists yet</p>';
+    }
+  } catch (error) {
+    console.error('Error loading playlists:', error);
+    container.innerHTML = '<p>Error loading playlists</p>';
+  }
+};
 
-        // Load comments when section is opened
-        if (commentsSection.style.display === 'block') {
-          loadComments(videoId);
+window.showPlaylists = async function() {
+  const user = auth.currentUser;
+  if (!user) {
+    alert('Please log in to view playlists');
+    return;
+  }
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content playlist-modal">
+      <div class="modal-header">
+        <h3>Your Playlists</h3>
+        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="playlists-list user-playlists" id="user-playlists">
+        <p class="loading-text">Loading playlists...</p>
+      </div>
+      <div class="new-playlist-section">
+        <h4>Create New Playlist</h4>
+        <div class="form-group">
+          <input type="text" id="new-playlist-name" placeholder="Playlist name" class="playlist-input">
+          <textarea id="new-playlist-description" placeholder="Description (optional)" class="playlist-input"></textarea>
+          <label class="checkbox-container">
+            <input type="checkbox" id="playlist-privacy">
+            <span>Make playlist private</span>
+          </label>
+        </div>
+        <button class="btn" onclick="window.createPlaylist()">
+          <i class="fas fa-plus"></i>
+          Create New Playlist
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Load playlists
+  const container = document.getElementById('user-playlists');
+  try {
+    const playlistsRef = ref(database, `users/${user.uid}/playlists`);
+    const snapshot = await get(playlistsRef);
+    
+    if (snapshot.exists()) {
+      const playlists = snapshot.val();
+      container.innerHTML = Object.entries(playlists)
+        .map(([playlistId, playlist]) => `
+          <div class="playlist-item">
+            <div class="playlist-info">
+              <span class="playlist-name">${playlist.name}</span>
+              <span class="playlist-count">${playlist.videos ? playlist.videos.length : 0} videos</span>
+              ${playlist.description ? `<span class="playlist-description">${playlist.description}</span>` : ''}
+            </div>
+            <button class="btn-icon" onclick="window.viewPlaylist('${playlistId}')">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        `)
+        .join('') || '<p>No playlists yet</p>';
+    } else {
+      container.innerHTML = '<p>No playlists yet</p>';
+    }
+  } catch (error) {
+    console.error('Error loading playlists:', error);
+    container.innerHTML = '<p>Error loading playlists</p>';
+  }
+};
+
+window.viewPlaylist = async function(playlistId) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  // Create the playlist view modal
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content playlist-modal">
+      <div class="modal-header">
+        <h3>Loading playlist...</h3>
+        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="playlist-videos" id="playlist-videos">
+        <div class="loading-spinner"></div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  try {
+    // Get playlist data
+    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
+    const playlistSnapshot = await get(playlistRef);
+    if (!playlistSnapshot.exists()) {
+      throw new Error('Playlist not found');
+    }
+
+    const playlist = playlistSnapshot.val();
+    const videos = playlist.videos || [];
+
+    // Update modal header with playlist name
+    modal.querySelector('.modal-header h3').textContent = playlist.name;
+
+    // Get video details for each video in the playlist
+    const videoDetails = await Promise.all(
+      videos.map(async (videoId) => {
+        const videoRef = ref(database, `videos/${videoId}`);
+        const videoSnapshot = await get(videoRef);
+        return videoSnapshot.val();
+      })
+    );
+
+    // Filter out any null values (videos that might have been deleted)
+    const validVideos = videoDetails.filter(Boolean);
+
+    // Create the videos list with drag handles
+    const videosContainer = modal.querySelector('#playlist-videos');
+    videosContainer.innerHTML = `
+      <div class="playlist-info">
+        <p>${playlist.description || ''}</p>
+        <p class="video-count">${validVideos.length} videos</p>
+      </div>
+      <div class="playlist-videos-list" id="sortable-videos">
+        ${validVideos.map((video, index) => `
+          <div class="playlist-video-item" data-video-id="${video.id}">
+            <div class="drag-handle">
+              <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="video-thumbnail">
+              <img src="${video.thumbnail}" alt="${video.title}">
+              <span class="video-duration">${video.duration || ''}</span>
+            </div>
+            <div class="video-details">
+              <h4>${video.title}</h4>
+              <p>${video.channelTitle}</p>
+            </div>
+            <div class="video-actions">
+              <button class="btn-icon" onclick="window.removeFromPlaylist('${playlistId}', '${video.id}')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Initialize drag and drop
+    const sortableList = document.getElementById('sortable-videos');
+    initializeDragAndDrop(sortableList, playlistId);
+
+  } catch (error) {
+    console.error('Error loading playlist:', error);
+    modal.querySelector('#playlist-videos').innerHTML = `
+      <p class="error-message">Error loading playlist videos</p>
+    `;
+  }
+};
+
+function initializeDragAndDrop(container, playlistId) {
+  let draggedItem = null;
+
+  // Add draggable attribute to all items
+  container.querySelectorAll('.playlist-video-item').forEach(item => {
+    item.setAttribute('draggable', true);
+    
+    item.addEventListener('dragstart', function(e) {
+      draggedItem = this;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    item.addEventListener('dragend', function() {
+      this.classList.remove('dragging');
+      draggedItem = null;
+      
+      // Save the new order
+      savePlaylistOrder(playlistId);
+    });
+
+    item.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    });
+
+    item.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if (draggedItem && draggedItem !== this) {
+        const items = [...container.querySelectorAll('.playlist-video-item')];
+        const draggedIndex = items.indexOf(draggedItem);
+        const droppedIndex = items.indexOf(this);
+
+        if (draggedIndex < droppedIndex) {
+          this.parentNode.insertBefore(draggedItem, this.nextSibling);
+        } else {
+          this.parentNode.insertBefore(draggedItem, this);
         }
-      };
+      }
+    });
+  });
+}
+
+// Function to save the new playlist order
+async function savePlaylistOrder(playlistId) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    // Get existing playlist data first
+    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
+    const snapshot = await get(playlistRef);
+    
+    if (!snapshot.exists()) {
+      console.error('Playlist not found');
+      return;
+    }
+
+    const existingPlaylist = snapshot.val();
+    
+    // Get the new video order
+    const container = document.getElementById('sortable-videos');
+    const newOrder = [...container.querySelectorAll('.playlist-video-item')]
+      .map(item => item.dataset.videoId);
+
+    // Update the playlist with new order while preserving other data
+    await set(playlistRef, {
+      ...existingPlaylist,
+      videos: newOrder,
+      updatedAt: new Date().toISOString()
+    });
+
+    showNotification('Playlist order updated');
+  } catch (error) {
+    console.error('Error saving playlist order:', error);
+    showNotification('Error saving playlist order');
+  }
+}
+
+// Function to remove a video from the playlist
+window.removeFromPlaylist = async function(playlistId, videoId) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
+    const snapshot = await get(playlistRef);
+    
+    if (!snapshot.exists()) return;
+
+    const playlist = snapshot.val();
+    const updatedVideos = playlist.videos.filter(id => id !== videoId);
+
+    // Update while preserving all other playlist data
+    await set(playlistRef, {
+      ...playlist,
+      videos: updatedVideos,
+      updatedAt: new Date().toISOString()
+    });
+
+    // Remove the video item from the UI
+    const videoItem = document.querySelector(`.playlist-video-item[data-video-id="${videoId}"]`);
+    if (videoItem) {
+      videoItem.remove();
+      
+      // Update video count
+      const countElement = document.querySelector('.video-count');
+      if (countElement) {
+        const count = parseInt(countElement.textContent);
+        countElement.textContent = `${count - 1} videos`;
+      }
+    }
+
+    showNotification('Video removed from playlist');
+  } catch (error) {
+    console.error('Error removing video:', error);
+    showNotification('Error removing video');
+  }
+};
+
+window.addToPlaylist = async function(videoId, event) {
+  event.stopPropagation();
+  const user = auth.currentUser;
+  if (!user) {
+    alert('Please log in to use playlists');
+    return;
+  }
+
+  // Create modal
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content playlist-modal">
+      <div class="modal-header">
+        <h3>Add to Playlist</h3>
+        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="playlist-form">
+        <!-- Existing playlists -->
+        <div class="playlists-list" id="playlists-container">
+          <p class="loading-text">Loading playlists...</p>
+        </div>
+
+        <!-- Create new playlist section -->
+        <div class="new-playlist-section">
+          <h4>Create New Playlist</h4>
+          <div class="form-group">
+            <input type="text" id="new-playlist-name" placeholder="Playlist name" class="playlist-input">
+            <textarea id="new-playlist-description" placeholder="Description (optional)" class="playlist-input"></textarea>
+            <label class="checkbox-container">
+              <input type="checkbox" id="playlist-privacy">
+              <span>Make playlist private</span>
+            </label>
+          </div>
+          <button class="btn" onclick="window.createPlaylist('${videoId}')">
+            <i class="fas fa-plus"></i>
+            Create New Playlist
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Load existing playlists
+  await window.loadUserPlaylists(videoId);
+};
+
+window.createPlaylist = async function(videoId) {
+  const user = auth.currentUser;
+  const nameInput = document.getElementById('new-playlist-name');
+  const descInput = document.getElementById('new-playlist-description');
+  const privacyInput = document.getElementById('playlist-privacy');
+
+  if (!nameInput.value.trim()) {
+    alert('Please enter a playlist name');
+    return;
+  }
+
+  try {
+    const playlistData = {
+      name: nameInput.value.trim(),
+      description: descInput.value.trim(),
+      isPrivate: privacyInput.checked,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      videos: videoId ? [videoId] : []
+    };
+
+    const playlistsRef = ref(database, `users/${user.uid}/playlists`);
+    const newPlaylistRef = push(playlistsRef);
+    await set(newPlaylistRef, playlistData);
+
+    showNotification('Playlist created successfully');
+    document.querySelector('.modal').remove();
+  } catch (error) {
+    console.error('Error creating playlist:', error);
+    alert('Error creating playlist');
+  }
+};
+
+window.toggleVideoInPlaylist = async function(videoId, playlistId, isChecked) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
+    const snapshot = await get(playlistRef);
+    if (!snapshot.exists()) return;
+
+    const playlist = snapshot.val();
+    let videos = playlist.videos || [];
+
+    if (isChecked && !videos.includes(videoId)) {
+      videos.push(videoId);
+    } else if (!isChecked) {
+      videos = videos.filter(id => id !== videoId);
+    }
+
+    await set(playlistRef, {
+      ...playlist,
+      videos,
+      updatedAt: new Date().toISOString()
+    });
+
+    showNotification(isChecked ? 'Added to playlist' : 'Removed from playlist');
+  } catch (error) {
+    console.error('Error updating playlist:', error);
+    alert('Error updating playlist');
+  }
+};
 
       // Database Schema for Community Features
       const communitySchema = {
@@ -1178,6 +1895,8 @@
           pageToken: pageToken,
         };
 
+  
+
         const queryString = Object.entries(params)
           .filter(([, value]) => value)
           .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
@@ -1208,6 +1927,15 @@
 
         return data.items?.[0] || null; // Return the first item or null
       }
+
+      function getVideoCategory(video, type) {
+  // If community has categorized this video, use that
+  if (video.communityCategories && video.communityCategories[type]) {
+    return video.communityCategories[type];
+  }
+  // Otherwise use automated category
+  return video[type];
+}
 
       // Function to process and store videos
       async function processAndStoreVideos(searchResults) {
@@ -1275,62 +2003,129 @@
         }
       }
 
+      function fetchVideoDetails(videoIds) {
+  const apiKey = 'AIzaSyAoXITyBKjS9vcfTZDCGRRCfvDojJXorsg'; // Replace with your API key
+  const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds.join(
+    ','
+  )}&key=${apiKey}`;
+
+  return fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      // Map video durations
+      return data.items.map((item) => ({
+        id: item.id,
+        duration: parseYouTubeDuration(item.contentDetails.duration),
+      }));
+    });
+}
+
+// Helper to parse ISO 8601 duration format (e.g., PT15M30S)
+// Parse duration string to minutes
+function parseYouTubeDuration(duration) {
+  if (!duration) return 0;
+  
+  // Handle formatted duration (MM:SS or HH:MM:SS)
+  if (duration.includes(':')) {
+    const parts = duration.split(':').map(part => parseInt(part));
+    if (parts.length === 2) {
+      // MM:SS format
+      return parts[0] + (parts[1] / 60);
+    } else if (parts.length === 3) {
+      // HH:MM:SS format
+      return (parts[0] * 60) + parts[1] + (parts[2] / 60);
+    }
+    return 0;
+  }
+  
+  // Handle ISO 8601 format (PT1H2M10S)
+  const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!match) return 0;
+
+  const hours = parseInt(match[1] || '0');
+  const minutes = parseInt(match[2] || '0');
+  const seconds = parseInt(match[3] || '0');
+
+  return (hours * 60) + minutes + (seconds / 60);
+}
+
+// Determine duration category
+function determineDuration(duration) {
+  console.log('Determining duration for:', duration);
+  if (!duration) {
+    console.log('No duration provided');
+    return null;
+  }
+
+  const minutes = parseYouTubeDuration(duration);
+  console.log('Duration in minutes:', minutes);
+
+  // Return category based on minutes
+  if (minutes < 5) return 'short';
+  if (minutes <= 15) return 'medium';
+  return 'long';
+}
+
+
       // Helper functions for categorizing videos
       function determineCategory(title, description) {
-        const text = (title + ' ' + description).toLowerCase();
-        if (
-          text.includes('tip') ||
-          text.includes('strategy') ||
-          text.includes('how to')
-        )
-          return 'tips';
-        if (
-          text.includes('explain') ||
-          text.includes('what is') ||
-          text.includes('understanding')
-        )
-          return 'education';
-        if (text.includes('motivation') || text.includes('inspire'))
-          return 'motivation';
-        if (
-          text.includes('lifestyle') ||
-          text.includes('daily') ||
-          text.includes('routine')
-        )
-          return 'lifestyle';
-        if (
-          text.includes('medication') ||
-          text.includes('treatment') ||
-          text.includes('therapy')
-        )
-          return 'medication';
-        return 'education';
-      }
+  const text = (title + ' ' + description).toLowerCase();
+  const keywords = {
+    tips: ['tip', 'strategy', 'how to', 'technique', 'hack', 'guide', 'method', 'advice'],
+    education: ['explain', 'what is', 'understanding', 'learn', 'basics', 'introduction', 'overview', 'science'],
+    motivation: ['motivation', 'inspire', 'encouragement', 'success', 'overcome', 'journey', 'story', 'experience'],
+    lifestyle: ['lifestyle', 'daily', 'routine', 'life', 'living', 'day in the life', 'habits', 'schedule'],
+    medication: ['medication', 'treatment', 'therapy', 'medicine', 'drug', 'prescription', 'doctor', 'psychiatrist']
+  };
 
-      function determineType(title, description) {
-        const text = (title + ' ' + description).toLowerCase();
-        if (text.includes('inattentive') || text.includes('inattention'))
-          return 'inattentive';
-        if (text.includes('hyperactive') || text.includes('impulsive'))
-          return 'hyperactive';
-        if (text.includes('combined')) return 'combined';
-        return 'all';
-      }
+  // Count matches for each category
+  const matches = {};
+  Object.entries(keywords).forEach(([category, words]) => {
+    matches[category] = words.filter(word => text.includes(word)).length;
+  });
 
-      function determineAgeGroup(title, description) {
-        const text = (title + ' ' + description).toLowerCase();
-        if (
-          text.includes('child') ||
-          text.includes('kid') ||
-          text.includes('parent')
-        )
-          return 'children';
-        if (text.includes('teen') || text.includes('adolescent'))
-          return 'teenagers';
-        if (text.includes('adult') || text.includes('workplace'))
-          return 'adults';
-        return 'all';
-      }
+  // Find category with most matches
+  const maxMatches = Math.max(...Object.values(matches));
+  if (maxMatches === 0) return 'education'; // Default category
+
+  return Object.entries(matches).find(([_, count]) => count === maxMatches)[0];
+}
+
+function determineType(title, description) {
+  const text = (title + ' ' + description).toLowerCase();
+  const typeKeywords = {
+    inattentive: ['inattentive', 'inattention', 'focus', 'concentration', 'distraction', 'forgetful', 'spacing out'],
+    hyperactive: ['hyperactive', 'impulsive', 'energy', 'restless', 'fidgety', 'cannot sit still', 'hyper'],
+    combined: ['combined', 'both types', 'all symptoms', 'inattentive and hyperactive']
+  };
+
+  // Count matches for each type
+  const matches = {};
+  Object.entries(typeKeywords).forEach(([type, words]) => {
+    matches[type] = words.filter(word => text.includes(word)).length;
+  });
+
+  const maxMatches = Math.max(...Object.values(matches));
+  return maxMatches === 0 ? 'all' : Object.entries(matches).find(([_, count]) => count === maxMatches)[0];
+}
+
+function determineAgeGroup(title, description) {
+  const text = (title + ' ' + description).toLowerCase();
+  const ageKeywords = {
+    children: ['child', 'kid', 'parent', 'young', 'elementary', 'school age', 'childhood'],
+    teenagers: ['teen', 'adolescent', 'high school', 'middle school', 'young adult', 'youth'],
+    adults: ['adult', 'workplace', 'college', 'university', 'professional', 'career', 'work']
+  };
+
+  // Count matches for each age group
+  const matches = {};
+  Object.entries(ageKeywords).forEach(([age, words]) => {
+    matches[age] = words.filter(word => text.includes(word)).length;
+  });
+
+  const maxMatches = Math.max(...Object.values(matches));
+  return maxMatches === 0 ? 'all' : Object.entries(matches).find(([_, count]) => count === maxMatches)[0];
+}
 
       function generateTags(title, description) {
         const text = (title + ' ' + description).toLowerCase();
@@ -1546,75 +2341,133 @@
 
       // Display videos in the grid
       async function displayVideos() {
-        const videoGrid = document.getElementById('video-grid');
-        const fragment = document.createDocumentFragment();
+  console.log('Displaying videos...');
+  console.log('Number of filtered videos:', filteredVideos.length);
+  console.log('Number of videos to display:', displayedVideos);
 
-        for (const video of filteredVideos.slice(0, displayedVideos)) {
-          const card = createVideoCard(video);
+  const videoGrid = document.getElementById('video-grid');
+  if (!videoGrid) {
+    console.error('Video grid element not found');
+    return;
+  }
 
-          // Load existing states
-          const [rating, watchLater] = await Promise.all([
-            loadVideoRatings(video.id),
-            loadWatchLaterStatus(video.id),
-          ]);
+  // Clear existing content
+  videoGrid.innerHTML = '';
 
-          if (rating) {
-            const starsContainer = card.querySelector('.stars');
+  // Show message if no videos match filters
+  if (filteredVideos.length === 0) {
+    console.log('No videos match the current filters');
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  const videosToShow = filteredVideos.slice(0, displayedVideos);
+  
+  console.log('Creating video cards for:', videosToShow.length, 'videos');
+
+  for (const video of videosToShow) {
+    try {
+      const card = createVideoCard(video);
+      if (card) {
+        // Load existing states
+        const [rating, watchLater] = await Promise.all([
+          loadVideoRatings(video.id),
+          loadWatchLaterStatus(video.id),
+        ]);
+
+        if (rating) {
+          const starsContainer = card.querySelector('.stars');
+          if (starsContainer) {
             updateStarDisplay(starsContainer, rating);
           }
-
-          if (watchLater) {
-            const watchLaterBtn = card.querySelector(
-              `[onclick*="addToWatchLater('${video.id}"]`
-            );
-            watchLaterBtn?.classList.add('active');
-          }
-
-          fragment.appendChild(card);
         }
 
-        videoGrid.innerHTML = '';
-        videoGrid.appendChild(fragment);
+        if (watchLater) {
+          const watchLaterBtn = card.querySelector(
+            `[onclick*="addToWatchLater('${video.id}"]`
+          );
+          if (watchLaterBtn) {
+            watchLaterBtn.classList.add('active');
+          }
+        }
 
-        document.getElementById('load-more').style.display =
-          displayedVideos >= filteredVideos.length ? 'none' : 'block';
+        fragment.appendChild(card);
       }
+    } catch (error) {
+      console.error('Error creating video card:', error);
+    }
+  }
+
+  // Append all cards at once
+  videoGrid.appendChild(fragment);
+
+  // Update load more button visibility
+  const loadMoreBtn = document.getElementById('load-more');
+  if (loadMoreBtn) {
+    loadMoreBtn.style.display = displayedVideos >= filteredVideos.length ? 'none' : 'block';
+  }
+
+  console.log('Finished displaying videos');
+}
+
+async function loadFilterPreferences() {
+  if (!auth.currentUser) return;
+
+  try {
+    const preferencesRef = ref(database, `users/${auth.currentUser.uid}/filterPreferences`);
+    const snapshot = await get(preferencesRef);
+
+    if (snapshot.exists()) {
+      const preferences = snapshot.val();
+      console.log('Loading saved filter preferences:', preferences);
+
+      // Apply saved preferences to filter inputs
+      document.getElementById('category-filter').value = preferences.category || '';
+      document.getElementById('type-filter').value = preferences.type || '';
+      document.getElementById('age-filter').value = preferences.ageGroup || '';
+      document.getElementById('duration-filter').value = preferences.duration || '';
+      document.getElementById('search-input').value = preferences.search || '';
+
+      // Apply filters if any were saved
+      if (Object.values(preferences).some(value => value)) {
+        applyFilters();
+      }
+    }
+  } catch (error) {
+    console.error('Error loading filter preferences:', error);
+  }
+}
 
       function createVideoCard(video) {
-        const card = document.createElement('div');
-        card.className = 'video-card';
+  const card = document.createElement('div');
+  card.className = 'video-card';
 
-        // Add click handler to open video
-        const handleCardClick = (e) => {
-          // Only open video if not clicking on interactive elements
-          if (
-            !e.target.closest('.video-community') &&
-            !e.target.closest('.comments-section')
-          ) {
-            window.open(
-              `https://www.youtube.com/watch?v=${video.id}`,
-              '_blank'
-            );
-          }
-        };
+  // Add click handler to open video
+  const handleCardClick = (e) => {
+    // Only open video if not clicking on interactive elements
+    if (
+      !e.target.closest('.video-community') &&
+      !e.target.closest('.comments-section')
+    ) {
+      window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank');
+    }
+  };
 
-        card.addEventListener('click', handleCardClick);
+  card.addEventListener('click', handleCardClick);
 
-        // Get stats or default values
-        const stats = video.stats || {
-          ratingCount: 0,
-          commentCount: 0,
-          averageRating: 0,
-        };
+  // Get stats or default values
+  const stats = video.stats || {
+    ratingCount: 0,
+    commentCount: 0,
+    averageRating: 0,
+  };
 
-        card.innerHTML = `
+  card.innerHTML = `
     <div class="video-thumbnail">
       <img src="${video.thumbnail || ''}" alt="${video.title}" loading="lazy">
       ${
         video.duration
-          ? `<span class="video-duration">${formatDuration(
-              video.duration
-            )}</span>`
+          ? `<span class="video-duration">${video.duration}</span>`
           : ''
       }
     </div>
@@ -1631,11 +2484,11 @@
             ${[1, 2, 3, 4, 5]
               .map(
                 (num) => `
-              <i class="far fa-star star" 
-                 data-rating="${num}" 
-                 onclick="window.rateVideo('${video.id}', ${num}, event)">
-              </i>
-            `
+                <i class="far fa-star star" 
+                   data-rating="${num}" 
+                   onclick="window.rateVideo('${video.id}', ${num}, event)">
+                </i>
+              `
               )
               .join('')}
           </div>
@@ -1643,23 +2496,23 @@
         </div>
         
         <div class="actions">
-  <button class="btn-icon save-video" onclick="window.addToWatchLater('${
-    video.id
-  }', event)" title="Save to Watch Later">
-    <i class="fas fa-clock"></i>
-  </button>
-  <button class="btn-icon save-video" onclick="window.addToPlaylist('${
-    video.id
-  }', event)" title="Save to Playlist">
-    <i class="fas fa-bookmark"></i>
-  </button>
-  <button class="btn-icon" onclick="window.toggleComments('${
-    video.id
-  }', event)" title="Show Comments">
-    <i class="fas fa-comment"></i>
-    <span class="comment-count">${stats.commentCount || 0}</span>
-  </button>
-</div>
+          <button class="btn-icon save-video" onclick="window.addToWatchLater('${
+            video.id
+          }', event)" title="Save to Watch Later">
+            <i class="fas fa-clock"></i>
+          </button>
+          <button class="btn-icon save-video" onclick="window.addToPlaylist('${
+            video.id
+          }', event)" title="Save to Playlist">
+            <i class="fas fa-bookmark"></i>
+          </button>
+          <button class="btn-icon" onclick="window.toggleComments('${
+            video.id
+          }', event)" title="Show Comments">
+            <i class="fas fa-comment"></i>
+            <span class="comment-count">${stats.commentCount || 0}</span>
+          </button>
+        </div>
       </div>
 
       <div class="video-meta">
@@ -1693,21 +2546,32 @@
         <button onclick="window.postComment('${
           video.id
         }', document.getElementById('comment-input-${
-          video.id
-        }').value, event)" class="btn-comment">
+    video.id
+  }').value, event)" class="btn-comment">
           Post Comment
         </button>
       </div>
     </div>
   `;
 
-        // Setup comment handlers after DOM elements are created
-        setTimeout(() => {
-          setupCommentHandlers(video.id);
-        }, 0);
+  // Setup comment handlers after DOM elements are created
+  setTimeout(() => {
+    setupCommentHandlers(video.id);
+  }, 0);
 
-        return card;
-      }
+  return card;
+}
+
+function addCategoryOptions(videoCard, video) {
+  const categorySection = document.createElement('div');
+  categorySection.className = 'user-categories';
+  categorySection.innerHTML = `
+    <button class="btn-icon edit-categories" onclick="window.editCategories('${video.id}', event)">
+      <i class="fas fa-tags"></i>
+    </button>
+  `;
+  videoCard.querySelector('.video-info').appendChild(categorySection);
+}
 
       // Add this function to your code
 function formatTimeAgo(timestamp) {
@@ -1743,29 +2607,26 @@ function formatTimeAgo(timestamp) {
     return `${yearsAgo} year${yearsAgo === 1 ? '' : 's'} ago`;
 }
 
-      function formatDuration(duration) {
-        if (!duration) return '';
+function formatDuration(duration) {
+  if (!duration) return '';
+  
+  // If already in MM:SS or HH:MM:SS format, return as is
+  if (duration.includes(':')) return duration;
+  
+  // Handle ISO format
+  const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!match) return '';
 
-        const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-        if (!match) return '';
+  const hours = parseInt(match[1] || '0');
+  const minutes = parseInt(match[2] || '0');
+  const seconds = parseInt(match[3] || '0');
 
-        const hours = (match[1] || '0H').slice(0, -1);
-        const minutes = (match[2] || '0M').slice(0, -1);
-        const seconds = (match[3] || '0S').slice(0, -1);
-
-        let formattedDuration = '';
-
-        if (hours !== '0') {
-          formattedDuration += `${hours}:`;
-        }
-
-        formattedDuration += `${minutes.padStart(2, '0')}:${seconds.padStart(
-          2,
-          '0'
-        )}`;
-
-        return formattedDuration;
-      }
+  if (hours > 0) {
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  } else {
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }
+}
 
       function validateVideo(video) {
         // Ensure all required fields exist
@@ -1869,6 +2730,111 @@ function formatTimeAgo(timestamp) {
     }
 };
 
+window.editCategories = async function(videoId, event) {
+  event.stopPropagation();
+  const user = auth.currentUser;
+  if (!user) {
+    alert('Please log in to categorize videos');
+    return;
+  }
+
+  const video = currentVideos.find(v => v.id === videoId);
+  if (!video) return;
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>Categorize Video</h3>
+      <div class="category-form">
+        <div class="form-group">
+          <label>Category:</label>
+          <select id="user-category">
+            <option value="tips" ${video.category === 'tips' ? 'selected' : ''}>Tips & Strategies</option>
+            <option value="education" ${video.category === 'education' ? 'selected' : ''}>Education</option>
+            <option value="motivation" ${video.category === 'motivation' ? 'selected' : ''}>Motivation</option>
+            <option value="lifestyle" ${video.category === 'lifestyle' ? 'selected' : ''}>Lifestyle</option>
+            <option value="medication" ${video.category === 'medication' ? 'selected' : ''}>Medication</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ADHD Type:</label>
+          <select id="user-type">
+            <option value="all" ${video.type === 'all' ? 'selected' : ''}>All Types</option>
+            <option value="inattentive" ${video.type === 'inattentive' ? 'selected' : ''}>Inattentive</option>
+            <option value="hyperactive" ${video.type === 'hyperactive' ? 'selected' : ''}>Hyperactive</option>
+            <option value="combined" ${video.type === 'combined' ? 'selected' : ''}>Combined</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Age Group:</label>
+          <select id="user-age">
+            <option value="all" ${video.ageGroup === 'all' ? 'selected' : ''}>All Ages</option>
+            <option value="children" ${video.ageGroup === 'children' ? 'selected' : ''}>Children</option>
+            <option value="teenagers" ${video.ageGroup === 'teenagers' ? 'selected' : ''}>Teenagers</option>
+            <option value="adults" ${video.ageGroup === 'adults' ? 'selected' : ''}>Adults</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" onclick="window.saveCategories('${videoId}')">Save</button>
+        <button class="btn" onclick="this.closest('.modal').remove()">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+};
+
+window.saveCategories = async function(videoId) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const category = document.getElementById('user-category').value;
+  const type = document.getElementById('user-type').value;
+  const ageGroup = document.getElementById('user-age').value;
+
+  try {
+    // Save user's categorization
+    await set(ref(database, `videoCategorizations/${videoId}/${user.uid}`), {
+      category,
+      type,
+      ageGroup,
+      timestamp: new Date().toISOString()
+    });
+
+    // Update video in database with community-voted categories
+    const categorizationsRef = ref(database, `videoCategorizations/${videoId}`);
+    const snapshot = await get(categorizationsRef);
+    
+    if (snapshot.exists()) {
+      const categorizations = Object.values(snapshot.val());
+      
+      // Calculate most common values
+      const mostCommonCategory = getMostCommonValue(categorizations.map(c => c.category));
+      const mostCommonType = getMostCommonValue(categorizations.map(c => c.type));
+      const mostCommonAge = getMostCommonValue(categorizations.map(c => c.ageGroup));
+
+      // Update video categories
+      await set(ref(database, `videos/${videoId}/communityCategories`), {
+        category: mostCommonCategory,
+        type: mostCommonType,
+        ageGroup: mostCommonAge,
+        votes: categorizations.length
+      });
+    }
+
+    // Remove modal and show success message
+    document.querySelector('.modal').remove();
+    showNotification('Categories updated successfully');
+    
+    // Refresh the video display
+    await loadVideos();
+  } catch (error) {
+    console.error('Error saving categories:', error);
+    alert('Error saving categories. Please try again.');
+  }
+};
+
 // Modify the rating function as well
 window.rateVideo = async function(videoId, rating, event) {
     event.stopPropagation();
@@ -1922,7 +2888,15 @@ window.rateVideo = async function(videoId, rating, event) {
     }
 };
 
-
+function getMostCommonValue(arr) {
+  const counts = arr.reduce((acc, val) => {
+    acc[val] = (acc[val] || 0) + 1;
+    return acc;
+  }, {});
+  
+  return Object.entries(counts)
+    .sort(([,a], [,b]) => b - a)[0][0];
+}
 
       async function loadComments(videoId) {
         const commentsContainer = document.querySelector(
@@ -2081,6 +3055,61 @@ window.rateVideo = async function(videoId, rating, event) {
     }
 };
 
+async function fetchVideoDurations(videoIds) {
+  if (!videoIds || videoIds.length === 0) {
+    console.warn('No video IDs provided for fetching durations');
+    return {};
+  }
+
+  // YouTube API has a limit of 50 videos per request
+  const chunks = [];
+  for (let i = 0; i < videoIds.length; i += 50) {
+    chunks.push(videoIds.slice(i, i + 50));
+  }
+
+  const durations = {};
+  const apiKey = 'AIzaSyAoXITyBKjS9vcfTZDCGRRCfvDojJXorsg';
+
+  try {
+    // Process each chunk of video IDs
+    for (const chunk of chunks) {
+      const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${chunk.join(',')}&key=${apiKey}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.error) {
+        console.error('YouTube API error:', data.error);
+        continue;
+      }
+
+      if (!data.items) {
+        console.warn('No items found in response:', data);
+        continue;
+      }
+
+      // Process each video in the chunk
+      data.items.forEach(item => {
+        if (item.contentDetails && item.contentDetails.duration) {
+          durations[item.id] = formatDuration(item.contentDetails.duration);
+        }
+      });
+    }
+
+    return durations;
+  } catch (error) {
+    console.error('Error fetching video durations:', error);
+    return {};
+  }
+}
+
+
+
+
       // Add this to the loadVideos function to load existing ratings
       async function loadVideoRatings(videoId) {
         try {
@@ -2114,38 +3143,52 @@ window.rateVideo = async function(videoId, rating, event) {
       }
 
       async function loadVideos() {
-        console.log('Loading videos from database...');
-        const videoRef = ref(database, 'videos');
+  console.log('Loading videos from database...');
+  const videoRef = ref(database, 'videos');
 
-        try {
-          const snapshot = await get(videoRef);
-          if (snapshot.exists()) {
-            // Convert the snapshot to an array and validate each video
-            currentVideos = Object.values(snapshot.val())
-              .map((video) => validateVideo(video))
-              .filter(Boolean); // Remove any invalid videos
+  try {
+    const snapshot = await get(videoRef);
+    if (snapshot.exists()) {
+      // Get valid videos
+      currentVideos = Object.values(snapshot.val())
+        .map(video => validateVideo(video))
+        .filter(Boolean);
 
-            // Sort by newest first using publishedAt
-            currentVideos.sort((a, b) => {
-              return (
-                new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0)
-              );
-            });
+      // Get unique video IDs
+      const videoIds = [...new Set(currentVideos.map(video => video.id))];
+      console.log(`Fetching durations for ${videoIds.length} videos...`);
 
-            filteredVideos = [...currentVideos];
-            displayVideos();
-            console.log(`Loaded ${currentVideos.length} videos from database`);
-          } else {
-            console.log('No videos found in database');
-            document.getElementById('video-grid').innerHTML =
-              '<p>No videos available. Please try again later.</p>';
-          }
-        } catch (error) {
-          console.error('Error loading videos:', error);
-          document.getElementById('video-grid').innerHTML =
-            '<p>Error loading videos. Please try again later.</p>';
-        }
-      }
+      // Fetch durations
+      const durations = await fetchVideoDurations(videoIds);
+      console.log('Durations fetched:', Object.keys(durations).length);
+
+      // Assign durations to videos
+      currentVideos = currentVideos.map(video => ({
+        ...video,
+        duration: durations[video.id] || ''
+      }));
+
+      // Sort by newest first
+      currentVideos.sort((a, b) => {
+        return new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0);
+      });
+
+      filteredVideos = [...currentVideos];
+      displayVideos();
+      console.log(`Successfully loaded ${currentVideos.length} videos`);
+    } else {
+      console.log('No videos found in database');
+      document.getElementById('video-grid').innerHTML = 
+        '<p>No videos available. Please try refreshing the page.</p>';
+    }
+  } catch (error) {
+    console.error('Error loading videos:', error);
+    document.getElementById('video-grid').innerHTML = 
+      '<p>Error loading videos. Please try refreshing the page.</p>';
+  }
+}
+
+
 
       // Add this with your other initialization code
       function initializeViewToggle() {
@@ -2212,153 +3255,63 @@ window.rateVideo = async function(videoId, rating, event) {
 
       // Filter functionality
       function applyFilters() {
-        // Get all filter values
-        const filters = {
-          category: document.getElementById('category-filter').value,
-          type: document.getElementById('type-filter').value,
-          ageGroup: document.getElementById('age-filter').value,
-          duration: document.getElementById('duration-filter').value,
-          search: document.getElementById('search-input').value.toLowerCase(),
-        };
+  console.log('Applying filters...');
+  
+  const filters = {
+    category: document.getElementById('category-filter').value,
+    type: document.getElementById('type-filter').value,
+    ageGroup: document.getElementById('age-filter').value,
+    duration: document.getElementById('duration-filter').value,
+    search: document.getElementById('search-input').value.toLowerCase(),
+  };
 
-        // Save filter preferences for logged-in user
-        if (auth.currentUser) {
-          set(
-            ref(database, `users/${auth.currentUser.uid}/filterPreferences`),
-            filters
-          );
-        }
+  console.log('Current filters:', filters);
+  filteredVideos = currentVideos.filter((video) => {
+    let matches = true;
 
-        // Apply filters to videos
-        filteredVideos = currentVideos.filter((video) => {
-          // Category filter
-          if (filters.category && video.category !== filters.category) {
-            return false;
-          }
+    // Category filter
+    if (filters.category) {
+      const videoCategory = getVideoCategory(video, 'category');
+      matches = videoCategory === filters.category;
+    }
 
-          // ADHD Type filter
-          if (
-            filters.type &&
-            video.type !== filters.type &&
-            video.type !== 'all'
-          ) {
-            return false;
-          }
+    // ADHD Type filter
+    if (matches && filters.type) {
+      const videoType = getVideoCategory(video, 'type');
+      matches = videoType === filters.type || videoType === 'all';
+    }
 
-          // Age group filter
-          if (
-            filters.ageGroup &&
-            video.ageGroup !== filters.ageGroup &&
-            video.ageGroup !== 'all'
-          ) {
-            return false;
-          }
+    // Age group filter
+    if (matches && filters.ageGroup) {
+      const videoAge = getVideoCategory(video, 'ageGroup');
+      matches = videoAge === filters.ageGroup || videoAge === 'all';
+    }
 
-          // Duration filter
-          if (filters.duration && video.duration) {
-            const videoDuration = determineDuration(video.duration);
-            if (videoDuration !== filters.duration) {
-              return false;
-            }
-          }
+    // Duration filter
+    if (matches && filters.duration && video.duration) {
+      const durationCategory = determineDuration(video.duration);
+      matches = durationCategory === filters.duration;
+    }
 
-          // Search text filter
-          if (filters.search) {
-            const searchableContent = [
-              video.title,
-              video.description,
-              ...(video.tags || []),
-              video.channelTitle,
-            ].map((item) => (item || '').toLowerCase());
+    // Search text filter
+    if (matches && filters.search) {
+      const searchableContent = [
+        video.title || '',
+        video.description || '',
+        ...(video.tags || []),
+        video.channelTitle || '',
+      ].map(item => item.toLowerCase());
 
-            // Check if any content contains the search term
-            return searchableContent.some((content) =>
-              content.includes(filters.search)
-            );
-          }
+      matches = searchableContent.some(content => content.includes(filters.search));
+    }
 
-          return true;
-        });
+    return matches;
+  });
 
-        // Sort results by relevance if searching
-        if (filters.search) {
-          filteredVideos.sort((a, b) => {
-            const aTitle = a.title.toLowerCase();
-            const bTitle = b.title.toLowerCase();
-            const searchTerm = filters.search;
-
-            // Exact title matches first
-            if (aTitle === searchTerm && bTitle !== searchTerm) return -1;
-            if (bTitle === searchTerm && aTitle !== searchTerm) return 1;
-
-            // Title contains search term next
-            const aTitleContains = aTitle.includes(searchTerm);
-            const bTitleContains = bTitle.includes(searchTerm);
-            if (aTitleContains && !bTitleContains) return -1;
-            if (bTitleContains && !aTitleContains) return 1;
-
-            // Description contains search term next
-            const aDescContains = a.description
-              .toLowerCase()
-              .includes(searchTerm);
-            const bDescContains = b.description
-              .toLowerCase()
-              .includes(searchTerm);
-            if (aDescContains && !bDescContains) return -1;
-            if (bDescContains && !aDescContains) return 1;
-
-            // Finally sort by date
-            return new Date(b.publishedAt) - new Date(a.publishedAt);
-          });
-        } else {
-          // If not searching, sort by newest first
-          filteredVideos.sort(
-            (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
-          );
-        }
-
-        // Reset displayed videos count and update display
-        displayedVideos = 12;
-        displayVideos();
-
-        // Log filter results for debugging
-        console.log(`Filtered videos: ${filteredVideos.length} results`);
-      }
-
-      async function loadFilterPreferences() {
-        if (!auth.currentUser) return;
-
-        try {
-          const preferencesRef = ref(
-            database,
-            `users/${auth.currentUser.uid}/filterPreferences`
-          );
-          const snapshot = await get(preferencesRef);
-
-          if (snapshot.exists()) {
-            const preferences = snapshot.val();
-
-            // Apply saved preferences to filter inputs
-            document.getElementById('category-filter').value =
-              preferences.category || '';
-            document.getElementById('type-filter').value =
-              preferences.type || '';
-            document.getElementById('age-filter').value =
-              preferences.ageGroup || '';
-            document.getElementById('duration-filter').value =
-              preferences.duration || '';
-            document.getElementById('search-input').value =
-              preferences.search || '';
-
-            // Apply filters if any were saved
-            if (Object.values(preferences).some((value) => value)) {
-              applyFilters();
-            }
-          }
-        } catch (error) {
-          console.error('Error loading filter preferences:', error);
-        }
-      }
+  // Reset displayed videos count and update display
+  displayedVideos = 12;
+  displayVideos();
+}
 
       function clearFilters() {
         const filterInputs = [
@@ -2413,14 +3366,6 @@ window.rateVideo = async function(videoId, rating, event) {
         const seconds = parseInt(match[3] || '0');
 
         return hours * 60 + minutes + seconds / 60;
-      }
-
-      function determineDuration(duration) {
-        const minutes = parseDuration(duration);
-        if (minutes === 0) return null;
-        if (minutes < 5) return 'short';
-        if (minutes < 15) return 'medium';
-        return 'long';
       }
 
       // Add to your global window functions
@@ -2712,37 +3657,69 @@ async function loadRecentActivity(user) {
   }
 }
 
-      // Event Listeners
-      document
-        .getElementById('apply-filters')
-        .addEventListener('click', applyFilters);
-      document
-        .getElementById('search-input')
-        .addEventListener('input', applyFilters);
-      document
-        .getElementById('refresh-videos')
-        .addEventListener('click', refreshVideos);
-      document.getElementById('load-more').addEventListener('click', () => {
-        displayedVideos += 12;
-        displayVideos();
-      });
-      document.getElementById('sign-out-btn').addEventListener('click', () => {
-    getAuth().signOut();
+function setupFilterHandlers() {
+  console.log('Setting up filter handlers');
+  
+  // Only set up the Apply Filters button handler
+  const applyFiltersBtn = document.getElementById('apply-filters');
+  if (applyFiltersBtn) {
+    applyFiltersBtn.addEventListener('click', () => {
+      console.log('Apply Filters button clicked');
+      applyFilters();
     });
+  } else {
+    console.error('Apply filters button not found');
+  }
 
-      // Initialize
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          loadVideos().then(() => {
-            loadFilterPreferences();
-          });
-          initializeViewToggle();
-          initializeThemeToggle();
-          initializeProfile(user);
-        } else {
-          window.location.href = 'login.html';
-        }
-      });
+  // Remove automatic filter triggers from inputs
+  const filterInputs = [
+    'category-filter',
+    'type-filter',
+    'age-filter',
+    'duration-filter',
+    'search-input'
+  ];
+
+  // Clear all other event listeners by cloning and replacing elements
+  filterInputs.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      const clone = element.cloneNode(true);
+      element.parentNode.replaceChild(clone, element);
+    }
+  });
+
+  // Special handling for search input with debounce
+  const searchInput = document.getElementById('search-input');
+  if (searchInput) {
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        console.log('Search input changed');
+        applyFilters();
+      }, 300);
+    });
+  }
+}
+
+// Call this in your initialization code instead of the DOMContentLoaded event
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    loadVideos().then(() => {
+      loadFilterPreferences();
+      setupFilterHandlers(); // Make sure this is called after loading
+    });
+    initializeViewToggle();
+    initializeThemeToggle();
+    initializeProfile(user);
+  } else {
+    window.location.href = 'login.html';
+  }
+});
+
+// Remove any existing event listeners
+document.removeEventListener('DOMContentLoaded', setupFilterHandlers);
     </script>
   </body>
 </html>

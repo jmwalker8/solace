@@ -100,14 +100,14 @@ auth.onAuthStateChanged((user) => {
             }
           })
           .then(() => {
-            window.location.href = '../logged.html';
+            window.location.href = 'community-exploration.html';
           })
           .catch((error) => {
             console.error('Error setting user data:', error);
             statusMessage.textContent = 'Error occurred. Please try again.';
           });
       } else {
-        window.location.href = '../logged.html';
+        window.location.href = 'community-exploration.html';
       }
     }
   } else {

@@ -1,16 +1,16 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
   sendEmailVerification,
-} from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import {
   getDatabase,
   ref,
   get,
-} from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js';
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI',
@@ -47,10 +47,20 @@ function clearErrorMessage() {
 errorCloseButton.addEventListener('click', clearErrorMessage);
 
 function checkUsernameAvailability(username) {
-  return get(ref(database, 'usernames/' + username)).then(
-    (snapshot) => !snapshot.exists()
-  );
+  console.log('Checking username availability for:', username);
+  const usernameRef = ref(database, 'usernames/' + username);
+
+  return get(usernameRef)
+    .then((snapshot) => {
+      console.log('Snapshot exists:', snapshot.exists());
+      return !snapshot.exists(); // Returns true if username is available
+    })
+    .catch((error) => {
+      console.error('Error checking username availability:', error);
+      throw error; // Bubble up the error
+    });
 }
+
 
 signUp.addEventListener('click', (e) => {
   e.preventDefault();

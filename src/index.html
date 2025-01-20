@@ -15,6 +15,8 @@
     
     <!-- Animation Libraries -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <style>
         :root {
@@ -252,6 +254,8 @@
 
 
 
+
+
         .hero {
     min-height: 100vh;
     position: relative;
@@ -325,17 +329,69 @@
     z-index: 1;
 }
 
+/* General Carousel Styling */
 .creators-carousel {
   align-items: center;
   background: #E3E3E3;
   display: flex;
   height: auto;
   justify-content: center;
+  padding: 20px 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-/* Gradient Background */
-.white-gradient {
-  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+.slider {
+  background: white;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: auto;
+}
+
+.slide-track {
+  animation: scroll 60s linear infinite;
+  display: flex;
+  width: calc(250px * 16); /* Adjust to match the number of slides */
+}
+
+.slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 500px;
+  padding: 10px;
+}
+
+.testimonial {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 0 10px rgba(131, 58, 180, 0.2); /* Added glow effect */
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+.testimonial-text {
+  font-size: 16px;
+  color: #555;
+  margin: 10px 0;
+}
+
+.testimonial-name {
+  font-weight: bold;
+  color: #333;
+  margin-top: 5px;
 }
 
 /* Animation */
@@ -344,50 +400,10 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-250px * 15)); /* Scroll one full set of slides */
+    transform: translateX(calc(-250px * 16)); /* Adjust based on the number of slides */
   }
 }
 
-.slider {
-  background: white;
-  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
-  height: auto;
-  margin: auto;
-  overflow: hidden;
-  position: relative;
-  width: auto;
-}
-
-.slider::before,
-.slider::after {
-  content: "";
-  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
-  height: 100px;
-  position: absolute;
-  width: 200px;
-  z-index: 2;
-}
-
-.slider::before {
-  left: 0;
-  top: 0;
-}
-
-.slider::after {
-  right: 0;
-  top: 0;
-  transform: rotateZ(180deg);
-}
-.slide-track {
-  animation: scroll 35s linear infinite;
-  display: flex;
-  width: calc(250px * 30); /* Double the slides to ensure seamless scrolling */
-}
-
-.slide {
-  height: 100px;
-  width: 250px;
-}
 
 
 
@@ -456,6 +472,7 @@
     gap: 0.5rem;
     font-weight: 500;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .primary-button:hover {
@@ -466,19 +483,44 @@
 .ghost-button {
     background: rgba(124, 58, 237, 0.1);
     color: var(--primary);
-    padding: 1rem 2rem;
+    padding: 1rem 2.5rem 1rem 1.5rem; /* Adjusted left and right padding */
     border-radius: 12px;
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    align-items: center; /* Vertically align text and icons */
+    justify-content: space-between; /* Ensure even spacing between text and icon */
+    gap: 1rem; /* Space between text and icon */
     font-weight: 500;
     transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+}
+
+#fas-pause,
+#fas-play {
+    opacity: 0; /* Start with both icons hidden */
+    transition: opacity 0.3s ease;
+    right: 1.2rem;
+    position: absolute;
+}
+
+#fas-play {
+    opacity: 1; /* Visible by default */
+}
+
+.ghost-button:hover #fas-pause {
+    opacity: 1; /* Show the pause icon on hover */
+}
+
+.ghost-button:hover #fas-play {
+    opacity: 0; /* Hide the play icon on hover */
 }
 
 .ghost-button:hover {
     background: rgba(124, 58, 237, 0.15);
     transform: translateY(-2px);
 }
+
+
 
 .hero-stats {
     display: flex;
@@ -693,8 +735,32 @@
             box-shadow: var(--shadow-lg);
         }
 
+        .hours-stat-number {
+          font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
         .stat-number {
             font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .user-stat-number {
+          font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .video-stat-number {
+          font-family: var(--font-display);
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--primary);
@@ -890,6 +956,11 @@
             background: var(--gray-200);
         }
 
+        #apply-filter-tag {
+          background-color: var(--primary);
+          color: white;
+        }
+
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -977,6 +1048,10 @@
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
             color: var(--gray-700);
+        }
+
+        #bookmark_highlighted {
+          color: var(--primary)
         }
 
         .video-tags {
@@ -1184,12 +1259,10 @@
     font-size: 0.9rem;
 }
 
-#badge1 i{
-  color: rgb(0, 255, 0);
-}
-
-#badge2 i{
-  color: rgb(255, 0, 255);
+.stat-plus {
+  font-size: 1.5rem;
+  color: #555;
+  margin-left: 2px;
 }
 
 @media (max-width: 768px) {
@@ -1286,33 +1359,35 @@
     </div>
   
       <div class="hero-content">
-          <div class="hero-text" data-aos="fade-up">
-              <div class="announcement-badge" data-aos="fade-right" data-aos-delay="200">
-                  <span class="pulse"></span>
-                  <span>✨ New: Enhanced Video Library Experience</span>
-              </div>
-              
-              <h1 class="hero-heading" data-aos="fade-up" data-aos-delay="300">
-                  Curated ADHD
-                  <span class="gradient-text">Resources</span>
-                  <br />
-                  All in One Place
-              </h1>
-  
-              <p class="hero-subheading" data-aos="fade-up" data-aos-delay="400">
-                  Access an expansive collection of educational videos and resources designed to support your ADHD journey. Stay organized, learn effectively, and grow confidently.
-              </p>
-  
-              <div class="hero-cta" data-aos="fade-up" data-aos-delay="500">
-                  <a href="register.html" class="primary-button">
-                      <span>Get Started</span>
-                      <i class="fas fa-arrow-right"></i>
-                  </a>
-                  <a href="#preview" class="ghost-button">
-                      <span>See Library</span>
-                      <i class="fas fa-play"></i>
-                  </a>
-              </div>
+        <div class="hero-text" data-aos="fade-up">
+          <div class="announcement-badge" data-aos="fade-right" data-aos-delay="200">
+              <span class="pulse"></span>
+              <span>✨ New: Enhanced Video Library Experience</span>
+          </div>
+          
+          <h1 class="hero-heading" data-aos="fade-up" data-aos-delay="300">
+              Curated ADHD
+              <span class="gradient-text">Resources</span>
+              <br />
+              All in One <span id="text-place">Place</span>
+          </h1>
+
+          <p class="hero-subheading" data-aos="fade-up" data-aos-delay="400">
+              Access a handpicked collection of educational videos and resources designed to support your ADHD journey. Stay organized, learn effectively, and grow confidently.
+          </p>
+
+          <div class="hero-cta" data-aos="fade-up" data-aos-delay="500">
+              <a href="register.html" class="primary-button">
+                  <span>Get Started</span>
+                  <i class="fas fa-arrow-right"></i>
+              </a>
+              <a href="#preview" class="ghost-button">
+                <span id="ghost-button-text">See Library</span> <!-- Button Text -->
+                <i id="fas-play" class="fas fa-play"></i> <!-- Play Icon -->
+                <i id="fas-pause" class="fas fa-pause"></i> <!-- Pause Icon -->
+              </a>
+          </div>
+
   
   
           <div class="hero-visual" data-aos="fade-up" data-aos-delay="400">
@@ -1325,55 +1400,6 @@
       </div>
   </section>
 
-  <section class="creators-carousel">
-    <div class="slider">
-      <div class="slide-track">
-        <div class="slide">
-          <img src="/solace/src/assets/how-to-adhd-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/attitude.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/russell-a-barkley-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/rick-has-adhd-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/dr-legrand-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/dr-tracey-marks-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/stacey-machelle-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/how-to-adhd-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/attitude.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/russell-a-barkley-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/rick-has-adhd-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/dr-legrand-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/dr-tracey-marks-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-        <div class="slide">
-          <img src="/solace/src/assets/stacey-machelle-removebg-preview.png" height="100" width="100" alt="" />
-        </div>
-      </div>
-    </div>
-</section>
-
      <!-- About Section -->
      <section class="about" id="about">
       <div class="about-container">
@@ -1385,22 +1411,22 @@
                       Our video library brings together the best ADHD educational content, making it easy to find reliable information and practical strategies. Every video is carefully reviewed and organized to ensure you can find exactly what you need.
                   </p>
               </div>
-              <div class="stats-grid" data-aos="fade-left">
+              <div class="stats-grid">
                   <div class="stat-card">
-                      <div class="stat-number" data-target="400">0</div>
+                      <div class="video-stat-number" data-aos="zoom-in">0 </div>
                       <div class="stat-label">Curated Videos</div>
                   </div>
-                  <div class="stat-card">
-                      <div class="stat-number" data-target="5000">0</div>
-                      <div class="stat-label">Active Users</div>
+                  <div class="stat-card" >
+                    <div class="user-stat-number" data-aos="zoom-in">0</div>
+                    <div class="stat-label">Active Users</div>
                   </div>
-                  <div class="stat-card">
-                      <div class="stat-number" data-target="12">0</div>
+                  <div class="stat-card" >
+                      <div class="stat-number" data-target="12" data-aos="zoom-in">0</div>
                       <div class="stat-label">Categories</div>
                   </div>
                   <div class="stat-card">
-                      <div class="stat-number" data-target="24">0</div>
-                      <div class="stat-label">Hours of Content</div>
+                    <div class="hours-stat-number" data-aos="zoom-in">0</div>
+                    <div class="stat-label">Estimated Hours of Content</div>
                   </div>
               </div>
           </div>
@@ -1478,6 +1504,81 @@
       </div>
   </section>
 
+  <section class="creators-carousel">
+    <div class="slider">
+      <div class="slide-track">
+        <!-- Testimonial 1 -->
+        <div class="slide">
+          <div class="testimonial">
+            <img src="/solace/src/assets/manager.png" alt="Sarah Avatar" class="avatar" />
+            <p class="testimonial-text">"Solace has been life-changing! The curated content is exactly what I needed to better understand ADHD."</p>
+            <p class="testimonial-name">- Sarah W.</p>
+          </div>
+        </div>
+        <!-- Testimonial 2 -->
+        <div class="slide">
+          <div class="testimonial">
+            <img src="/solace/src/assets/man.png" alt="James Avatar" class="avatar" />
+            <p class="testimonial-text">"The videos on this platform helped me implement practical strategies that actually work."</p>
+            <p class="testimonial-name">- James P.</p>
+          </div>
+        </div>
+        <!-- Testimonial 3 -->
+        <div class="slide">
+          <div class="testimonial">
+            <img src="/solace/src/assets/user.png" alt="Emily Avatar" class="avatar" />
+            <p class="testimonial-text">"Finally, a place where I can find reliable ADHD information all in one place!"</p>
+            <p class="testimonial-name">- Anonymous.</p>
+          </div>
+        </div>
+        <!-- Testimonial 4 -->
+        <div class="slide">
+          <div class="testimonial">
+            <img src="/solace/src/assets/person.png" alt="Mark Avatar" class="avatar" />
+            <p class="testimonial-text">"The content is so well-organized and informative. It’s a must-have for anyone navigating ADHD."</p>
+            <p class="testimonial-name">- Mark L.</p>
+          </div>
+        </div>
+       <!-- Testimonial 5 -->
+<div class="slide">
+  <div class="testimonial">
+    <img src="/solace/src/assets/waitress.png" alt="Rachel Avatar" class="avatar" />
+    <p class="testimonial-text">"This platform is a treasure trove of ADHD knowledge. It’s been a game-changer for me and my family."</p>
+    <p class="testimonial-name">- Rachel T.</p>
+  </div>
+</div>
+<!-- Testimonial 6 -->
+<div class="slide">
+  <div class="testimonial">
+    <img src="/solace/src/assets/boy.png" alt="Mike Avatar" class="avatar" />
+    <p class="testimonial-text">"I finally feel understood and supported. The curated videos made such a difference in my ADHD journey."</p>
+    <p class="testimonial-name">- Mike H.</p>
+  </div>
+</div>
+<!-- Testimonial 7 -->
+<div class="slide">
+  <div class="testimonial">
+    <img src="/solace/src/assets/grandmother.png" alt="Anna Avatar" class="avatar" />
+    <p class="testimonial-text">"The insights I’ve gained here have empowered me to thrive at work and at home. Thank you, Solace!"</p>
+    <p class="testimonial-name">- Anna K.</p>
+  </div>
+</div>
+<!-- Testimonial 8 -->
+<div class="slide">
+  <div class="testimonial">
+    <img src="/solace/src/assets/grandfather.png" alt="Tom Avatar" class="avatar" />
+    <p class="testimonial-text">"I’ve recommended Solace to everyone I know who struggles with ADHD. The content is top-notch!"</p>
+    <p class="testimonial-name">- Tom R.</p>
+  </div>
+</div>
+
+
+
+      </div>
+    </div>
+  </section>
+  
+
   <section class="library-preview" id="preview">
     <div class="library-container">
         <div class="section-header" data-aos="fade-up">
@@ -1497,22 +1598,24 @@
                 <div class="filter-tags">
                     <span class="filter-tag">All Categories <i class="fas fa-chevron-down"></i></span>
                     <span class="filter-tag">Duration <i class="fas fa-chevron-down"></i></span>
-                    <span class="filter-tag">Rating <i class="fas fa-chevron-down"></i></span>
+                    <span class="filter-tag">Ages <i class="fas fa-chevron-down"></i></span>
+                    <span class="filter-tag" id="apply-filter-tag" >Apply Filters</span>
                 </div>
             </div>
 
             <div class="video-grid">
                 <div class="video-card">
                     <div class="video-thumbnail">
-                        <img src="/api/placeholder/300/200" alt="Video thumbnail">
+                        <img src="/solace/src/assets/thumbnail-1.jpg" alt="Video thumbnail">
                         <span class="video-duration">10:45</span>
                     </div>
                     <div class="video-info">
-                        <h3>Understanding ADHD Basics</h3>
+                        <h3>Understanding ADHD</h3>
                         <div class="video-meta">
-                            <span><i class="fas fa-star"></i> 4.8</span>
-                            <span><i class="fas fa-eye"></i> 12.5K</span>
-                        </div>
+                          <span><i class="fas fa-star"></i> 4.9</span>
+                         <span id="bookmark_highlighted"><i class="fas fa-bookmark"></i></span>
+                         <span>1 <i class="fas fa-comment"></i></span>
+                      </div>
                         <div class="video-tags">
                             <span class="tag">Education</span>
                             <span class="tag">Beginner</span>
@@ -1522,14 +1625,15 @@
 
                 <div class="video-card">
                     <div class="video-thumbnail">
-                        <img src="/api/placeholder/300/200" alt="Video thumbnail">
+                        <img src="/solace/src/assets/thumbnail-2.jpg" alt="Video thumbnail">
                         <span class="video-duration">15:20</span>
                     </div>
                     <div class="video-info">
-                        <h3>ADHD Management Strategies</h3>
+                        <h3>Time Management Strategies for ADHD</h3>
                         <div class="video-meta">
                             <span><i class="fas fa-star"></i> 4.9</span>
-                            <span><i class="fas fa-eye"></i> 8.2K</span>
+                           <span><i class="fas fa-bookmark"></i></span>
+                           <span><i class="fas fa-comment"></i></span>
                         </div>
                         <div class="video-tags">
                             <span class="tag">Strategies</span>
@@ -1540,17 +1644,18 @@
 
                 <div class="video-card">
                     <div class="video-thumbnail">
-                        <img src="/api/placeholder/300/200" alt="Video thumbnail">
+                        <img src="/solace/src/assets/thumbnail-3.jpg" alt="Video thumbnail">
                         <span class="video-duration">8:15</span>
                     </div>
                     <div class="video-info">
-                        <h3>Focus Techniques</h3>
+                        <h3>What is ADHD?</h3>
                         <div class="video-meta">
-                            <span><i class="fas fa-star"></i> 4.7</span>
-                            <span><i class="fas fa-eye"></i> 15.3K</span>
-                        </div>
+                          <span><i class="fas fa-star"></i> 4.9</span>
+                         <span><i class="fas fa-bookmark"></i></span>
+                         <span>2 <i class="fas fa-comment"></i></span>
+                      </div>
                         <div class="video-tags">
-                            <span class="tag">Focus</span>
+                            <span class="tag">Education</span>
                             <span class="tag">Practical</span>
                         </div>
                     </div>
@@ -1660,7 +1765,7 @@
           </div>
       </div>
       <div class="footer-bottom">
-          <p>&copy; 2024 Solace. All rights reserved.</p>
+          <p>&copy; 2025 Solace. All rights reserved.</p>
           <div class="footer-badges">
               <span class="badge"><i class="fas fa-shield-alt"></i> Secure</span>
               <span class="badge"><i class="fas fa-heart"></i> Made with care</span>
@@ -1670,95 +1775,183 @@
   </div>
 </footer>
 
-    <!-- AOS Init -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="module">
 
-    <script>
-
+// Initialize AOS library
 AOS.init({
-            duration: 1000,
-            once: true
-        });
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-        // Animated number counting
-        const stats = document.querySelectorAll('.stat-number');
-
-        
-        
-        const animateNumber = (element) => {
-            const target = parseInt(element.getAttribute('data-target'));
-            const duration = 2000; // 2 seconds
-            const increment = target / (duration / 16); // 60fps
-            let current = 0;
-
-            const updateNumber = () => {
-                if (current < target) {
-                    current += increment;
-                    element.textContent = Math.round(current);
-                    requestAnimationFrame(updateNumber);
-                } else {
-                    element.textContent = target;
-                }
-            };
-
-            updateNumber();
-        };
-
-        // Intersection Observer for stats
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateNumber(entry.target);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        stats.forEach(stat => observer.observe(stat));
-
-        stats.forEach(stat => observer.observe(stat));
-
-        const faqItems = document.querySelectorAll('.faq-item');
-
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            
-            question.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                
-                // Close all items
-                faqItems.forEach(faqItem => {
-                    faqItem.classList.remove('active');
-                });
-
-                // Open clicked item if it wasn't active
-                if (!isActive) {
-                    item.classList.add('active');
-                }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-    // Demo functionality for filter tags
-    const filterTags = document.querySelectorAll('.filter-tag');
-    filterTags.forEach(tag => {
-        tag.addEventListener('click', () => {
-            tag.classList.toggle('active');
-            // Add a visual feedback
-            const icon = tag.querySelector('i');
-            icon.style.transform = tag.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
-        });
-    });
+  duration: 1000,
+  once: true,
 });
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  const navbar = document.querySelector('.navbar');
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Firebase setup
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import {
+  getDatabase,
+  ref,
+  get,
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI',
+  authDomain: 'solace-83466.firebaseapp.com',
+  databaseURL: 'https://solace-83466-default-rtdb.firebaseio.com',
+  projectId: 'solace-83466',
+  storageBucket: 'solace-83466.appspot.com',
+  messagingSenderId: '1035507922270',
+  appId: '1:1035507922270:web:496b548ba710523eb18bcf',
+  measurementId: 'G-H8RRCK340M',
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const database = getDatabase(app);
+
+// Fetch curated videos count from Firebase
+// Fetch curated video count dynamically from Firebase
+const fetchVideoCountAndEstimateHours = async () => {
+  try {
+    const dbRef = ref(database, 'videos'); // Reference the "videos" node
+    const snapshot = await get(dbRef);
+
+    if (snapshot.exists()) {
+      const videoCount = Object.keys(snapshot.val()).length; // Count the videos
+      console.log('Fetched video count:', videoCount); // Debug log
+
+      // Estimate hours of content
+      const estimatedMinutes = videoCount * 15; // Assuming 15 minutes per video
+      const estimatedHours = (estimatedMinutes / 60).toFixed(1); // Convert to hours with 1 decimal
+
+      // Update video count element
+      const videoStatElement = document.querySelector('.video-stat-number');
+      if (videoStatElement) animateNumber(videoStatElement, videoCount || 0); // Fallback to 0
+
+      // Update hours of content element
+      const hoursStatElement = document.querySelector('.hours-stat-number');
+      if (hoursStatElement) animateNumber(hoursStatElement, estimatedHours || 0); // Fallback to 0
+    } else {
+      console.error('No videos found in the database.');
+      const videoStatElement = document.querySelector('.video-stat-number');
+      const hoursStatElement = document.querySelector('.hours-stat-number');
+      if (videoStatElement) animateNumber(videoStatElement, 0); // Fallback to 0
+      if (hoursStatElement) animateNumber(hoursStatElement, 0); // Fallback to 0
+    }
+  } catch (error) {
+    console.error('Error fetching video count:', error);
+  }
+};
+
+
+const fetchUserCount = async () => {
+  try {
+    const dbRef = ref(database, 'users'); // Reference the "users" node
+    const snapshot = await get(dbRef);
+
+    if (snapshot.exists()) {
+      console.log('User data fetched:', snapshot.val()); // Debugging log
+      const userCount = Object.keys(snapshot.val()).length; // Count the number of users
+      console.log('User count:', userCount); // Debugging log
+      const userStatElement = document.querySelector('.user-stat-number');
+      if (!userStatElement) {
+        console.error('Element with class "user-stat-number" not found!');
+        return;
+      }
+      animateNumber(userStatElement, userCount);
+    } else {
+      console.error('No users found in the database.');
+    }
+  } catch (error) {
+    console.error('Error fetching user count:', error);
+  }
+};
+
+
+
+// Animated number counting
+const animateNumber = (element, target) => {
+  // Validate target
+  if (isNaN(target) || target <= 0) {
+    console.error('Invalid target value:', target);
+    element.textContent = '0+';
+    return;
+  }
+
+  const duration = 10000; // Animation duration in milliseconds
+  const increment = target / (duration / 16); // Increment value for 60fps animation
+  let current = 0;
+
+  const updateNumber = () => {
+    if (current < target) {
+      current += increment;
+      element.textContent = Math.round(current) + '+';
+      requestAnimationFrame(updateNumber);
+    } else {
+      element.textContent = target + '+'; // Ensure final value matches target
+    }
+  };
+
+  updateNumber();
+};
+
+
+// Trigger number animation when stat comes into view
+const stats = document.querySelectorAll('.stat-number');
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const target = entry.target;
+        const count = parseInt(target.getAttribute('data-target'), 10);
+        animateNumber(target, count);
+        observer.unobserve(target);
+      }
+    });
+  },
+  { threshold: 0.5 }
+);
+
+stats.forEach((stat) => observer.observe(stat));
+
+// FAQ accordion functionality
+const faqItems = document.querySelectorAll('.faq-item');
+faqItems.forEach((item) => {
+  const question = item.querySelector('.faq-question');
+  question.addEventListener('click', () => {
+    const isActive = item.classList.contains('active');
+    faqItems.forEach((faqItem) => faqItem.classList.remove('active')); // Close all
+    if (!isActive) item.classList.add('active'); // Open clicked if not already active
+  });
+});
+
+
+// Filter tags functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const filterTags = document.querySelectorAll('.filter-tag');
+  filterTags.forEach((tag) => {
+    tag.addEventListener('click', () => {
+      tag.classList.toggle('active');
+      const icon = tag.querySelector('i');
+      if (icon) {
+        icon.style.transform = tag.classList.contains('active')
+          ? 'rotate(180deg)'
+          : 'rotate(0)';
+      }
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetchVideoCountAndEstimateHours(); // Fetch video count
+  fetchUserCount();  // Fetch user count
+});
+
     </script>
 </body>
 </html>
