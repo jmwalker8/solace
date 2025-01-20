@@ -107,16 +107,6 @@
       }
 
       /* Additional Theme Toggle Styles */
-      #theme-toggle {
-        padding: 8px 12px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-      }
-
-      #theme-toggle:hover {
-        transform: rotate(15deg);
-        background-color: rgba(255, 255, 255, 0.1);
-      }
 
       #theme-toggle i {
         font-size: 1.2rem;
@@ -147,108 +137,228 @@
         align-items: center;
       }
 
+      .navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar .btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.navbar .btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.navbar .btn i {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+
+.navbar .profile-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+}
+
+.navbar .profile-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Theme Toggle Button */
+#theme-toggle {
+  background: none;
+  padding: 0.5rem;
+  opacity: 0.8;
+}
+
+#theme-toggle:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
       .navbar a {
         color: white;
         text-decoration: none;
         font-weight: 600;
       }
 
+      .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+
       /* Main Container */
       .container {
-        max-width: 1200px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-      }
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
 
       /* Filter Section */
       .filters {
-        background: var(--card-background);
-        padding: 1.5rem;
-        border-radius: 12px;
-        margin-bottom: 2rem;
-        box-shadow: var(--shadow-md);
-      }
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(124, 58, 237, 0.05));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  padding: 2rem;
+  border-radius: 24px;
+  margin-bottom: 3rem;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(139, 92, 246, 0.1);
+}
 
-      .filter-row {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1rem;
-      }
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
 
-      .filter-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
+.filter-row:last-child {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 1.5rem;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
 
       .filter-group label {
-        font-weight: 500;
-        color: var(--text-color);
-      }
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  display: block;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
 
-      .filter-group select,
-      .filter-group input {
-        padding: 0.5rem;
-        border: 2px solid var(--border-color);
-        border-radius: 6px;
-        font-size: 1rem;
-        transition: all 0.2s ease;
-      }
+.filter-group select,
+.filter-group input {
+  height: 48px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0 1rem;
+  font-size: 0.95rem;
+  background: white;
+  transition: all 0.2s ease;
+}
 
-      .filter-group select:focus,
-      .filter-group input:focus {
-        border-color: var(--primary-color);
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-      }
+.filter-group select:hover,
+.filter-group input:hover {
+  border-color: var(--primary-color);
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
 
       /* Video Grid */
       .video-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-      }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
 
-      .video-card {
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        transition: transform 0.2s ease;
-      }
+.video-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(139, 92, 246, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
 
-      .video-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-lg);
-      }
+.video-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(139, 92, 246, 0.2);
+}
 
-      .video-thumbnail {
-        position: relative;
-        padding-top: 56.25%;
-        background: #f0f0f0;
-      }
+.video-thumbnail {
+  position: relative;
+  padding-top: 56.25%;
+  overflow: hidden;
+}
 
-      .video-thumbnail img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+.video-thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-      .video-info {
-        padding: 1rem;
-      }
+.video-thumbnail::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 50%);
+}
 
-      .video-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: var(--text-color);
-      }
+.video-card:hover .video-thumbnail img {
+  transform: scale(1.05);
+}
+
+.video-duration {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+}
+.video-info {
+  padding: 1.5rem;
+}
+
+.video-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-color);
+  line-height: 1.4;
+}
 
       .video-description {
         font-size: 0.9rem;
@@ -258,59 +368,66 @@
       }
 
       .video-meta {
-        display: flex;
-        gap: 1rem;
-        font-size: 0.8rem;
-        color: var(--text-color);
-        opacity: 0.6;
-      }
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.8;
+}
 
-      .tag-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-top: 0.5rem;
-      }
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
 
-      .tag {
-        background: var(--primary-light);
-        color: white;
-        padding: 0.2rem 0.6rem;
-        border-radius: 12px;
-        font-size: 0.8rem;
-      }
+.tag {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--primary-color);
+  padding: 0.4rem 0.8rem;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: rgba(139, 92, 246, 0.2);
+  transform: translateY(-1px);
+}
 
       /* Community Feature Styles */
       .video-community {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 12px 0;
-        padding: 8px 0;
-        border-top: 1px solid var(--border-color);
-        border-bottom: 1px solid var(--border-color);
-      }
+  padding: 1rem 0;
+  border-top: 1px solid rgba(139, 92, 246, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-      .rating-container {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
+.rating-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-      .stars {
-        display: flex;
-        gap: 2px;
-      }
+.stars {
+  display: flex;
+  gap: 0.25rem;
+}
 
-      .star {
-        color: var(--primary-color);
-        cursor: pointer;
-        transition: color 0.2s;
-      }
+.star {
+  color: #FCD34D;
+  transition: all 0.3s ease;
+}
 
-      .star:hover {
-        color: var(--primary-dark);
-      }
+.star:hover {
+  transform: scale(1.2);
+  color: #F59E0B;
+}
 
       .actions {
         display: flex;
@@ -502,15 +619,69 @@
 
       /* Buttons */
       .btn {
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 6px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+#sign-out-btn {
+  color: white;
+  padding: 0.75rem 1.5rem;
+  background-color: red;
+}
+
+.btn i {
+  font-size: 1rem;
+}
+
+#apply-filters {
+  width: 100%;
+  height: 48px;
+  margin: 0;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#age-filter {
+  width: 100%;
+  height: 48px;
+  margin-top: 37px;
+  
+}
+
+#apply-filters:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+#apply-filters:active {
+  transform: translateY(0px);
+}
+
+.filter-group:last-child {
+  display: flex;
+  align-items: flex-end;
+}
+
+.filter-group:last-child label {
+  display: none; /* Removes the empty label space */
+}
 
       .btn:hover {
         background: var(--primary-dark);
@@ -521,6 +692,120 @@
         background: var(--secondary-color);
       }
 
+      .profile-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .profile-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--card-background);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+      }
+
+      .profile-btn:hover {
+        background: var(--background-color);
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: var(--card-background);
+        min-width: 300px;
+        border-radius: 12px;
+        box-shadow: var(--shadow-lg);
+        z-index: 1000;
+        margin-top: 0.5rem;
+      }
+
+      .profile-dropdown.active .dropdown-content {
+        display: block;
+      }
+
+      .dropdown-header {
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .user-stats {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+      }
+
+      .stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+        opacity: 0.8;
+      }
+
+      .dropdown-section {
+        padding: 1rem;
+      }
+
+      .dropdown-section h4 {
+        margin: 0 0 0.5rem 0;
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+
+      .activity-list {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .activity-item {
+        padding: 0.5rem;
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .activity-item:hover {
+        background: var(--background-color);
+      }
+
+      .activity-icon {
+        color: var(--primary-color);
+      }
+
+      .activity-time {
+        font-size: 0.8rem;
+        opacity: 0.6;
+      }
+
+      .dropdown-footer {
+        padding: 1rem;
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        justify-content: center;
+      }
+
+      .loading-text {
+        text-align: center;
+        padding: 1rem;
+        opacity: 0.6;
+      }
+
       /* Loading States */
       .loading {
         text-align: center;
@@ -528,23 +813,18 @@
       }
 
       .loading-spinner {
-        border: 4px solid var(--card-background);
-        border-top: 4px solid var(--primary-color);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 0 auto;
-      }
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(139, 92, 246, 0.1);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
 
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
       /* Responsive Design */
       @media (max-width: 768px) {
@@ -561,10 +841,10 @@
   <body>
     <nav class="navbar">
       <div class="navbar-content">
-        <a href="logged.html" class="navbar-logo">
-          <i class="fas fa-arrow-left"></i>
-          Back to Dashboard
-        </a>
+        <a href="#" class="logo">
+          <i class="fas fa-brain"></i>
+          Solace
+      </a>
         <div class="navbar-actions">
           <button class="btn" id="refresh-videos" title="Check for new videos">
             <i class="fas fa-sync-alt"></i>
@@ -578,18 +858,58 @@
             <i class="fas fa-th-list"></i>
             Toggle View
           </button>
-          <button class="btn" id="theme-toggle" title="Toggle Theme">
-            <i class="fas fa-moon"></i>
-          </button>
+
           <button
-            class="btn"
-            id="watch-later-btn"
-            onclick="window.location.href='watchlater.html'"
-            title="Watch Later"
-          >
-            <i class="fas fa-clock"></i>
-            Watch Later
+          class="btn"
+          id="watch-later-btn"
+          onclick="window.location.href='watchlater.html'"
+          title="Watch Later"
+        >
+          <i class="fas fa-clock"></i>
+          Watch Later
+        </button>
+        <div class="profile-dropdown">
+          <button class="btn profile-btn" id="profile-toggle">
+            <i class="fas fa-user"></i>
+            <span id="user-name">Loading...</span>
+            <i class="fas fa-chevron-down"></i>
           </button>
+          <div class="dropdown-content">
+            <div class="dropdown-header">
+              <div class="user-stats">
+                <div class="stat">
+                  <span class="stat-value" id="rated-count">0</span>
+                  <span class="stat-label">Rated</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value" id="watched-count">0</span>
+                  <span class="stat-label">Saved</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value" id="comment-count">0</span>
+                  <span class="stat-label">Comments</span>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-section">
+              <h4>Recent Activity</h4>
+              <div id="recent-activity" class="activity-list">
+                <p class="loading-text">Loading activity...</p>
+              </div>
+            </div>
+              <div class="dropdown-footer">
+                <button class="btn btn-secondary" id="sign-out-btn">
+                  <i class="fas fa-sign-out-alt"></i>
+                  Sign Out
+                </button>
+            </div>
+          </div>
+      </div>
+      <button class="btn" id="theme-toggle" title="Toggle Theme">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+    </div>
         </div>
       </div>
     </nav>
@@ -706,38 +1026,46 @@
       const database = getDatabase(app);
 
       // Make functions globally available
-      window.rateVideo = async function (videoId, rating, event) {
-        event.stopPropagation(); // Prevent video click
-        const user = auth.currentUser;
-        if (!user) {
-          alert('Please log in to rate videos');
-          return;
-        }
+      window.rateVideo = async function(videoId, rating, event) {
+  event.stopPropagation();
+  const user = auth.currentUser;
+  if (!user) {
+    alert('Please log in to rate videos');
+    return;
+  }
 
-        try {
-          const ratingRef = ref(database, `ratings/${videoId}/${user.uid}`);
-          await set(ratingRef, {
-            rating: rating,
-            timestamp: new Date().toISOString(),
-          });
+  try {
+    const timestamp = new Date().toISOString();
+    
+    // Save rating in both locations
+    await Promise.all([
+      // Save in global ratings
+      set(ref(database, `ratings/${videoId}/${user.uid}`), {
+        rating,
+        timestamp
+      }),
+      // Save in user's ratings
+      set(ref(database, `users/${user.uid}/ratings/${videoId}`), {
+        rating,
+        timestamp
+      })
+    ]);
 
-          // Update UI
-          const starsContainer = event.target.closest('.stars');
-          updateStarDisplay(starsContainer, rating);
+    // Update UI
+    const starsContainer = event.target.closest('.stars');
+    updateStarDisplay(starsContainer, rating);
+    
+    // Update stats and activity
+    await Promise.all([
+      loadUserStats(user),
+      loadRecentActivity(user)
+    ]);
 
-          // Update rating count
-          const ratingsRef = ref(database, `ratings/${videoId}`);
-          const snapshot = await get(ratingsRef);
-          const ratingCount = snapshot.exists()
-            ? Object.keys(snapshot.val()).length
-            : 0;
-          const countDisplay = starsContainer.nextElementSibling;
-          countDisplay.textContent = `(${ratingCount})`;
-        } catch (error) {
-          console.error('Error saving rating:', error);
-          alert('Error saving rating. Please try again.');
-        }
-      };
+  } catch (error) {
+    console.error('Error saving rating:', error);
+    alert('Error saving rating. Please try again.');
+  }
+};
 
       window.addToPlaylist = async function (videoId, event) {
         event.stopPropagation(); // Prevent video click
@@ -1381,6 +1709,40 @@
         return card;
       }
 
+      // Add this function to your code
+function formatTimeAgo(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const secondsAgo = Math.floor((now - date) / 1000);
+
+    if (secondsAgo < 60) {
+        return 'just now';
+    }
+
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    if (minutesAgo < 60) {
+        return `${minutesAgo} minute${minutesAgo === 1 ? '' : 's'} ago`;
+    }
+
+    const hoursAgo = Math.floor(minutesAgo / 60);
+    if (hoursAgo < 24) {
+        return `${hoursAgo} hour${hoursAgo === 1 ? '' : 's'} ago`;
+    }
+
+    const daysAgo = Math.floor(hoursAgo / 24);
+    if (daysAgo < 30) {
+        return `${daysAgo} day${daysAgo === 1 ? '' : 's'} ago`;
+    }
+
+    const monthsAgo = Math.floor(daysAgo / 30);
+    if (monthsAgo < 12) {
+        return `${monthsAgo} month${monthsAgo === 1 ? '' : 's'} ago`;
+    }
+
+    const yearsAgo = Math.floor(monthsAgo / 12);
+    return `${yearsAgo} year${yearsAgo === 1 ? '' : 's'} ago`;
+}
+
       function formatDuration(duration) {
         if (!duration) return '';
 
@@ -1456,74 +1818,111 @@
         }
       }
 
-      window.postComment = async function (videoId, commentText, event) {
-        event?.stopPropagation();
+      window.postComment = async function(videoId, commentText, event) {
+    event?.stopPropagation();
+    if (!commentText.trim()) return;
 
-        if (!commentText.trim()) return;
+    const user = auth.currentUser;
+    if (!user) {
+        alert('Please log in to comment');
+        return;
+    }
 
-        const user = auth.currentUser;
-        if (!user) {
-          alert('Please log in to comment');
-          return;
-        }
-
-        try {
-          // Post the comment
-          const commentRef = ref(database, `videoComments/${videoId}`);
-          await push(commentRef, {
+    try {
+        const timestamp = new Date().toISOString();
+        const commentData = {
             authorId: user.uid,
             authorName: user.displayName || 'Anonymous',
             text: commentText.trim(),
-            timestamp: new Date().toISOString(),
-          });
+            timestamp
+        };
 
-          // Update comment count in video stats
-          const commentsSnapshot = await get(commentRef);
-          const commentCount = commentsSnapshot.exists()
-            ? Object.keys(commentsSnapshot.val()).length
-            : 0;
+        // Generate a unique comment ID
+        const commentRef = ref(database, `videoComments/${videoId}`);
+        const newCommentRef = push(commentRef);
+        const commentId = newCommentRef.key;
 
-          const videoStatsRef = ref(
-            database,
-            `videos/${videoId}/stats/commentCount`
-          );
-          await set(videoStatsRef, commentCount);
+        await Promise.all([
+            // Save to video comments
+            set(newCommentRef, commentData),
+            // Save to user's comments
+            set(ref(database, `users/${user.uid}/comments/${commentId}`), {
+                videoId,
+                text: commentText.trim(),
+                timestamp
+            })
+        ]);
 
-          // Clear input
-          const textarea = document.getElementById(`comment-input-${videoId}`);
-          if (textarea) textarea.value = '';
+        // Clear input and refresh
+        const textarea = document.getElementById(`comment-input-${videoId}`);
+        if (textarea) textarea.value = '';
 
-          // Refresh comments
-          await loadComments(videoId);
-        } catch (error) {
-          console.error('Error posting comment:', error);
-          alert('Error posting comment. Please try again.');
+        // Refresh everything
+        await Promise.all([
+            loadComments(videoId),
+            loadUserStats(user),
+            loadRecentActivity(user)
+        ]);
+    } catch (error) {
+        console.error('Error posting comment:', error);
+        alert('Error posting comment. Please try again.');
+    }
+};
+
+// Modify the rating function as well
+window.rateVideo = async function(videoId, rating, event) {
+    event.stopPropagation();
+    const user = auth.currentUser;
+    if (!user) {
+        alert('Please log in to rate videos');
+        return;
+    }
+
+    try {
+        const timestamp = new Date().toISOString();
+        
+        await Promise.all([
+            // Save in global ratings
+            set(ref(database, `ratings/${videoId}/${user.uid}`), {
+                rating,
+                timestamp
+            }),
+            // Save in user's ratings
+            set(ref(database, `users/${user.uid}/ratings/${videoId}`), {
+                rating,
+                timestamp
+            })
+        ]);
+
+        // Update UI
+        const starsContainer = event.target.closest('.stars');
+        updateStarDisplay(starsContainer, rating);
+        
+        // Get updated rating count
+        const ratingsRef = ref(database, `ratings/${videoId}`);
+        const snapshot = await get(ratingsRef);
+        const ratings = snapshot.val() || {};
+        const ratingCount = Object.keys(ratings).length;
+
+        // Update count display
+        const countDisplay = starsContainer.nextElementSibling;
+        if (countDisplay) {
+            countDisplay.textContent = `(${ratingCount})`;
         }
-      };
 
-      window.postComment = async function (videoId, commentText) {
-        const user = auth.currentUser;
-        if (!user) {
-          alert('Please log in to comment');
-          return;
-        }
+        // Refresh profile stats
+        await Promise.all([
+            loadUserStats(user),
+            loadRecentActivity(user)
+        ]);
 
-        try {
-          const commentRef = ref(database, `videoComments/${videoId}`);
-          await push(commentRef, {
-            authorId: user.uid,
-            authorName: user.displayName || 'Anonymous',
-            text: commentText,
-            timestamp: new Date().toISOString(),
-          });
+    } catch (error) {
+        console.error('Error saving rating:', error);
+        alert('Error saving rating. Please try again.');
+    }
+};
 
-          // Refresh comments
-          await loadComments(videoId);
-        } catch (error) {
-          console.error('Error posting comment:', error);
-          alert('Error posting comment. Please try again.');
-        }
-      };
+
 
       async function loadComments(videoId) {
         const commentsContainer = document.querySelector(
@@ -1630,50 +2029,57 @@
       }
 
       // Add this to make the rating function globally available
-      window.rateVideo = async function (videoId, rating, event) {
-        event.stopPropagation();
-        const user = auth.currentUser;
-        if (!user) {
-          alert('Please log in to rate videos');
-          return;
+      window.rateVideo = async function(videoId, rating, event) {
+    event.stopPropagation();
+    const user = auth.currentUser;
+    if (!user) {
+        alert('Please log in to rate videos');
+        return;
+    }
+
+    try {
+        const timestamp = new Date().toISOString();
+        
+        await Promise.all([
+            // Save in global ratings
+            set(ref(database, `ratings/${videoId}/${user.uid}`), {
+                rating,
+                timestamp
+            }),
+            // Save in user's ratings
+            set(ref(database, `users/${user.uid}/ratings/${videoId}`), {
+                rating,
+                timestamp
+            })
+        ]);
+
+        // Update UI
+        const starsContainer = event.target.closest('.stars');
+        updateStarDisplay(starsContainer, rating);
+        
+        // Get updated rating count
+        const ratingsRef = ref(database, `ratings/${videoId}`);
+        const snapshot = await get(ratingsRef);
+        const ratings = snapshot.val() || {};
+        const ratingCount = Object.keys(ratings).length;
+
+        // Update count display
+        const countDisplay = starsContainer.nextElementSibling;
+        if (countDisplay) {
+            countDisplay.textContent = `(${ratingCount})`;
         }
 
-        try {
-          // Save the rating
-          const ratingRef = ref(database, `ratings/${videoId}/${user.uid}`);
-          await set(ratingRef, {
-            rating: rating,
-            timestamp: new Date().toISOString(),
-          });
+        // Refresh profile stats
+        await Promise.all([
+            loadUserStats(user),
+            loadRecentActivity(user)
+        ]);
 
-          // Update video stats
-          const ratingsRef = ref(database, `ratings/${videoId}`);
-          const snapshot = await get(ratingsRef);
-          const ratings = snapshot.val() || {};
-          const ratingCount = Object.keys(ratings).length;
-          const ratingSum = Object.values(ratings).reduce(
-            (sum, r) => sum + r.rating,
-            0
-          );
-          const averageRating = ratingSum / ratingCount;
-
-          // Update video stats in database
-          const videoRef = ref(database, `videos/${videoId}/stats`);
-          await set(videoRef, {
-            ratingCount: ratingCount,
-            averageRating: averageRating,
-          });
-
-          // Update UI
-          const starsContainer = event.target.closest('.stars');
-          updateStarDisplay(starsContainer, rating);
-          const countDisplay = starsContainer.nextElementSibling;
-          countDisplay.textContent = `(${ratingCount})`;
-        } catch (error) {
-          console.error('Error saving rating:', error);
-          alert('Error saving rating. Please try again.');
-        }
-      };
+    } catch (error) {
+        console.error('Error saving rating:', error);
+        alert('Error saving rating. Please try again.');
+    }
+};
 
       // Add this to the loadVideos function to load existing ratings
       async function loadVideoRatings(videoId) {
@@ -2018,43 +2424,44 @@
       }
 
       // Add to your global window functions
-      window.addToWatchLater = async function (videoId, event) {
-        event.stopPropagation();
-        const user = auth.currentUser;
-        if (!user) {
-          alert('Please log in to save videos');
-          return;
-        }
+      window.addToWatchLater = async function(videoId, event) {
+  event.stopPropagation();
+  const user = auth.currentUser;
+  if (!user) {
+    alert('Please log in to save videos');
+    return;
+  }
 
-        try {
-          const watchLaterRef = ref(
-            database,
-            `users/${user.uid}/watchLater/${videoId}`
-          );
-          const snapshot = await get(watchLaterRef);
+  try {
+    const watchLaterRef = ref(database, `users/${user.uid}/watchLater/${videoId}`);
+    const timestamp = new Date().toISOString();
 
-          if (snapshot.exists()) {
-            // Remove from Watch Later
-            await set(watchLaterRef, null);
-            event.target.closest('.btn-icon').classList.remove('active');
-            showNotification('Removed from Watch Later');
-          } else {
-            // Add to Watch Later
-            await set(watchLaterRef, {
-              addedAt: new Date().toISOString(),
-              videoId: videoId,
-            });
-            event.target.closest('.btn-icon').classList.add('active');
-            showNotification('Added to Watch Later');
-          }
+    const snapshot = await get(watchLaterRef);
+    if (snapshot.exists()) {
+      // Remove from Watch Later
+      await set(watchLaterRef, null);
+      event.target.closest('.btn-icon').classList.remove('active');
+      showNotification('Removed from Watch Later');
+    } else {
+      // Add to Watch Later
+      await set(watchLaterRef, {
+        addedAt: timestamp,
+        videoId: videoId
+      });
+      event.target.closest('.btn-icon').classList.add('active');
+      showNotification('Added to Watch Later');
+    }
 
-          // Update button state
-          updateWatchLaterButton(videoId);
-        } catch (error) {
-          console.error('Error updating Watch Later:', error);
-          alert('Error updating Watch Later. Please try again.');
-        }
-      };
+    // Update button state and refresh stats
+    await Promise.all([
+      loadUserStats(user),
+      loadRecentActivity(user)
+    ]);
+  } catch (error) {
+    console.error('Error updating Watch Later:', error);
+    alert('Error updating Watch Later. Please try again.');
+  }
+};
 
       // Add helper functions
       function showNotification(message) {
@@ -2106,6 +2513,205 @@
         return snapshot.exists();
       }
 
+      // Profile functionality
+      async function initializeProfile(user) {
+  try {
+    // Set user name
+    const userNameElement = document.getElementById('user-name');
+    if (userNameElement) {
+      const userRef = ref(database, `users/${user.uid}`);
+      const userSnapshot = await get(userRef);
+      const userData = userSnapshot.val() || {};
+      userNameElement.textContent = userData.displayName || user.email || 'User';
+    }
+
+    // Setup profile dropdown toggle
+    const profileToggle = document.getElementById('profile-toggle');
+    const profileDropdown = document.querySelector('.profile-dropdown');
+
+    if (profileToggle && profileDropdown) {
+      profileToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        profileDropdown.classList.toggle('active');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!profileDropdown.contains(e.target)) {
+          profileDropdown.classList.remove('active');
+        }
+      });
+    }
+
+    // Load user stats and activity
+    await Promise.all([
+      loadUserStats(user),
+      loadRecentActivity(user)
+    ]);
+  } catch (error) {
+    console.error('Error initializing profile:', error);
+  }
+}
+
+      
+async function loadUserStats(user) {
+  try {
+    console.log('Loading user stats for:', user.uid);
+    const ratedCountElement = document.getElementById('rated-count');
+    const watchedCountElement = document.getElementById('watched-count');
+    const commentCountElement = document.getElementById('comment-count');
+
+    if (!ratedCountElement || !watchedCountElement || !commentCountElement) {
+      console.log('Stat elements not found');
+      return;
+    }
+
+    // Get user's personal data
+    const userRef = ref(database, `users/${user.uid}`);
+    const userSnapshot = await get(userRef);
+    console.log('User data:', userSnapshot.val());
+    const userData = userSnapshot.val() || {};
+
+    // Count watched videos
+    const watchLater = userData.watchLater || {};
+    const watchedCount = Object.keys(watchLater).length;
+    console.log('Watched count:', watchedCount);
+
+    // Count rated videos
+    const userRatings = userData.ratings || {};
+    const ratedCount = Object.keys(userRatings).length;
+    console.log('Rated count:', ratedCount);
+
+    // Count comments
+    const userComments = userData.comments || {};
+    const commentCount = Object.keys(userComments).length;
+    console.log('Comment count:', commentCount);
+
+    // Update UI
+    ratedCountElement.textContent = ratedCount;
+    watchedCountElement.textContent = watchedCount;
+    commentCountElement.textContent = commentCount;
+  } catch (error) {
+    console.error('Error loading user stats:', error);
+  }
+}
+
+async function loadRecentActivity(user) {
+  const activityList = document.getElementById('recent-activity');
+  if (!activityList) {
+    console.log('Activity list element not found');
+    return;
+  }
+
+  try {
+    activityList.innerHTML = '<p class="loading-text">Loading activity...</p>';
+
+    // Get user's data
+    const userRef = ref(database, `users/${user.uid}`);
+    const userSnapshot = await get(userRef);
+    const userData = userSnapshot.val() || {};
+    console.log('User data for activity:', userData);
+
+    const activities = [];
+
+    // Process watch later
+    if (userData.watchLater) {
+      Object.entries(userData.watchLater).forEach(([videoId, data]) => {
+        activities.push({
+          type: 'watchlater',
+          videoId,
+          timestamp: data.addedAt,
+        });
+      });
+    }
+
+    // Process ratings
+    if (userData.ratings) {
+      Object.entries(userData.ratings).forEach(([videoId, data]) => {
+        activities.push({
+          type: 'rating',
+          videoId,
+          timestamp: data.timestamp,
+          data: data.rating
+        });
+      });
+    }
+
+    // Process comments
+    if (userData.comments) {
+      Object.entries(userData.comments).forEach(([videoId, data]) => {
+        activities.push({
+          type: 'comment',
+          videoId,
+          timestamp: data.timestamp,
+          data: data.text
+        });
+      });
+    }
+
+    console.log('Collected activities:', activities);
+
+    // Sort by timestamp and take latest 10
+    activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    const recentActivities = activities.slice(0, 10);
+
+    if (recentActivities.length === 0) {
+      console.log('No activities found');
+      activityList.innerHTML = '<p class="loading-text">No recent activity</p>';
+      return;
+    }
+
+    // Generate activity HTML
+    const activityHTML = await Promise.all(recentActivities.map(async activity => {
+      const videoRef = ref(database, `videos/${activity.videoId}`);
+      const videoSnapshot = await get(videoRef);
+      const videoData = videoSnapshot.val();
+      
+      if (!videoData) {
+        console.log('Video not found:', activity.videoId);
+        return '';
+      }
+
+      const timeAgo = formatTimeAgo(activity.timestamp);
+      let icon, text;
+
+      switch (activity.type) {
+        case 'rating':
+          icon = 'star';
+          text = `Rated "${videoData.title}" ${activity.data} stars`;
+          break;
+        case 'watchlater':
+          icon = 'clock';
+          text = `Saved "${videoData.title}" to Watch Later`;
+          break;
+        case 'comment':
+          icon = 'comment';
+          text = `Commented on "${videoData.title}"`;
+          break;
+      }
+
+      return `
+        <div class="activity-item">
+          <i class="fas fa-${icon} activity-icon"></i>
+          <div class="activity-content">
+            <div>${text}</div>
+            <div class="activity-time">${timeAgo}</div>
+          </div>
+        </div>
+      `;
+    }));
+
+    const filteredHTML = activityHTML.filter(html => html);
+    console.log('Generated HTML count:', filteredHTML.length);
+    activityList.innerHTML = filteredHTML.join('');
+  } catch (error) {
+    console.error('Error loading recent activity:', error);
+    if (activityList) {
+      activityList.innerHTML = '<p class="loading-text">Error loading activity</p>';
+    }
+  }
+}
+
       // Event Listeners
       document
         .getElementById('apply-filters')
@@ -2120,6 +2726,9 @@
         displayedVideos += 12;
         displayVideos();
       });
+      document.getElementById('sign-out-btn').addEventListener('click', () => {
+    getAuth().signOut();
+    });
 
       // Initialize
       auth.onAuthStateChanged((user) => {
@@ -2129,6 +2738,7 @@
           });
           initializeViewToggle();
           initializeThemeToggle();
+          initializeProfile(user);
         } else {
           window.location.href = 'login.html';
         }

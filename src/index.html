@@ -1,599 +1,1764 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solace - ADHD Support</title>
-    <meta
-      name="description"
-      content="Solace: Empowering individuals with ADHD through personalized support, innovative tools, and a thriving community. Boost productivity and transform your life with our comprehensive ADHD management platform."
-    />
-    <link rel="stylesheet" href="styles/styles.css" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" href="assets/favicon.ico" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <!--- <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/favicon_package_v0/favicon-16x16.png"
-    />-->
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/Solace-Title-Logo.png"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solace - ADHD Video Library</title>
+    <meta name="description" content="Access a curated collection of ADHD educational videos and resources to support your journey.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Colors */
+            --primary: #7C3AED;
+            --primary-light: #8B5CF6;
+            --primary-dark: #6D28D9;
+            --secondary: #22D3EE;
+            --accent: #F472B6;
+            
+            /* Neutral Colors */
+            --black: #111827;
+            --white: #FFFFFF;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            
+            /* Typography */
+            --font-sans: 'Inter', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
 
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="manifest" href="/site.webmanifest" />
-  </head>
-  <body>
-    <header>
-      <nav>
-        <div class="nav-left">
-          <div class="logo">
-            <a href="#hero">
-              <img
-                src="assets/logo-solace-removebg-preview.png"
-                alt="Solace ADHD Support Logo"
-              />
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            color: var(--gray-800);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(30px);
+            transition: var(--transition-normal);
+            background-color: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-md);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition-fast);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-fast);
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+
+        /* Hero Section */
+
+        .geometric-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 1;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.geometric-element {
+    position: absolute;
+    opacity: 0.15;
+    transform-origin: center;
+}
+
+.circle {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 43px solid var(--secondary);
+}
+
+.plus {
+    width: 30px;
+    height: 30px;
+    position: relative;
+}
+
+.plus:before,
+.plus:after {
+    content: '';
+    position: absolute;
+    background-color: var(--accent);
+}
+
+.plus:before {
+    width: 100%;
+    height: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.plus:after {
+    height: 100%;
+    width: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dot-grid {
+    width: 60px;
+    height: 60px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--primary);
+    border-radius: 50%;
+}
+
+@keyframes float-rotate {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(20px, -20px) rotate(180deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+    }
+}
+
+/* Position and animate elements */
+.geometric-element:nth-child(1) { top: 15%; left: 10%; animation: float-rotate 20s infinite linear; }
+.geometric-element:nth-child(2) { top: 25%; right: 15%; animation: float-rotate 25s infinite linear reverse; }
+.geometric-element:nth-child(3) { bottom: 20%; left: 20%; animation: float-rotate 30s infinite linear; }
+.geometric-element:nth-child(4) { bottom: 30%; right: 25%; animation: float-rotate 22s infinite linear reverse; }
+.geometric-element:nth-child(5) { top: 40%; left: 30%; animation: float-rotate 28s infinite linear; }
+.geometric-element:nth-child(6) { bottom: 40%; right: 35%; animation: float-rotate 24s infinite linear reverse; }
+
+
+
+        .hero {
+    min-height: 100vh;
+    position: relative;
+    padding: 8rem 2rem 4rem;
+    background: linear-gradient(to bottom, rgba(124, 58, 237, 0.03), rgba(34, 211, 238, 0.03));
+    padding-bottom: 0;
+    overflow: hidden;
+}
+
+.hero-bg-elements {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+}
+
+.orb-1 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(45deg, rgba(124, 58, 237, 0.15), rgba(34, 211, 238, 0.15));
+    top: -100px;
+    right: -100px;
+    animation: float 20s infinite alternate;
+}
+
+.orb-2 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(-45deg, rgba(124, 58, 237, 0.1), rgba(34, 211, 238, 0.1));
+    bottom: -50px;
+    left: -50px;
+    animation: float 15s infinite alternate-reverse;
+}
+
+.mesh-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, 
+        rgba(124, 58, 237, 0.05) 0%,
+        rgba(34, 211, 238, 0.05) 50%,
+        transparent 100%
+    );
+    opacity: 0.6;
+}
+
+.grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.3;
+}
+
+.hero-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 0;
+    position: relative;
+    z-index: 1;
+}
+
+.creators-carousel {
+  align-items: center;
+  background: #E3E3E3;
+  display: flex;
+  height: auto;
+  justify-content: center;
+}
+
+/* Gradient Background */
+.white-gradient {
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-250px * 15)); /* Scroll one full set of slides */
+  }
+}
+
+.slider {
+  background: white;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+  height: auto;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: auto;
+}
+
+.slider::before,
+.slider::after {
+  content: "";
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  height: 100px;
+  position: absolute;
+  width: 200px;
+  z-index: 2;
+}
+
+.slider::before {
+  left: 0;
+  top: 0;
+}
+
+.slider::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+.slide-track {
+  animation: scroll 35s linear infinite;
+  display: flex;
+  width: calc(250px * 30); /* Double the slides to ensure seamless scrolling */
+}
+
+.slide {
+  height: 100px;
+  width: 250px;
+}
+
+
+
+.announcement-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(124, 58, 237, 0.1);
+    padding: 0.75rem 1.25rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.pulse {
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.hero-heading {
+    font-size: 4.5rem;
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.hero-text {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 4rem;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+
+.hero-subheading {
+    font-size: 1.25rem;
+    color: var(--gray-700);
+    margin: 0 auto 2.5rem;
+    max-width: 540px;
+    text-align: center;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.primary-button {
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(124, 58, 237, 0.25);
+}
+
+.ghost-button {
+    background: rgba(124, 58, 237, 0.1);
+    color: var(--primary);
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.ghost-button:hover {
+    background: rgba(124, 58, 237, 0.15);
+    transform: translateY(-2px);
+}
+
+.hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gray-800);
+}
+
+.stat-label {
+    color: var(--gray-700);
+    font-size: 0.875rem;
+}
+
+.stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--gray-200);
+}
+
+.hero-visual {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.hero-cta {
+    justify-content: center;
+}
+
+.hero-subheading p{
+  text-align: center;
+  justify-content: center;
+  margin-left: 50px;
+}
+
+
+
+
+
+
+.floating-cards {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+@keyframes floatAndGlow {
+    0%, 100% {
+        transform: rotateX(25deg) translateY(0) scale(1.1);
+        box-shadow: 
+            0 20px 40px rgba(139, 92, 246, 0.2),
+            0 0 100px rgba(139, 92, 246, 0.15);
+    }
+    50% {
+        transform: rotateX(25deg) translateY(-20px) scale(1.1);
+        box-shadow: 
+            0 30px 60px rgba(139, 92, 246, 0.3),
+            0 0 150px rgba(139, 92, 246, 0.2);
+    }
+
+  }
+
+.hero-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 40px rgba(124, 58, 237, 0.2),
+        0 0 100px rgba(124, 58, 237, 0.1);
+    transform-origin: center bottom;
+}
+
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(0, 20px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1024px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-heading {
+        font-size: 3.5rem;
+    }
+
+    .hero-cta {
+        justify-content: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        height: 400px;
+    }
+}
+
+        /* Floating Elements Animation */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .floating-element {
+            position: absolute;
+            background-color: var(--primary);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+
+         /* About Section Styles */
+         .about {
+            padding: 8rem 2rem;
+            background-color: var(--gray-50);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: rgba(124, 58, 237, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gray-800);
+        }
+
+        .section-description {
+            color: var(--gray-700);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+
+        /* Features Section Styles */
+        .features {
+            padding: 8rem 2rem;
+            background-color: var(--white);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            min-height: 250px;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--gray-800);
+        }
+
+        .feature-card p {
+            color: var(--gray-700);
+        }
+
+        .feature-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary);
+            color: var(--white);
+            padding: 2rem;
+            transform: translateY(100%);
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-card:hover .feature-hover {
+            transform: translateY(0);
+        }
+
+        .feature-hover ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-hover li {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Library Preview Styles */
+        .library-preview {
+            padding: 8rem 2rem;
+            background-color: var(--gray-50);
+        }
+
+        .library-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .library-interface {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .interface-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--gray-100);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-bar i {
+            color: var(--gray-700);
+            margin-right: 0.75rem;
+        }
+
+        .search-bar input {
+            border: none;
+            background: none;
+            width: 100%;
+            font-size: 1rem;
+            color: var(--gray-800);
+        }
+
+        .search-bar input:disabled {
+            cursor: not-allowed;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--gray-100);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .filter-tag:hover {
+            background: var(--gray-200);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .filter-tag.active {
+    background: var(--primary);
+    color: white;
+}
+
+.filter-tag i {
+    transition: transform 0.3s ease;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(124, 58, 237, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-card:hover .play-button {
+    opacity: 1;
+}
+
+        .video-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .video-thumbnail {
+            position: relative;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .video-info {
+            padding: 1rem;
+        }
+
+        .video-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-800);
+        }
+
+        .video-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+        }
+
+        .video-tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--primary-light);
+            color: var(--white);
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .preview-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.9) 40%, white);
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .overlay-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--gray-800);
+        }
+
+        /* FAQ Styles */
+        .faq {
+            padding: 8rem 2rem;
+            background-color: var(--white);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: var(--white);
+            transition: var(--transition-fast);
+        }
+
+        .faq-question:hover {
+            background: var(--gray-50);
+        }
+
+        .faq-question h3 {
+            font-size: 1.1rem;
+            color: var(--gray-800);
+            margin: 0;
+        }
+
+        .faq-question i {
+            color: var(--primary);
+            transition: var(--transition-fast);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .faq-item.active .faq-question {
+            background: var(--gray-50);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(45deg);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1.5rem;
+            max-height: 1000px;
+        }
+
+        .footer {
+    background: var(--gray-800);
+    color: var(--gray-100);
+    padding: 6rem 2rem 2rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-main {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-logo {
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-description {
+    color: var(--gray-400);
+    max-width: 300px;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.footer-section h4 {
+    color: var(--white);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.footer-section a {
+    color: var(--gray-400);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--primary-light);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--gray-700);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--gray-400);
+}
+
+.footer-badges {
+    display: flex;
+    gap: 1rem;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+#badge1 i{
+  color: rgb(0, 255, 0);
+}
+
+#badge2 i{
+  color: rgb(255, 0, 255);
+}
+
+@media (max-width: 768px) {
+    .footer-main {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-links {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-tags {
+                display: none;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(100px, 100px) rotate(180deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-heading {
+                font-size: 3rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-image {
+                max-width: 100%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="logo">
+                <i class="fas fa-brain"></i>
+                Solace
             </a>
-          </div>
-        </div>
-        <div class="nav-right">
-          <div class="hamburger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="nav-menu">
             <div class="nav-links">
-              <a href="#about">About</a>
-              <a href="#features">Features</a>
-              <a href="#stats">Stats</a>
-              <a href="#faqs">FAQs</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#preview" class="nav-link">Library</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="login.html" class="cta-button">Access Library</a>
             </div>
-            <a href="login.html" class="login-link">Sign In</a>
-            <a href="register.html" class="get-started-btn">Get Started</a>
-          </div>
         </div>
-      </nav>
-    </header>
+    </nav>
 
-    <main>
-      <section id="hero" class="full-height-section dark section-gradient">
-        <div class="hero-container">
-          <div class="hero-content">
-            <div class="text-card">
-              <h1 id="h1-hero">
-                <span id="hero-adhd">ADHD</span>
-                <span id="hero-support">Support:</span>
-                <br />
-                All in <span id="hero-h1-one">One.</span>
+    <section class="hero">
+     
+      <div class="geometric-background">
+        <div class="geometric-element circle"></div>
+        <div class="geometric-element triangle"></div>
+        <div class="geometric-element plus"></div>
+        <div class="geometric-element circle"></div>
+        <div class="geometric-element triangle"></div>
+        <div class="geometric-element plus"></div>
+      
+    </div>
+  
+      <div class="hero-content">
+          <div class="hero-text" data-aos="fade-up">
+              <div class="announcement-badge" data-aos="fade-right" data-aos-delay="200">
+                  <span class="pulse"></span>
+                  <span>✨ New: Enhanced Video Library Experience</span>
+              </div>
+              
+              <h1 class="hero-heading" data-aos="fade-up" data-aos-delay="300">
+                  Curated ADHD
+                  <span class="gradient-text">Resources</span>
+                  <br />
+                  All in One Place
               </h1>
-              <p id="hero-p">
-                Empowering individuals with ADHD to thrive in their daily lives.
+  
+              <p class="hero-subheading" data-aos="fade-up" data-aos-delay="400">
+                  Access an expansive collection of educational videos and resources designed to support your ADHD journey. Stay organized, learn effectively, and grow confidently.
               </p>
-              <a href="register.html">
-                <button id="hero-button">Get Started with Solace</button>
-              </a>
-            </div>
-            <a href="#about" class="learn-more-btn">
-              <button id="learn-more-button">
-                <span class="arrow-down">&#8595;</span> Learn About Me & Solace
-              </button>
-            </a>
+  
+              <div class="hero-cta" data-aos="fade-up" data-aos-delay="500">
+                  <a href="register.html" class="primary-button">
+                      <span>Get Started</span>
+                      <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <a href="#preview" class="ghost-button">
+                      <span>See Library</span>
+                      <i class="fas fa-play"></i>
+                  </a>
+              </div>
+  
+  
+          <div class="hero-visual" data-aos="fade-up" data-aos-delay="400">
+              <div class="floating-cards">
+                  <div class="card card-1">
+                      <img src="/solace/src/assets/mainpage.JPG" alt="Video Interface Preview">
+                  </div>
+              </div>
           </div>
-          <div class="hero-image">
-            <img
-              src="assets/undraw_relaxation_re_ohkx.svg"
-              alt="Illustration of person relaxing, representing ADHD support"
-            />
-          </div>
-        </div>
-      </section>
+      </div>
+  </section>
 
-      <section id="about" class="full-height-section light section-gradient">
-        <div class="about-container">
-          <div class="blob blob1">
-            <img
-              src="assets/magicpattern-blob-1720887191658-removebg-preview.png"
-              loading="lazy"
-              alt="Decorative blob shape"
-            />
-          </div>
-          <h2 class="section-title">
-            Hi, I'm
-            <span class="julian-hover"
-              >Julian
-              <a
-                href="https://linktr.ee/julian08fr?utm_source=linktree_admin_share"
-                class="julian-link"
-                aria-label="Link to Julian's profile"
-                title="Learn More About Julian, The Creator Of Solace."
-              >
-                <img
-                  src="assets/link-bold-svgrepo-com.svg"
-                  alt="Link icon"
-                  loading="lazy"
-                  class="link-icon"
-                />
-              </a>
-            </span>
-          </h2>
+  <section class="creators-carousel">
+    <div class="slider">
+      <div class="slide-track">
+        <div class="slide">
+          <img src="/solace/src/assets/how-to-adhd-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/attitude.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/russell-a-barkley-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/rick-has-adhd-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/dr-legrand-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/dr-tracey-marks-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/stacey-machelle-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/how-to-adhd-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/attitude.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/russell-a-barkley-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/rick-has-adhd-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/dr-legrand-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/dr-tracey-marks-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+        <div class="slide">
+          <img src="/solace/src/assets/stacey-machelle-removebg-preview.png" height="100" width="100" alt="" />
+        </div>
+      </div>
+    </div>
+</section>
+
+     <!-- About Section -->
+     <section class="about" id="about">
+      <div class="about-container">
           <div class="about-content">
-            <div class="about-text">
-              <p class="intro">
-                The creator of Solace. As a high school student living with
-                ADHD, I understand the unique challenges and strengths it
-                brings.
-              </p>
-              <p>
-                My journey with ADHD led me to create Solace, a platform
-                offering the support and tools I wish I had when I was first
-                diagnosed at age 8. From battling endless procrastination to
-                needing constant reminders for chores, ADHD has been my constant
-                companion.
-              </p>
-              <p class="mission">
-                My mission is to empower every person with ADHD to
-                <span class="highlight">thrive, not just survive</span>. Through
-                Solace, I aim to foster a world where ADHD is understood,
-                accepted, and celebrated for the unique perspectives it brings.
-              </p>
-            </div>
+              <div class="about-text" data-aos="fade-right">
+                  <span class="section-tag">About Solace</span>
+                  <h2 class="section-title">Understanding ADHD Through Curated Content</h2>
+                  <p class="section-description">
+                      Our video library brings together the best ADHD educational content, making it easy to find reliable information and practical strategies. Every video is carefully reviewed and organized to ensure you can find exactly what you need.
+                  </p>
+              </div>
+              <div class="stats-grid" data-aos="fade-left">
+                  <div class="stat-card">
+                      <div class="stat-number" data-target="400">0</div>
+                      <div class="stat-label">Curated Videos</div>
+                  </div>
+                  <div class="stat-card">
+                      <div class="stat-number" data-target="5000">0</div>
+                      <div class="stat-label">Active Users</div>
+                  </div>
+                  <div class="stat-card">
+                      <div class="stat-number" data-target="12">0</div>
+                      <div class="stat-label">Categories</div>
+                  </div>
+                  <div class="stat-card">
+                      <div class="stat-number" data-target="24">0</div>
+                      <div class="stat-label">Hours of Content</div>
+                  </div>
+              </div>
           </div>
-          <div class="blob blob2">
-            <img
-              src="assets/magicpattern-blob-1720953229967-removebg-preview.png"
-              loading="lazy"
-              alt="Decorative blob shape"
-            />
-          </div>
-          <a href="#features" class="learn-more-btn2">
-            <button id="learn-more-button2">
-              <span class="arrow-down2">&#8595;</span> Learn More About Solace
-            </button>
-          </a>
-        </div>
-      </section>
+      </div>
+  </section>
 
-      <section id="features" class="full-height-section dark section-gradient">
-        <div class="features-container">
-          <h3 class="features-subtitle">Features</h3>
-          <h1 class="features-title">
-            For <span id="features-solution">Solution</span> Seekers
-          </h1>
-          <p class="features-description">
-            Discover cutting-edge tools designed to revolutionize your
-            productivity and streamline your workflow. Our innovative features
-            empower you to tackle challenges with unprecedented efficiency and
-            precision.
+  <!-- Features Section -->
+  <section class="features" id="features">
+      <div class="features-container">
+          <div class="section-header" data-aos="fade-up">
+              <span class="section-tag">Features</span>
+              <h2 class="section-title">Everything You Need</h2>
+              <p class="section-description">
+                  Discover powerful tools designed to make learning and managing ADHD easier than ever.
+              </p>
+          </div>
+          <div class="features-grid">
+              <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                  <div class="feature-icon">
+                      <i class="fas fa-search"></i>
+                  </div>
+                  <h3>Smart Search</h3>
+                  <p>Find exactly what you need with our intelligent search system</p>
+                  <div class="feature-hover">
+                      <ul>
+                          <li>Filter by topic</li>
+                          <li>Sort by rating</li>
+                          <li>Duration filters</li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                  <div class="feature-icon">
+                      <i class="fas fa-bookmark"></i>
+                  </div>
+                  <h3>Save & Organize</h3>
+                  <p>Create your personal library of saved content</p>
+                  <div class="feature-hover">
+                      <ul>
+                          <li>Watch later list</li>
+                          <li>Custom playlists</li>
+                          <li>Progress tracking</li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                  <div class="feature-icon">
+                      <i class="fas fa-users"></i>
+                  </div>
+                  <h3>Community Ratings</h3>
+                  <p>Benefit from community insights and reviews</p>
+                  <div class="feature-hover">
+                      <ul>
+                          <li>User reviews</li>
+                          <li>Helpful ratings</li>
+                          <li>Comments section</li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                  <div class="feature-icon">
+                      <i class="fas fa-th-large"></i>
+                  </div>
+                  <h3>Organized Categories</h3>
+                  <p>Browse through our carefully organized content sections</p>
+                  <div class="feature-hover">
+                      <ul>
+                          <li>Topic categories</li>
+                          <li>Age groups</li>
+                          <li>Difficulty levels</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <section class="library-preview" id="preview">
+    <div class="library-container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-tag">Preview</span>
+            <h2 class="section-title">Experience Our Library</h2>
+            <p class="section-description">
+                Get a glimpse of our organized video library and intuitive interface.
+            </p>
+        </div>
+        
+        <div class="library-interface" data-aos="fade-up">
+            <div class="interface-header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search videos..." disabled>
+                </div>
+                <div class="filter-tags">
+                    <span class="filter-tag">All Categories <i class="fas fa-chevron-down"></i></span>
+                    <span class="filter-tag">Duration <i class="fas fa-chevron-down"></i></span>
+                    <span class="filter-tag">Rating <i class="fas fa-chevron-down"></i></span>
+                </div>
+            </div>
+
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="/api/placeholder/300/200" alt="Video thumbnail">
+                        <span class="video-duration">10:45</span>
+                    </div>
+                    <div class="video-info">
+                        <h3>Understanding ADHD Basics</h3>
+                        <div class="video-meta">
+                            <span><i class="fas fa-star"></i> 4.8</span>
+                            <span><i class="fas fa-eye"></i> 12.5K</span>
+                        </div>
+                        <div class="video-tags">
+                            <span class="tag">Education</span>
+                            <span class="tag">Beginner</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="/api/placeholder/300/200" alt="Video thumbnail">
+                        <span class="video-duration">15:20</span>
+                    </div>
+                    <div class="video-info">
+                        <h3>ADHD Management Strategies</h3>
+                        <div class="video-meta">
+                            <span><i class="fas fa-star"></i> 4.9</span>
+                            <span><i class="fas fa-eye"></i> 8.2K</span>
+                        </div>
+                        <div class="video-tags">
+                            <span class="tag">Strategies</span>
+                            <span class="tag">Tips</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="/api/placeholder/300/200" alt="Video thumbnail">
+                        <span class="video-duration">8:15</span>
+                    </div>
+                    <div class="video-info">
+                        <h3>Focus Techniques</h3>
+                        <div class="video-meta">
+                            <span><i class="fas fa-star"></i> 4.7</span>
+                            <span><i class="fas fa-eye"></i> 15.3K</span>
+                        </div>
+                        <div class="video-tags">
+                            <span class="tag">Focus</span>
+                            <span class="tag">Practical</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-overlay">
+                <div class="overlay-content">
+                    <h3>Ready to Access the Full Library?</h3>
+                    <a href="register.html" class="cta-button">Get Started Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq" id="faq">
+  <div class="faq-container">
+      <div class="section-header" data-aos="fade-up">
+          <span class="section-tag">FAQ</span>
+          <h2 class="section-title">Common Questions</h2>
+          <p class="section-description">
+              Find answers to frequently asked questions about our video library.
           </p>
-          <div class="feature-cards-container">
-            <div class="feature-card">
-              <span class="feature-icon">⏱️</span>
-              <h2 class="feature-name">Pomodoro Timer</h2>
-              <p class="feature-description">
-                Boost your focus with customizable work and break intervals. Our
-                Pomodoro Timer helps you manage tasks efficiently, track
-                progress, and maintain productivity throughout the day.
-              </p>
-            </div>
-            <div class="feature-card">
-              <span class="feature-icon">📋</span>
-              <h2 class="feature-name">Task Manager</h2>
-              <p class="feature-description">
-                Stay on top of your projects with powerful task organization
-                tools. Our intelligent Task Manager helps you track deadlines,
-                set priorities, and manage multiple to-do lists efficiently,
-                making it easier to accomplish your goals and boost
-                productivity.
-              </p>
-            </div>
-            <div class="feature-card">
-              <span class="feature-icon">📚</span>
-              <h2 class="feature-name">Educational Database</h2>
-              <p class="feature-description">
-                Expand your knowledge with our curated library of ADHD-focused
-                content. Access articles, videos, and interactive modules
-                designed to enhance your understanding and provide practical
-                strategies for managing ADHD.
-              </p>
-            </div>
-            <div class="feature-card">
-              <span class="feature-icon">💬</span>
-              <h2 class="feature-name">Forums</h2>
-              <p class="feature-description">
-                Connect with a supportive community of individuals sharing
-                similar experiences. Our Forums provide a safe space to ask
-                questions, share insights, and build meaningful connections with
-                others navigating life with ADHD.
-              </p>
-            </div>
-            <div class="more-features">+ More!</div>
-            <a href="#stats" class="learn-more-btn">
-              <button id="learn-more-button">
-                <span class="arrow-down">&#8595;</span> Learn More About Solace
-              </button>
-            </a>
-          </div>
-        </div>
-      </section>
+      </div>
 
-      <section id="stats" class="full-height-section dark section-gradient">
-        <div class="container">
-          <h2 class="section-title">
-            The <span id="stats-new">New</span> Standard In ADHD Support
-          </h2>
-
-          <div class="stat-cards">
-            <div class="card">
-              <h4>5,0d00+ 🚀</h4>
-              <p>Active members in our community</p>
-              <div class="shine"></div>
-              <div class="background">
-                <div class="tiles">
-                  <div class="tile tile-1"></div>
-                  <div class="tile tile-2"></div>
-                  <div class="tile tile-3"></div>
-                  <div class="tile tile-4"></div>
-                  <div class="tile tile-5"></div>
-                  <div class="tile tile-6"></div>
-                  <div class="tile tile-7"></div>
-                  <div class="tile tile-8"></div>
-                  <div class="tile tile-9"></div>
-                  <div class="tile tile-10"></div>
-                </div>
-                <div class="line line-1"></div>
-                <div class="line line-2"></div>
-                <div class="line line-3"></div>
+      <div class="faq-grid" data-aos="fade-up">
+          <div class="faq-item">
+              <div class="faq-question">
+                  <h3>What type of content is available in the library?</h3>
+                  <i class="fas fa-plus"></i>
               </div>
-            </div>
-
-            <div class="card">
-              <h4>1 in 4 📈</h4>
-              <p>Users report significant improvement in daily life</p>
-              <div class="shine"></div>
-              <div class="background">
-                <div class="tiles">
-                  <div class="tile tile-1"></div>
-                  <div class="tile tile-2"></div>
-                  <div class="tile tile-3"></div>
-                  <div class="tile tile-4"></div>
-                  <div class="tile tile-5"></div>
-                  <div class="tile tile-6"></div>
-                  <div class="tile tile-7"></div>
-                  <div class="tile tile-8"></div>
-                  <div class="tile tile-9"></div>
-                  <div class="tile tile-10"></div>
-                </div>
-                <div class="line line-1"></div>
-                <div class="line line-2"></div>
-                <div class="line line-3"></div>
+              <div class="faq-answer">
+                  <p>Our library features a diverse collection of educational videos about ADHD, including management strategies, educational content, expert interviews, and practical tips. Content is categorized by topic, difficulty level, and age group.</p>
               </div>
-            </div>
-
-            <div class="card">
-              <h4>92% ✅</h4>
-              <p>User satisfaction rate</p>
-              <div class="shine"></div>
-              <div class="background">
-                <div class="tiles">
-                  <div class="tile tile-1"></div>
-                  <div class="tile tile-2"></div>
-                  <div class="tile tile-3"></div>
-                  <div class="tile tile-4"></div>
-                  <div class="tile tile-5"></div>
-                  <div class="tile tile-6"></div>
-                  <div class="tile tile-7"></div>
-                  <div class="tile tile-8"></div>
-                  <div class="tile tile-9"></div>
-                  <div class="tile tile-10"></div>
-                </div>
-                <div class="line line-1"></div>
-                <div class="line line-2"></div>
-                <div class="line line-3"></div>
-              </div>
-            </div>
           </div>
 
-          <div class="testimonial-container">
-            <h2 id="testimonial-heading" class="section-title">Testimonials</h2>
-            <div class="testimonial-grid">
-              <div class="testimonial-card">
-                <div class="card-inner">
-                  <div class="card-front">
-                    <blockquote>
-                      "Solace straight up revolutionized my life, man. Their
-                      custom strategies and tight-knit community got me handling
-                      my ADHD like a boss. I'm crushing it at work and tackling
-                      each day with a whole new level of swagger and focus.
-                      Game-changer doesn't even begin to describe it - Solace is
-                      the real deal."
-                    </blockquote>
-                  </div>
-                  <div class="card-back">
-                    <img
-                      src="assets/testimonial1.jpg"
-                      alt="Profile picture of MatisseMB, Solace user"
-                      class="profile-picture"
-                    />
-                    <h3>@MikeJohnson1980</h3>
-                    <p>Age: 43</p>
-                    <p>Joined: January 2023</p>
-                  </div>
-                </div>
+          <div class="faq-item">
+              <div class="faq-question">
+                  <h3>How is the content organized?</h3>
+                  <i class="fas fa-plus"></i>
               </div>
-              <div class="testimonial-card">
-                <div class="card-inner">
-                  <div class="card-front">
-                    <blockquote>
-                      "Solace has been a total lifesaver for this busy mama!
-                      Their amazing tools and resources have taken my time
-                      management and organization skills to a whole new level.
-                      I'm conquering challenges I never thought I could, and the
-                      incredible community support keeps me going strong. Thanks
-                      to Solace, I finally feel like I've got this whole
-                      'adulting' thing down pat!"
-                    </blockquote>
-                  </div>
-                  <div class="card-back">
-                    <img
-                      src="assets/testimonial2.jpg"
-                      alt="Profile picture of SarahK, Solace user"
-                      class="profile-picture"
-                    />
-                    <h3>@MeganMomOnTrack</h3>
-                    <p>Age: 32</p>
-                    <p>Joined: March 2023</p>
-                  </div>
-                </div>
+              <div class="faq-answer">
+                  <p>Videos are organized into categories including Education, Strategies, Lifestyle, and Medical Information. You can filter by topic, duration, rating, and more to find exactly what you need.</p>
               </div>
-              <div class="testimonial-card">
-                <div class="card-inner">
-                  <div class="card-front">
-                    <blockquote>
-                      "Solace is awesome! It's like they've given me superpowers
-                      to manage my time and stay organized. I used to struggle
-                      with forgetting things and always feeling behind, but now
-                      I'm on top of everything. The strategies I've learned are
-                      fun to use, and it feels great to accomplish so much.
-                      Solace is like having a best friend who always knows how
-                      to help!"
-                    </blockquote>
-                  </div>
-                  <div class="card-back">
-                    <img
-                      src="assets/testimonial3.jpg"
-                      alt="Profile picture of HenryS, young Solace user"
-                      class="profile-picture"
-                    />
-                    <h3>@FunnyMinecraftFan</h3>
-                    <p>Age: 9</p>
-                    <p>Joined: June 2023</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
 
-      <section id="faqs" class="full-height-section dark section-gradient">
-        <h2 class="faq-title">Frequently Asked Questions</h2>
-        <p class="faq-subtitle">
-          There Are More FAQs Asked About Solace, If You Are Interested,
-          <a href="#" class="faq-link" title="View all Solace FAQs"
-            >Click Here.</a
-          >
-        </p>
-
-        <div class="faq-filter">
-          <button class="filter-btn active" data-filter="general">
-            General
-          </button>
-          <button class="filter-btn" data-filter="pricing">Pricing</button>
-          <button class="filter-btn" data-filter="data">Data</button>
-          <button class="filter-btn" data-filter="misc">Misc</button>
-        </div>
-
-        <div class="faq-container">
-          <div class="faq-content">
-            <div class="faq-item" data-category="general">
+          <div class="faq-item">
               <div class="faq-question">
-                <span class="faq-icon">
-                  <i class="fa-solid fa-question"></i>
-                </span>
-                <h3>What is Solace?</h3>
-                <div class="up-arrow">
-                  <i class="fa-solid fa-chevron-up"></i>
-                </div>
+                  <h3>Can I save videos to watch later?</h3>
+                  <i class="fas fa-plus"></i>
               </div>
-              <p class="faq-answer">
-                Solace is a comprehensive platform designed to support
-                individuals with ADHD through personalized strategies, community
-                support, and innovative tools.
-              </p>
-            </div>
-            <div class="faq-item" data-category="general">
-              <div class="faq-question">
-                <span class="faq-icon">
-                  <i class="fa-solid fa-brain"></i>
-                </span>
-                <h3>How can Solace help me manage my ADHD?</h3>
-                <div class="up-arrow">
-                  <i class="fa-solid fa-chevron-up"></i>
-                </div>
+              <div class="faq-answer">
+                  <p>Yes! Once registered, you can save videos to your "Watch Later" list, create custom playlists, and track your viewing progress.</p>
               </div>
-              <p class="faq-answer">
-                Solace provides personalized strategies, productivity tools,
-                expert-led webinars, and a supportive community to help you
-                better manage your ADHD symptoms and improve your daily life.
-              </p>
-            </div>
-            <div class="faq-item" data-category="general">
-              <div class="faq-question">
-                <span class="faq-icon">
-                  <i class="fa-solid fa-screwdriver-wrench"></i>
-                </span>
-                <h3>What tools and resources does Solace offer?</h3>
-                <div class="up-arrow">
-                  <i class="fa-solid fa-chevron-up"></i>
-                </div>
-              </div>
-              <p class="faq-answer">
-                Solace offers a range of tools including customizable task
-                managers, focus timers, reminder systems, and educational
-                resources tailored for individuals with ADHD. Check out a few
-                features here:
-                <a
-                  href="#features"
-                  class="faqs-links"
-                  title="Explore Solace Features"
-                  >Explore Solace Features</a
-                >
-                or
-                <a
-                  href="register.html"
-                  class="faqs-links"
-                  title="Create Your Solace Account"
-                  >Create Your Solace Account</a
-                >
-                to find out for yourself!
-              </p>
-            </div>
-            <div class="faq-item" data-category="general">
-              <div class="faq-question">
-                <span class="faq-icon">
-                  <i class="fa-solid fa-children"></i>
-                </span>
-                <h3>
-                  Is Solace suitable for both adults and children with ADHD?
-                </h3>
-                <div class="up-arrow">
-                  <i class="fa-solid fa-chevron-up"></i>
-                </div>
-              </div>
-              <p class="faq-answer">
-                Yes, Solace provides resources and support for both adults and
-                children with ADHD, with age-appropriate content and tools
-                available for different user groups.
-              </p>
-            </div>
-            <div class="faq-item" data-category="general">
-              <div class="faq-question">
-                <span class="faq-icon">
-                  <i class="fa-solid fa-rocket"></i>
-                </span>
-                <h3>How do I join the Solace community?</h3>
-                <div class="up-arrow">
-                  <i class="fa-solid fa-chevron-up"></i>
-                </div>
-              </div>
-              <p class="faq-answer">
-                You can join the Solace community by clicking
-                <a
-                  href="register.html"
-                  class="faqs-links"
-                  title="Register for Solace"
-                  >Here</a
-                >
-                and following the sign-up process. Once registered, you'll have
-                access to our forums, resources, and tools!
-              </p>
-            </div>
-            <div class="faq-item" data-category="pricing">
-              <div class="faq-question">
-                <span class="faq-icon">
-                  <i class="fa-solid fa-money-check-dollar"></i>
-                </span>
-                <h3>How Much Does Solace Cost?</h3>
-                <div class="up-arrow">
-                  <i class="fa-solid fa-chevron-up"></i>
-                </div>
-              </div>
-              <p class="faq-answer">
-                Solace is completely free to use. We believe in making our
-                service accessible to everyone who needs it, so there are no
-                hidden fees or charges. Whether you're using our basic features
-                or advanced tools, the cost remains $0.00. Our commitment is to
-                provide support and resources without any financial burden to
-                our users.
-              </p>
-            </div>
-            <div class="faq-item" data-category="data">
-              <div class="faq-question">
-                <span class="faq-icon">
-                  <i class="fa-solid fa-database"></i>
-                </span>
-                <h3>Where Does Your Data Go?</h3>
-                <div class="up-arrow">
-                  <i class="fa-solid fa-chevron-up"></i>
-                </div>
-              </div>
-              <p class="faq-answer">
-                Your privacy and data security are our top priorities. All data
-                you input into Solace is encrypted and stored securely on our
-                protected servers. We never sell or share your personal
-                information with third parties. Your data is used solely to
-                provide and improve our services. You have full control over
-                your information and can request its deletion at any time. For
-                more details, please refer to our comprehensive
-                <a
-                  href="#"
-                  class="privacy-policy-link"
-                  title="View Solace Privacy Policy"
-                  ><span>Privacy Policy</span></a
-                >.
-              </p>
-            </div>
           </div>
-        </div>
-      </section>
-    </main>
 
-    <footer class="section-gradient">
-      <button
-        id="cta-btn-large"
-        onclick="window.location.href='register.html'"
-        title="Get Started with Solace"
-      >
-        Get Started
-      </button>
-      <p>&copy; 2024 Solace. All rights reserved.</p>
-      <a
-        href="https://bit.ly/3W5X9aY"
-        class="privacy-policy-link"
-        title="Contact Solace Support"
-      >
-        <span class="privacy-policy">Contact</span>
-        <span class="external-link-arrow">↗</span>
-      </a>
-      <a
-        href="#"
-        class="privacy-policy-link"
-        title="View Solace Privacy Policy"
-      >
-        <span class="privacy-policy">Privacy</span>
-        <span class="external-link-arrow">↗</span>
-      </a>
-      <a
-        href="#"
-        class="privacy-policy-link"
-        title="Follow Solace on Social Media"
-      >
-        <span class="privacy-policy">Socials</span>
-        <span class="external-link-arrow">↗</span>
-      </a>
-    </footer>
+          <div class="faq-item">
+              <div class="faq-question">
+                  <h3>How often is new content added?</h3>
+                  <i class="fas fa-plus"></i>
+              </div>
+              <div class="faq-answer">
+                  <p>I regularly update our library with new content. Using Google Youtube Data API v3, videos are updated weekly directly from Youtube.</p>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
 
-    <script src="scripts/main.js" type="module" defer></script>
-  </body>
+<footer class="footer">
+  <div class="footer-content">
+      <div class="footer-main">
+          <div class="footer-brand">
+              <a href="#" class="footer-logo">
+                  <i class="fas fa-brain"></i>
+                  Solace
+              </a>
+              <p class="footer-description">
+                  Your trusted resource for ADHD education and support.
+              </p>
+          </div>
+          <div class="footer-links">
+              <div class="footer-section">
+                  <h4>Navigation</h4>
+                  <a href="#about">About</a>
+                  <a href="#features">Features</a>
+                  <a href="#preview">Library</a>
+                  <a href="#faq">FAQ</a>
+              </div>
+              <div class="footer-section">
+                  <h4>Resources</h4>
+                  <a href="#">Blog</a>
+                  <a href="#">Support</a>
+                  <a href="#">Terms</a>
+                  <a href="#">Privacy</a>
+              </div>
+              <div class="footer-section">
+                  <h4>Connect</h4>
+                  <div class="social-links">
+                      <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                      <a href="https://discord.com/channels/@me" title="Discord"><i class="fab fa-discord"></i></a>
+                      <a href="https://github.com/jmwalker8" title="GitHub"><i class="fab fa-github"></i></a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="footer-bottom">
+          <p>&copy; 2024 Solace. All rights reserved.</p>
+          <div class="footer-badges">
+              <span class="badge"><i class="fas fa-shield-alt"></i> Secure</span>
+              <span class="badge"><i class="fas fa-heart"></i> Made with care</span>
+              <span class="badge"><i class="fa-solid fa-code"></i>Developed with ADHD</span>
+          </div>
+      </div>
+  </div>
+</footer>
+
+    <!-- AOS Init -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+
+AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        // Animated number counting
+        const stats = document.querySelectorAll('.stat-number');
+
+        
+        
+        const animateNumber = (element) => {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000; // 2 seconds
+            const increment = target / (duration / 16); // 60fps
+            let current = 0;
+
+            const updateNumber = () => {
+                if (current < target) {
+                    current += increment;
+                    element.textContent = Math.round(current);
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    element.textContent = target;
+                }
+            };
+
+            updateNumber();
+        };
+
+        // Intersection Observer for stats
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateNumber(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        stats.forEach(stat => observer.observe(stat));
+
+        stats.forEach(stat => observer.observe(stat));
+
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                faqItems.forEach(faqItem => {
+                    faqItem.classList.remove('active');
+                });
+
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+    // Demo functionality for filter tags
+    const filterTags = document.querySelectorAll('.filter-tag');
+    filterTags.forEach(tag => {
+        tag.addEventListener('click', () => {
+            tag.classList.toggle('active');
+            // Add a visual feedback
+            const icon = tag.querySelector('i');
+            icon.style.transform = tag.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
+        });
+    });
+});
+    </script>
+</body>
 </html>
