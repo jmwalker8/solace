@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "src",
+    "public": "src",  
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,7 +9,19 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/index.html"  
+      }
+    ],
+    "redirects": [
+      {
+        "source": "http://solace-83466.web.app/**",
+        "destination": "https://solaceadhd.com/$1", 
+        "type": 301  
+      },
+      {
+        "source": "https://solace-83466.web.app/**",
+        "destination": "https://solaceadhd.com/$1",  
+        "type": 301 
       }
     ]
   }
