@@ -107,7 +107,7 @@ auth.onAuthStateChanged((user) => {
             statusMessage.textContent = 'Error occurred. Please try again.';
           });
       } else {
-        window.location.href = 'community-exploration.html';
+        window.location.href = '/community-exploration.html';
       }
     }
   } else {
