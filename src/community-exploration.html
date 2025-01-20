@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Solace - ADHD Video Database</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -226,6 +226,8 @@
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.05),
     0 0 0 1px rgba(139, 92, 246, 0.1);
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .filter-row {
@@ -310,10 +312,10 @@
 
 .video-thumbnail {
   position: relative;
-  padding-top: 56.25%;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
   overflow: hidden;
 }
-
 .video-thumbnail img {
   position: absolute;
   top: 0;
@@ -321,6 +323,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -987,7 +990,7 @@ textarea.playlist-input {
 
       .profile-dropdown {
         position: relative;
-        display: inline-block;
+        display: inline-flex;
       }
 
       .profile-btn {
@@ -1113,6 +1116,20 @@ textarea.playlist-input {
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
+.navbar-right {
+  display: none; /* Hide the mobile container by default */
+}
+
+
+
+.hamburger-menu{
+  display: none;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0.5rem;
+  z-index: 1002;
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -1127,87 +1144,660 @@ textarea.playlist-input {
 
         .video-grid {
           grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
         }
       }
+
+      .hamburger-menu {
+    display: block;
+  }
+
+      @media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+    margin: 1rem auto;
+  }
+
+  /* Navbar Mobile Improvements */
+  .navbar-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .profile-dropdown {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .profile-btn {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .profile-btn i {
+    font-size: 1rem;
+  }
+
+
+  .navbar-actions {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    width: 85%;
+    max-width: 400px;
+    height: 100vh;
+    background: var(--navbar-background);
+    padding: 5rem 1.5rem 2rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
+    flex-direction: column;
+  }
+
+  .navbar-actions.active {
+    right: 0;
+  }
+
+
+  .navbar-right .profile-dropdown {
+    display: inline-flex; /* Show profile button in navbar-right */
+    width: 100%;
+  }
+
+  .navbar-actions > *:not(.profile-dropdown) {
+    display: block;
+  }
+
+  .navbar-actions.active {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80%;
+    height: 100vh;
+    background: var(--navbar-background);
+    padding: 1rem;
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .navbar .btn {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    margin: 0.5rem 0;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+  }
+
+
+  .navbar-actions .btn:active {
+    transform: scale(0.98);
+  }
+
+  .navbar .profile-dropdown {
+    width: 100%;
+  }
+
+  .navbar-actions .profile-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hamburger-menu {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1002;
+    border-radius: 50%;
+    background: transparent;
+    transition: background-color 0.3s ease;
+  }
+
+  .hamburger-menu:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .hamburger-menu .bar {
+    width: 22px;
+    height: 2px;
+    margin: 3px 0;
+    background: white;
+    border-radius: 3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hamburger-menu.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .hamburger-menu.active .bar:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  .hamburger-menu.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+
+  .navbar-actions .btn {
+    width: 100%;
+    justify-content: flex-start;
+    margin: 0.25rem 0;
+  }
+
+  .menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  /* Prevent body scroll when menu is open */
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  /* Profile Dropdown Adjustments */
+  .dropdown-content {
+    position: relative;
+    width: 100%;
+    margin-top: 0.5rem;
+    box-shadow: none;
+  }
+
+  #theme-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar .btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .navbar .btn i {
+    margin-right: 0.25rem;
+  }
+
+  /* Filter Section Mobile Improvements */
+  .filters {
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .filter-row {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem;
+  }
+
+  .filter-row:last-child {
+    grid-template-columns: 1fr !important;
+  }
+
+  .filter-group {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .filter-group select,
+  .filter-group input {
+    width: 100%;
+    height: 40px;
+    font-size: 0.9rem;
+    max-width: auto;
+  }
+
+  .filter-group label {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+  }
+
+  #apply-filters {
+    width: 100%;
+    height: 40px;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+  }
+  /* Video Grid Mobile Improvements */
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .video-card {
+    border-radius: 12px;
+  }
+
+  .video-thumbnail {
+    max-height: 200px;
+    padding-top: 56.25%;
+  }
+
+  .video-info {
+    padding: 0.75rem;
+  }
+
+  .video-title {
+    font-size: 1rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .list-view .video-card {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+  }
+  .list-view .video-thumbnail {
+    padding-top: 0;
+    height: 100%;
+  }
+
+  .video-description {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .video-meta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .tag-list {
+    gap: 0.35rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  /* Community Features Mobile Improvements */
+  .video-community {
+    padding: 0.75rem 0;
+  }
+
+  .rating-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stars {
+    font-size: 0.9rem;
+  }
+
+  .actions {
+    gap: 0.5rem;
+  }
+
+  .btn-icon {
+    padding: 0.35rem;
+  }
+
+  /* Comments Section Mobile */
+  .comments-section {
+    padding: 0.75rem;
+  }
+
+  .comment {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .comment-header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .comment-author {
+    font-size: 0.9rem;
+  }
+
+  .comment-time {
+    font-size: 0.75rem;
+  }
+
+  .comment-content {
+    font-size: 0.85rem;
+  }
+
+  .comment-input textarea {
+    min-height: 60px;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  /* Profile Dropdown Mobile */
+  .dropdown-content {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    border-radius: 0;
+    margin-top: 0;
+  }
+
+  .dropdown-header {
+    padding: 0.75rem;
+  }
+
+  .user-stats {
+    gap: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  /* Modal Mobile Improvements */
+  .modal-content {
+    width: 95%;
+    max-width: none;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+  .playlist-form {
+    gap: 1rem;
+  }
+
+  .playlist-input {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  /* Video Card Hover States for Touch */
+  .video-card:hover {
+    transform: none;
+  }
+
+  .video-card:active {
+    transform: scale(0.98);
+  }
+
+  .btn-icon:active {
+    transform: scale(0.9);
+  }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 375px) {
+  .navbar .btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .hamburger-menu .bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  transition: all 0.3s ease;
+  background-color: white;
+  border-radius: 3px;
+}
+
+  .video-title {
+    font-size: 0.95rem;
+  }
+
+  .video-card {
+    margin-bottom: 1rem;
+  }
+
+  .list-view .video-card {
+    grid-template-columns: 120px 1fr;
+  }
+
+  .video-card:hover .video-thumbnail img {
+  transform: scale(1.05);
+}
+
+.video-thumbnail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f3f4f6;
+  z-index: -1;
+}
+
+  .video-thumbnail {
+    height: 180px;
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+  }
+
+  .filters {
+    padding: 0.75rem;
+  }
+
+  .filter-group label {
+    font-size: 0.8rem;
+  }
+
+  .filter-group select,
+  .filter-group input {
+    font-size: 0.85rem;
+    height: 36px;
+  }
+
+}
+
+/* Better Loading States for Mobile */
+@media (max-width: 768px) {
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border-width: 2px;
+  }
+
+  .loading p {
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+  }
+
+  #load-more {
+    width: 100%;
+    margin: 1rem 0;
+    height: 40px;
+  }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hamburger-menu {
+    display: none;  /* Ensure hamburger is hidden on tablet */
+  }
+
+  .filters {
+    padding: 1.5rem;
+  }
+
+  .filter-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .navbar-content {
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+/* Landscape Mode Optimizations */
+@media (max-height: 500px) and (orientation: landscape) {
+  .video-thumbnail {
+    height: 150px;
+  }
+
+  .dropdown-content {
+    max-height: 80vh;
+  }
+
+  .modal-content {
+    max-height: 85vh;
+  }
+}
     </style>
   </head>
   <body>
+        
     <nav class="navbar">
       <div class="navbar-content">
         <a href="#" class="logo">
           <i class="fas fa-brain"></i>
           Solace
-      </a>
+        </a>
+    
+        <!-- Mobile-only container -->
+        <div class="navbar-right">
+          <button class="hamburger-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </button>
+        </div>
+    
+        <!-- Menu Overlay -->
+        <div class="menu-overlay"></div>
+        
+        <!-- Main navigation actions -->
         <div class="navbar-actions">
           <button class="btn" id="refresh-videos" title="Check for new videos">
             <i class="fas fa-sync-alt"></i>
             Refresh Videos
           </button>
+          
           <button class="btn" id="clear-filters" title="Clear all filters">
             <i class="fas fa-times"></i>
             Clear Filters
           </button>
+          
           <button class="btn" id="view-toggle" title="Toggle View">
             <i class="fas fa-th-list"></i>
             Toggle View
           </button>
-
-          <button
-          class="btn"
-          id="watch-later-btn"
-          onclick="window.location.href='watchlater.html'"
-          title="Watch Later"
-        >
-          <i class="fas fa-clock"></i>
-          Watch Later
-        </button>
-        <div class="profile-dropdown">
-          <button class="btn profile-btn" id="profile-toggle">
-            <i class="fas fa-user"></i>
-            <span id="user-name">Loading...</span>
-            <i class="fas fa-chevron-down"></i>
+          
+          <button class="btn" id="watch-later-btn" onclick="window.location.href='watchlater.html'" title="Watch Later">
+            <i class="fas fa-clock"></i>
+            Watch Later
           </button>
-          <div class="dropdown-content">
-            <div class="dropdown-header">
-              <div class="user-stats">
-                <div class="stat">
-                  <span class="stat-value" id="rated-count">0</span>
-                  <span class="stat-label">Rated</span>
-                </div>
-                <div class="stat">
-                  <span class="stat-value" id="watched-count">0</span>
-                  <span class="stat-label">Saved</span>
-                </div>
-                <div class="stat">
-                  <span class="stat-value" id="comment-count">0</span>
-                  <span class="stat-label">Comments</span>
+    
+          <!-- Profile Button -->
+          <div class="profile-dropdown">
+            <button class="btn profile-btn" id="profile-toggle">
+              <i class="fas fa-user"></i>
+              <span id="user-name">Loading...</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            
+            <div class="dropdown-content">
+              <div class="dropdown-header">
+                <div class="user-stats">
+                  <div class="stat">
+                    <span class="stat-value" id="rated-count">0</span>
+                    <span class="stat-label">Rated</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-value" id="watched-count">0</span>
+                    <span class="stat-label">Saved</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-value" id="comment-count">0</span>
+                    <span class="stat-label">Comments</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="dropdown-section">
-              <h4>Recent Activity</h4>
-              <div id="recent-activity" class="activity-list">
-                <p class="loading-text">Loading activity...</p>
+              
+              <div class="dropdown-section">
+                <h4>Recent Activity</h4>
+                <div id="recent-activity" class="activity-list">
+                  <p class="loading-text">Loading activity...</p>
+                </div>
               </div>
-            </div>
+              
               <div class="dropdown-footer">
                 <button class="btn btn-secondary" id="sign-out-btn">
                   <i class="fas fa-sign-out-alt"></i>
                   Sign Out
                 </button>
+              </div>
             </div>
           </div>
-      </div>
-      <button class="btn" id="theme-toggle" title="Toggle Theme">
-        <i class="fas fa-moon"></i>
-      </button>
-    </div>
-    </div>
+          
+          <button class="btn" id="theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+          </button>
         </div>
       </div>
     </nav>
 
     <div class="container">
+      
       <div class="filters">
         <div class="filter-row">
           <div class="filter-group">
@@ -1221,7 +1811,7 @@ textarea.playlist-input {
               <option value="medication">Medication</option>
             </select>
           </div>
-
+      
           <div class="filter-group">
             <label for="type-filter">ADHD Type</label>
             <select id="type-filter">
@@ -1231,7 +1821,7 @@ textarea.playlist-input {
               <option value="combined">Combined</option>
             </select>
           </div>
-
+      
           <div class="filter-group">
             <label for="age-filter">Age Group</label>
             <select id="age-filter">
@@ -1242,7 +1832,7 @@ textarea.playlist-input {
             </select>
           </div>
         </div>
-
+      
         <div class="filter-row">
           <div class="filter-group">
             <label for="duration-filter">Duration</label>
@@ -1253,22 +1843,19 @@ textarea.playlist-input {
               <option value="long">Long (> 15 min)</option>
             </select>
           </div>
-
+      
           <div class="filter-group">
             <label for="search-input">Search</label>
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Search videos..."
-            />
+            <input type="text" id="search-input" placeholder="Search videos...">
           </div>
-
+      
           <div class="filter-group">
-            <label>&nbsp;</label>
             <button id="apply-filters" class="btn">Apply Filters</button>
           </div>
         </div>
       </div>
+      
+      
 
       <div id="video-grid" class="video-grid">
         <!-- Videos will be dynamically inserted here -->
@@ -1295,17 +1882,20 @@ textarea.playlist-input {
     </div>
 
     <!-- Include Firebase -->
+
     <script type="module">
-      // Import Firebase modules
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-      import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-      import {
-        getDatabase,
-        ref,
-        get,
-        set,
-        push,
-      } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+
+// Import Firebase modules
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+  push,
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
 
       // Your Firebase config
       const firebaseConfig = {
@@ -1567,44 +2157,166 @@ window.viewPlaylist = async function(playlistId) {
   }
 };
 
+window.copyPlaylist = async function(originalUserId, playlistId) {
+  const user = auth.currentUser;
+  if (!user) {
+    showNotification('Please log in to copy this playlist');
+    return;
+  }
+
+  try {
+    // Get original playlist
+    const originalPlaylistRef = ref(database, `users/${originalUserId}/playlists/${playlistId}`);
+    const snapshot = await get(originalPlaylistRef);
+    if (!snapshot.exists()) {
+      showNotification('Playlist not found');
+      return;
+    }
+
+    const originalPlaylist = snapshot.val();
+
+    // Create new playlist data
+    const newPlaylistData = {
+      name: `Copy of ${originalPlaylist.name}`,
+      description: originalPlaylist.description,
+      isPrivate: true, // Default to private for copies
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      videos: [...originalPlaylist.videos],
+      order: [...originalPlaylist.order],
+      totalDuration: originalPlaylist.totalDuration,
+      videoCount: originalPlaylist.videoCount,
+      thumbnail: originalPlaylist.thumbnail,
+      copiedFrom: {
+        userId: originalUserId,
+        playlistId: playlistId,
+        originalName: originalPlaylist.name
+      }
+    };
+
+    // Save new playlist
+    const userPlaylistsRef = ref(database, `users/${user.uid}/playlists`);
+    const newPlaylistRef = push(userPlaylistsRef);
+    await set(newPlaylistRef, newPlaylistData);
+
+    showNotification('Playlist copied successfully');
+    
+    // Increment original playlist's copy count if public
+    if (!originalPlaylist.isPrivate) {
+      const statsRef = ref(database, `playlistStats/${playlistId}`);
+      const statsSnapshot = await get(statsRef);
+      const currentCopies = (statsSnapshot.exists() ? statsSnapshot.val().copies : 0) || 0;
+      await set(statsRef, {
+        copies: currentCopies + 1,
+        lastCopied: new Date().toISOString()
+      });
+    }
+
+    return newPlaylistRef.key;
+  } catch (error) {
+    console.error('Error copying playlist:', error);
+    showNotification('Error copying playlist');
+  }
+};
+
 function initializeDragAndDrop(container, playlistId) {
   let draggedItem = null;
+  let draggedIndex = null;
+  let placeholder = null;
 
-  // Add draggable attribute to all items
-  container.querySelectorAll('.playlist-video-item').forEach(item => {
+  const items = container.querySelectorAll('.playlist-video-item');
+  
+  function createPlaceholder() {
+    const div = document.createElement('div');
+    div.className = 'playlist-video-placeholder';
+    return div;
+  }
+
+  items.forEach((item, index) => {
     item.setAttribute('draggable', true);
+    item.dataset.index = index;
     
-    item.addEventListener('dragstart', function(e) {
-      draggedItem = this;
-      this.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    });
-
-    item.addEventListener('dragend', function() {
-      this.classList.remove('dragging');
-      draggedItem = null;
+    item.addEventListener('dragstart', (e) => {
+      draggedItem = item;
+      draggedIndex = index;
       
-      // Save the new order
-      savePlaylistOrder(playlistId);
+      // Create and insert placeholder
+      placeholder = createPlaceholder();
+      placeholder.style.height = `${item.offsetHeight}px`;
+      
+      // Add dragging styles
+      setTimeout(() => {
+        item.classList.add('dragging');
+        item.style.opacity = '0.5';
+      }, 0);
+
+      // Set drag image
+      const dragImage = item.cloneNode(true);
+      dragImage.style.opacity = '0.7';
+      document.body.appendChild(dragImage);
+      e.dataTransfer.setDragImage(dragImage, 0, 0);
+      setTimeout(() => document.body.removeChild(dragImage), 0);
     });
 
-    item.addEventListener('dragover', function(e) {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-    });
+    item.addEventListener('dragend', async () => {
+      item.classList.remove('dragging');
+      item.style.opacity = '';
+      
+      if (placeholder && placeholder.parentNode) {
+        placeholder.parentNode.removeChild(placeholder);
+      }
 
-    item.addEventListener('drop', function(e) {
-      e.preventDefault();
-      if (draggedItem && draggedItem !== this) {
-        const items = [...container.querySelectorAll('.playlist-video-item')];
-        const draggedIndex = items.indexOf(draggedItem);
-        const droppedIndex = items.indexOf(this);
+      // Get new order
+      const newOrder = [...container.querySelectorAll('.playlist-video-item')]
+        .map(item => item.dataset.videoId);
 
-        if (draggedIndex < droppedIndex) {
-          this.parentNode.insertBefore(draggedItem, this.nextSibling);
-        } else {
-          this.parentNode.insertBefore(draggedItem, this);
+      // Save new order to database
+      try {
+        const playlistRef = ref(database, `users/${auth.currentUser.uid}/playlists/${playlistId}`);
+        const snapshot = await get(playlistRef);
+        if (snapshot.exists()) {
+          const playlist = snapshot.val();
+          await set(playlistRef, {
+            ...playlist,
+            order: newOrder,
+            updatedAt: new Date().toISOString()
+          });
         }
+      } catch (error) {
+        console.error('Error saving new order:', error);
+        showNotification('Error saving playlist order');
+      }
+    });
+
+    item.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      if (!draggedItem || draggedItem === item) return;
+
+      const rect = item.getBoundingClientRect();
+      const mid = rect.top + rect.height / 2;
+      const insertBefore = e.clientY < mid;
+
+      if (placeholder) {
+        if (insertBefore && item.previousSibling !== placeholder) {
+          item.parentNode.insertBefore(placeholder, item);
+        } else if (!insertBefore && item.nextSibling !== placeholder) {
+          item.parentNode.insertBefore(placeholder, item.nextSibling);
+        }
+      }
+    });
+
+    item.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (!draggedItem || draggedItem === item) return;
+
+      const rect = item.getBoundingClientRect();
+      const mid = rect.top + rect.height / 2;
+      const insertBefore = e.clientY < mid;
+
+      if (insertBefore) {
+        item.parentNode.insertBefore(draggedItem, item);
+      } else {
+        item.parentNode.insertBefore(draggedItem, item.nextSibling);
       }
     });
   });
@@ -1749,21 +2461,49 @@ window.createPlaylist = async function(videoId) {
   }
 
   try {
+    // Get video details if a videoId is provided
+    let thumbnailUrl = null;
+    if (videoId) {
+      const videoRef = ref(database, `videos/${videoId}`);
+      const videoSnapshot = await get(videoRef);
+      if (videoSnapshot.exists()) {
+        thumbnailUrl = videoSnapshot.val().thumbnail;
+      }
+    }
+
     const playlistData = {
       name: nameInput.value.trim(),
       description: descInput.value.trim(),
       isPrivate: privacyInput.checked,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      videos: videoId ? [videoId] : []
+      videos: videoId ? [videoId] : [],
+      order: videoId ? [videoId] : [], // Add to order if video provided
+      totalDuration: 0,
+      videoCount: videoId ? 1 : 0,
+      thumbnail: thumbnailUrl
     };
 
     const playlistsRef = ref(database, `users/${user.uid}/playlists`);
     const newPlaylistRef = push(playlistsRef);
     await set(newPlaylistRef, playlistData);
 
+    // Update stats only if needed
+    if (videoId) {
+      await updatePlaylistStats(newPlaylistRef.key);
+    }
+
     showNotification('Playlist created successfully');
     document.querySelector('.modal').remove();
+
+    // Refresh playlists display if it exists
+    const playlistsContainer = document.getElementById('user-playlists');
+    if (playlistsContainer) {
+      await window.loadUserPlaylists(videoId);
+    }
+
+    return newPlaylistRef.key;
+
   } catch (error) {
     console.error('Error creating playlist:', error);
     alert('Error creating playlist');
@@ -1799,6 +2539,90 @@ window.toggleVideoInPlaylist = async function(videoId, playlistId, isChecked) {
     console.error('Error updating playlist:', error);
     alert('Error updating playlist');
   }
+};
+
+window.sharePlaylist = async function(playlistId) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
+    const snapshot = await get(playlistRef);
+    if (!snapshot.exists()) return;
+
+    const playlist = snapshot.val();
+    
+    // Create a shareable record
+    const shareRef = ref(database, `sharedPlaylists/${playlistId}`);
+    await set(shareRef, {
+      playlistId,
+      userId: user.uid,
+      sharedAt: new Date().toISOString(),
+      views: 0,
+      playlist: {
+        name: playlist.name,
+        description: playlist.description,
+        thumbnail: playlist.thumbnail,
+        videoCount: playlist.videoCount
+      }
+    });
+
+    // Generate share URL
+    const shareUrl = `${window.location.origin}/shared/${playlistId}`;
+    
+    // Create share modal
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Share Playlist</h3>
+          <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="share-content">
+          <div class="share-url-container">
+            <input type="text" value="${shareUrl}" readonly class="share-url-input">
+            <button class="btn" onclick="copyShareUrl(this)">
+              <i class="fas fa-copy"></i>
+              Copy
+            </button>
+          </div>
+          <div class="share-options">
+            <button class="btn" onclick="window.open('https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}')">
+              <i class="fab fa-twitter"></i>
+              Twitter
+            </button>
+            <button class="btn" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}')">
+              <i class="fab fa-facebook"></i>
+              Facebook
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    return shareUrl;
+  } catch (error) {
+    console.error('Error sharing playlist:', error);
+    showNotification('Error sharing playlist');
+  }
+};
+
+// Helper function to copy share URL
+window.copyShareUrl = function(button) {
+  const input = button.previousElementSibling;
+  input.select();
+  document.execCommand('copy');
+  
+  // Update button text temporarily
+  const originalText = button.innerHTML;
+  button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+  setTimeout(() => {
+    button.innerHTML = originalText;
+  }, 2000);
 };
 
       // Database Schema for Community Features
@@ -1913,7 +2737,7 @@ window.toggleVideoInPlaylist = async function(videoId, playlistId, isChecked) {
         const params = {
           part: 'contentDetails,statistics',
           id: videoId,
-          key: YOUTUBE_API_KEY,
+          key: AIzaSyAoXITyBKjS9vcfTZDCGRRCfvDojJXorsg,
         };
 
         const queryString = Object.entries(params)
@@ -2004,7 +2828,7 @@ window.toggleVideoInPlaylist = async function(videoId, playlistId, isChecked) {
       }
 
       function fetchVideoDetails(videoIds) {
-  const apiKey = 'AIzaSyAoXITyBKjS9vcfTZDCGRRCfvDojJXorsg'; // Replace with your API key
+  const apiKey = YOUTUBE_API_KEY; // Replace with your API key
   const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds.join(
     ','
   )}&key=${apiKey}`;
@@ -3068,7 +3892,7 @@ async function fetchVideoDurations(videoIds) {
   }
 
   const durations = {};
-  const apiKey = 'AIzaSyAoXITyBKjS9vcfTZDCGRRCfvDojJXorsg';
+  const apiKey = YOUTUBE_API_KEY;
 
   try {
     // Process each chunk of video IDs
@@ -3689,6 +4513,8 @@ function setupFilterHandlers() {
     }
   });
 
+  document.addEventListener('touchstart', function() {}, {passive: true});
+
   // Special handling for search input with debounce
   const searchInput = document.getElementById('search-input');
   if (searchInput) {
@@ -3702,6 +4528,44 @@ function setupFilterHandlers() {
     });
   }
 }
+
+// Hamburger Menu functionality
+const hamburger = document.querySelector('.hamburger-menu');
+const navbarActions = document.querySelector('.navbar-actions');
+const menuOverlay = document.querySelector('.menu-overlay');
+
+function toggleMenu() {
+  hamburger.classList.toggle('active');
+  navbarActions.classList.toggle('active');
+  menuOverlay.classList.toggle('active');
+  document.body.classList.toggle('menu-open');
+}
+
+function closeMenu() {
+  hamburger.classList.remove('active');
+  navbarActions.classList.remove('active');
+  menuOverlay.classList.remove('active');
+  document.body.classList.remove('menu-open');
+}
+
+hamburger.addEventListener('click', toggleMenu);
+menuOverlay.addEventListener('click', closeMenu);
+
+// Close menu when clicking nav items
+const navLinks = document.querySelectorAll('.navbar-actions .btn');
+navLinks.forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
+
+// Close menu on escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMenu();
+});
+
+// Close menu when window is resized past mobile breakpoint
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) closeMenu();
+});
 
 // Call this in your initialization code instead of the DOMContentLoaded event
 auth.onAuthStateChanged((user) => {
