@@ -3,8 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Solace: A platform designed to help individuals with ADHD through educational content, tips, and resources. Explore, learn, and stay organized.">
+    <meta name="keywords" content="ADHD, tips, ADHD education, motivation, lifestyle, ADHD strategies, mental health, ADHD resources">
+    <meta name="author" content="Solace Team">
     <title>Solace - ADHD Video Library</title>
     <meta name="description" content="Access a curated collection of ADHD educational videos and resources to support your journey.">
+
+    <meta property="og:title" content="Solace - Your ADHD Companion">
+    <meta property="og:description" content="Explore educational content, strategies, and tips for ADHD. Designed for children, teens, and adults with ADHD.">
+    <meta property="og:image" content="https://solaceadhd.com/assets/og-image.jpg">
+    <meta property="og:url" content="https://solaceadhd.com">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Solace - Your ADHD Companion">
+  <meta name="twitter:description" content="Explore ADHD-focused content and strategies on Solace. Stay motivated, learn, and find the support you need.">
+  <meta name="twitter:image" content="https://solaceadhd.com/assets/og-image.jpg">
     
     <link rel="icon" href="/assets/favicon1-removebg-preview.png" type="image/x-icon" />
     <!-- Fonts -->
@@ -116,6 +130,21 @@
             align-items: center;
             gap: 0.5rem;
         }
+
+        .logo img {
+    height: 32px;  /* or 2rem to match your font size */
+    width: auto;   /* maintains aspect ratio */
+    object-fit: contain;
+    /* optional: add a bit of margin between logo and text */
+    margin-right: 0.5rem;
+}
+
+/* If you want the logo to scale nicely on smaller screens */
+@media (max-width: 768px) {
+    .logo img {
+        height: 28px;  /* slightly smaller on mobile */
+    }
+}
 
         .nav-links {
             display: flex;
@@ -1694,7 +1723,7 @@
     <nav class="navbar">
         <div class="navbar-container">
             <a href="#" class="logo">
-                <i class="fas fa-brain"></i>
+                <img src="/assets/solace-logo.jpg" alt="Solace Logo">
                 Solace
             </a>
             <div class="nav-links">
