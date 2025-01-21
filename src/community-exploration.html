@@ -12,6 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
+    <link rel="icon" href="/assets/favicon-16x16.png" type="image/x-icon" />
     <style>
       /* Use the same root variables as your main site */
 
@@ -1104,6 +1105,20 @@ textarea.playlist-input {
   opacity: 0.9;
 }
 
+.logo img {
+    height: 32px;  /* or 2rem to match your font size */
+    width: auto;   /* maintains aspect ratio */
+    object-fit: contain;
+    /* optional: add a bit of margin between logo and text */
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .logo img {
+        height: 28px;  /* slightly smaller on mobile */
+    }
+}
+
 .dropdown-divider {
   height: 1px;
   background: var(--border-color);
@@ -1986,7 +2001,7 @@ textarea.playlist-input {
     <nav class="navbar">
       <div class="navbar-content">
         <a href="#" class="logo">
-          <i class="fas fa-brain"></i>
+          <img src="/assets/solace-logo.jpg" alt="Solace Logo">
           Solace
         </a>
     
