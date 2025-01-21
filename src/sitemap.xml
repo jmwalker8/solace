@@ -10,7 +10,7 @@
 
   <!-- Login Page -->
   <url>
-    <loc>https://solaceadhd/login.html</loc> <!-- Update this URL to your login page -->
+    <loc>https://solaceadhd.com/login.html</loc> <!-- Update this URL to your login page -->
     <lastmod>2025-01-20</lastmod> <!-- Adjust date -->
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -18,7 +18,7 @@
 
   <!-- Register Page -->
   <url>
-    <loc>https://yourwebsite.com/register.html</loc> <!-- Update this URL to your register page -->
+    <loc>https://solaceadhd.com/register.html</loc> <!-- Update this URL to your register page -->
     <lastmod>2025-01-20</lastmod> <!-- Adjust date -->
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -26,7 +26,7 @@
 
   <!-- Main Functionality Page -->
   <url>
-    <loc>https://yourwebsite.com/community-exploration.html</loc> <!-- Update this URL to your main functionality page -->
+    <loc>https://solaceadhd.com/community-exploration.html</loc> <!-- Update this URL to your main functionality page -->
     <lastmod>2025-01-20</lastmod> <!-- Adjust date -->
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
