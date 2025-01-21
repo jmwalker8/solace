@@ -1034,6 +1034,197 @@ textarea.playlist-input {
   display: none; /* Removes the empty label space */
 }
 
+.resource-nav {
+  position: relative;
+  cursor: pointer;
+}
+
+.resource-dropdown-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resource-dropdown-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.resource-dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--card-background);
+  min-width: 220px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  z-index: 1000;
+}
+
+
+.resource-nav:hover .resource-dropdown-content {
+  display: block;
+}
+
+.resource-nav.active .resource-dropdown-content {
+  display: block;
+}
+
+.resource-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--text-color);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.resource-link:hover {
+  background: var(--background-color);
+}
+
+.resource-link.active {
+  color: var(--primary-color);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.resource-link i {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 0.5rem 0;
+}
+
+.suggest-resource-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.suggest-resource-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* Resource Form Styles */
+.resource-form {
+  max-width: 600px;
+  width: 90%;
+}
+
+.modal-description {
+  color: var(--text-color);
+  opacity: 0.8;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--input-background);
+  color: var(--input-text);
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  outline: none;
+}
+
+.resource-type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.resource-type-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resource-type-btn i {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.resource-type-btn:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+.resource-type-btn.selected {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: var(--primary-color);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .resource-dropdown-content {
+    position: fixed;
+    top: auto;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    width: auto;
+  }
+
+  .resource-type-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
       .btn:hover {
         background: var(--primary-dark);
         transform: translateY(-2px);
@@ -1801,6 +1992,41 @@ textarea.playlist-input {
             <i class="fas fa-clock"></i>
             Watch Later
           </button>
+
+          <div class="resource-nav">
+            <button class="btn resource-dropdown-btn">
+              <i class="fas fa-th-large"></i>
+              Resources
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="resource-dropdown-content">
+              <a href="/videos" class="resource-link active">
+                <i class="fas fa-video"></i>
+                Videos
+              </a>
+              <a href="/apps" class="resource-link">
+                <i class="fas fa-mobile-alt"></i>
+                Apps & Tools
+              </a>
+              <a href="/music" class="resource-link">
+                <i class="fas fa-music"></i>
+                Music
+              </a>
+              <a href="/communities" class="resource-link">
+                <i class="fas fa-users"></i>
+                Communities
+              </a>
+              <a href="/articles" class="resource-link">
+                <i class="fas fa-book-reader"></i>
+                Articles
+              </a>
+              <div class="dropdown-divider"></div>
+              <button onclick="showResourceModal()" class="btn suggest-resource-btn">
+                <i class="fas fa-plus-circle"></i>
+                Suggest Resource
+              </button>
+            </div>
+          </div>
     
           <!-- Profile Button -->
           <div class="profile-dropdown">
@@ -1927,6 +2153,61 @@ textarea.playlist-input {
       <button class="btn-show-playlists" onclick="window.showPlaylists()">
         <i class="fas fa-list-ul"></i>
       </button>
+    </div>
+
+    <div id="resource-modal" class="modal">
+      <div class="modal-content resource-form">
+        <div class="modal-header">
+          <h3>Quick Suggestion</h3>
+          <button class="btn-icon close-modal" onclick="closeResourceModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <p class="modal-description">Share a resource that has helped you manage ADHD.</p>
+        
+        <div class="form-group">
+          <label for="resource-name">Resource Name</label>
+          <input type="text" id="resource-name" placeholder="Name of the resource" class="form-input">
+        </div>
+    
+        <div class="form-group">
+          <label>Resource Type</label>
+          <div class="resource-type-grid">
+            <button class="resource-type-btn" data-type="app">
+              <i class="fas fa-mobile-alt"></i>
+              App/Tool
+            </button>
+            <button class="resource-type-btn" data-type="content">
+              <i class="fas fa-video"></i>
+              Content Creator
+            </button>
+            <button class="resource-type-btn" data-type="community">
+              <i class="fas fa-users"></i>
+              Community
+            </button>
+            <button class="resource-type-btn" data-type="information">
+              <i class="fas fa-book-reader"></i>
+              Information
+            </button>
+          </div>
+        </div>
+    
+        <div class="form-group">
+          <label for="resource-link">Resource Link (Optional)</label>
+          <input type="url" id="resource-link" placeholder="https://" class="form-input">
+        </div>
+    
+        <div class="form-group">
+          <label for="contributor-name">Contributor Name (Optional)</label>
+          <input type="text" id="contributor-name" placeholder="Your name or GitHub username" class="form-input">
+        </div>
+    
+        <div class="modal-actions">
+          <button class="btn btn-secondary" onclick="closeResourceModal()">Back</button>
+          <button class="btn btn-primary" onclick="submitResource()">Submit Suggestion</button>
+        </div>
+      </div>
     </div>
 
     <!-- Include Firebase -->
@@ -4395,6 +4676,22 @@ function initializeInfiniteScroll() {
   displayVideos();
 }
 
+// Add click handler for resource dropdown
+const resourceNav = document.querySelector('.resource-nav');
+const resourceBtn = document.querySelector('.resource-dropdown-btn');
+
+resourceBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  resourceNav.classList.toggle('active');
+});
+
+// Close when clicking outside
+document.addEventListener('click', (e) => {
+  if (!resourceNav.contains(e.target)) {
+    resourceNav.classList.remove('active');
+  }
+});
+
       function clearFilters() {
         const filterInputs = [
           'category-filter',
@@ -4489,6 +4786,90 @@ function initializeInfiniteScroll() {
     alert('Error updating Watch Later. Please try again.');
   }
 };
+
+function showResourceModal() {
+  const modal = document.getElementById('resource-modal');
+  modal.style.display = 'flex';
+  document.body.classList.add('modal-open');
+}
+
+function closeResourceModal() {
+  const modal = document.getElementById('resource-modal');
+  modal.style.display = 'none';
+  document.body.classList.remove('modal-open');
+  
+  // Reset form
+  resetResourceForm();
+}
+
+function resetResourceForm() {
+  document.getElementById('resource-name').value = '';
+  document.getElementById('resource-link').value = '';
+  document.getElementById('contributor-name').value = '';
+  document.querySelectorAll('.resource-type-btn').forEach(btn => {
+    btn.classList.remove('selected');
+  });
+}
+
+// Handle resource type selection
+document.querySelectorAll('.resource-type-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Remove selection from all buttons
+    document.querySelectorAll('.resource-type-btn').forEach(b => {
+      b.classList.remove('selected');
+    });
+    // Add selection to clicked button
+    btn.classList.add('selected');
+  });
+});
+
+async function submitResource() {
+  const user = auth.currentUser;
+  if (!user) {
+    showNotification('Please log in to submit resources');
+    return;
+  }
+
+  const name = document.getElementById('resource-name').value;
+  const link = document.getElementById('resource-link').value;
+  const contributorName = document.getElementById('contributor-name').value;
+  const selectedType = document.querySelector('.resource-type-btn.selected');
+
+  if (!name || !selectedType) {
+    showNotification('Please fill in required fields');
+    return;
+  }
+
+  try {
+    const resourceData = {
+      name,
+      type: selectedType.dataset.type,
+      link: link || null,
+      contributorName: contributorName || 'Anonymous',
+      userId: user.uid,
+      timestamp: new Date().toISOString(),
+      status: 'pending'
+    };
+
+    // Add to Firebase
+    const resourcesRef = ref(database, 'resources');
+    await push(resourcesRef, resourceData);
+
+    showNotification('Resource submitted successfully!');
+    closeResourceModal();
+  } catch (error) {
+    console.error('Error submitting resource:', error);
+    showNotification('Error submitting resource. Please try again.');
+  }
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', (e) => {
+  const modal = document.getElementById('resource-modal');
+  if (e.target === modal) {
+    closeResourceModal();
+  }
+});
 
       // Add helper functions
       function showNotification(message) {

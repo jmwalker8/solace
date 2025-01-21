@@ -146,6 +146,20 @@
     }
 }
 
+.footer-logo img {
+    height: 32px;  /* or 2rem to match your font size */
+    width: auto;   /* maintains aspect ratio */
+    object-fit: contain;
+    /* optional: add a bit of margin between logo and text */
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .footer-logo img {
+        height: 28px;  /* slightly smaller on mobile */
+    }
+}
+
         .nav-links {
             display: flex;
             gap: 2rem;
@@ -2128,7 +2142,7 @@
       <div class="footer-main">
           <div class="footer-brand">
               <a href="#" class="footer-logo">
-                  <i class="fas fa-brain"></i>
+                <img src="/assets/solace-logo.jpg" alt="Solace Logo">
                   Solace
               </a>
               <p class="footer-description">
