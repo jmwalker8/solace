@@ -2016,6 +2016,42 @@ textarea.playlist-input {
     
         <!-- Menu Overlay -->
         <div class="menu-overlay"></div>
+
+        <!-- Add this after the logo in the navbar -->
+<div class="resource-nav">
+  <button class="resource-dropdown-btn">
+    <i class="fas fa-play-circle"></i>
+    Videos
+    <i class="fas fa-chevron-down"></i>
+  </button>
+  <div class="resource-dropdown-content">
+    <a href="#" class="resource-link active" data-resource="videos">
+      <i class="fas fa-play-circle"></i>
+      Videos
+    </a>
+    <a href="#" class="resource-link" data-resource="music">
+      <i class="fas fa-music"></i>
+      Music
+    </a>
+    <a href="#" class="resource-link" data-resource="apps">
+      <i class="fas fa-mobile-alt"></i>
+      Apps
+    </a>
+    <a href="#" class="resource-link" data-resource="websites">
+      <i class="fas fa-globe"></i>
+      Websites
+    </a>
+    <a href="#" class="resource-link" data-resource="books">
+      <i class="fas fa-book"></i>
+      Books
+    </a>
+    <div class="dropdown-divider"></div>
+    <button class="suggest-resource-btn" onclick="window.showResourceForm()">
+      <i class="fas fa-plus"></i>
+      Suggest Resource
+    </button>
+  </div>
+</div>
         
         <!-- Main navigation actions -->
         <div class="navbar-actions">
@@ -2609,6 +2645,188 @@ function initializeDragAndDrop(container, playlistId) {
     });
   });
 }
+
+// Add this to your existing JavaScript
+let currentResourceType = 'videos';
+
+function initializeResourceNav() {
+  const resourceLinks = document.querySelectorAll('.resource-link');
+  const dropdownBtn = document.querySelector('.resource-dropdown-btn');
+  
+  resourceLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const resourceType = link.dataset.resource;
+      
+      // Update active state
+      resourceLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      
+      // Update dropdown button
+      dropdownBtn.innerHTML = `
+        <i class="fas fa-${getResourceIcon(resourceType)}"></i>
+        ${capitalizeFirstLetter(resourceType)}
+        <i class="fas fa-chevron-down"></i>
+      `;
+      
+      // Switch resource type
+      switchResourceType(resourceType);
+    });
+  });
+}
+
+function getResourceIcon(type) {
+  const icons = {
+    videos: 'play-circle',
+    music: 'music',
+    apps: 'mobile-alt',
+    websites: 'globe',
+    books: 'book'
+  };
+  return icons[type] || 'play-circle';
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function switchResourceType(type) {
+  currentResourceType = type;
+  
+  // Update filters based on resource type
+  updateFilters(type);
+  
+  // Reset and reload content
+  currentVideos = [];
+  filteredVideos = [];
+  displayedVideos = VIDEOS_PER_PAGE;
+  
+  // Load appropriate content
+  switch(type) {
+    case 'videos':
+      loadVideos();
+      break;
+    case 'music':
+      loadMusic();
+      break;
+    case 'apps':
+      loadApps();
+      break;
+    case 'websites':
+      loadWebsites();
+      break;
+    case 'books':
+      loadBooks();
+      break;
+  }
+}
+
+function updateFilters(resourceType) {
+  const filterContainer = document.querySelector('.filters');
+  
+  // Define filter options for each resource type
+  const filterConfigs = {
+    videos: [
+      {
+        id: 'category-filter',
+        label: 'Category',
+        options: ['Tips & Strategies', 'Education', 'Motivation', 'Lifestyle', 'Medication']
+      },
+      {
+        id: 'type-filter',
+        label: 'ADHD Type',
+        options: ['Inattentive', 'Hyperactive', 'Combined']
+      },
+      {
+        id: 'age-filter',
+        label: 'Age Group',
+        options: ['Children', 'Teenagers', 'Adults']
+      }
+    ],
+    apps: [
+      {
+        id: 'app-category-filter',
+        label: 'Category',
+        options: ['Task Management', 'Focus Tools', 'Habit Tracking', 'Meditation', 'Note Taking']
+      },
+      {
+        id: 'platform-filter',
+        label: 'Platform',
+        options: ['iOS', 'Android', 'Web', 'Desktop']
+      },
+      {
+        id: 'price-filter',
+        label: 'Price',
+        options: ['Free', 'Freemium', 'Paid']
+      }
+    ],
+    // Add configurations for other resource types...
+  };
+
+  // Update filter HTML based on resource type
+  if (filterConfigs[resourceType]) {
+    // Generate new filter HTML
+    const filterHTML = generateFilterHTML(filterConfigs[resourceType]);
+    filterContainer.innerHTML = filterHTML;
+    
+    // Reinitialize filter handlers
+    setupFilterHandlers();
+  }
+}
+
+// Add this function to show the resource suggestion form
+window.showResourceForm = function() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content resource-form">
+      <div class="modal-header">
+        <h3>Suggest a Resource</h3>
+        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p class="modal-description">Help the community by suggesting a helpful ADHD resource.</p>
+      
+      <div class="resource-type-grid">
+        <button class="resource-type-btn" data-type="video">
+          <i class="fas fa-play-circle"></i>
+          <span>Video</span>
+        </button>
+        <button class="resource-type-btn" data-type="app">
+          <i class="fas fa-mobile-alt"></i>
+          <span>App</span>
+        </button>
+        <button class="resource-type-btn" data-type="website">
+          <i class="fas fa-globe"></i>
+          <span>Website</span>
+        </button>
+        <button class="resource-type-btn" data-type="book">
+          <i class="fas fa-book"></i>
+          <span>Book</span>
+        </button>
+      </div>
+      
+      <form id="resource-suggestion-form" style="display: none;">
+        <!-- Form fields will be dynamically added based on resource type -->
+      </form>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Add click handlers for resource type buttons
+  const typeButtons = modal.querySelectorAll('.resource-type-btn');
+  typeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      typeButtons.forEach(b => b.classList.remove('selected'));
+      button.classList.add('selected');
+      showResourceForm(button.dataset.type);
+    });
+  });
+};
+
+// Initialize resource navigation when the page loads
 
 // Function to save the new playlist order
 async function savePlaylistOrder(playlistId) {
@@ -5080,6 +5298,8 @@ auth.onAuthStateChanged((user) => {
     window.location.href = '/login.html';
   }
 });
+
+document.addEventListener('DOMContentLoaded', initializeResourceNav);
 
 // Remove any existing event listeners
 document.removeEventListener('DOMContentLoaded', setupFilterHandlers);
