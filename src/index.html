@@ -2221,13 +2221,14 @@ const fetchVideoCountAndEstimateHours = async () => {
 
 const fetchUserCount = async () => {
   try {
-    const dbRef = ref(database, 'users'); // Reference the "users" node
+
+    const dbRef = ref(database, 'users');  // Reference to the "users" node
     const snapshot = await get(dbRef);
 
     if (snapshot.exists()) {
-      console.log('User data fetched:', snapshot.val()); // Debugging log
-      const userCount = Object.keys(snapshot.val()).length; // Count the number of users
-      console.log('User count:', userCount); // Debugging log
+      console.log('User data fetched:', snapshot.val());  // Debugging log
+      const userCount = Object.keys(snapshot.val()).length;  // Count the number of users
+      console.log('User count:', userCount);  // Debugging log
       const userStatElement = document.querySelector('.user-stat-number');
       if (!userStatElement) {
         console.error('Element with class "user-stat-number" not found!');
@@ -2241,6 +2242,7 @@ const fetchUserCount = async () => {
     console.error('Error fetching user count:', error);
   }
 };
+
 
 
 
