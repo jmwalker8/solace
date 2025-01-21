@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/  # Block crawlers from indexing admin pages
+Disallow: /private/ # Block crawlers from indexing private data
+
+Sitemap: https://solaceadhd/sitemap.xml
