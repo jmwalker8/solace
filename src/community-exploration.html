@@ -1447,26 +1447,6 @@
         }
 
         // Modify resource type switching to handle videos specially
-        async function switchResourceType(type) {
-            currentResourceType = type;
-            
-            // Update UI
-            resourceTabs.forEach(tab => {
-                tab.classList.toggle('active', tab.dataset.type === type);
-            });
-            
-            // Reset state
-            currentResources = [];
-            filteredResources = [];
-            displayedResources = RESOURCES_PER_PAGE;
-
-            // Load appropriate resources
-            if (type === 'videos') {
-                await loadVideoResources();
-            } else {
-                await loadResources();
-            }
-        }
 
         // Initialize video-specific features
         function initializeVideoFeatures() {
