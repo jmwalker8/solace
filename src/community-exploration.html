@@ -1062,6 +1062,8 @@ textarea.playlist-input {
   position: absolute;
   top: 100%;
   left: 0;
+  opacity: 0;
+  visibility: hidden;
   background: var(--card-background);
   min-width: 220px;
   border-radius: 12px;
@@ -1069,15 +1071,13 @@ textarea.playlist-input {
   margin-top: 0.5rem;
   padding: 0.5rem;
   z-index: 1000;
-}
-
-
-.resource-nav:hover .resource-dropdown-content {
-  display: block;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .resource-nav.active .resource-dropdown-content {
   display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 .resource-link {
@@ -4782,6 +4782,278 @@ function initializeInfiniteScroll() {
         const icon = document.querySelector('#theme-toggle i');
         icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
       }
+
+      // Add this to your existing JavaScript
+function initializeResourceNav() {
+  const resourceNav = document.querySelector('.resource-nav');
+  const dropdownBtn = resourceNav.querySelector('.resource-dropdown-btn');
+  
+  dropdownBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    resourceNav.classList.toggle('active');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!resourceNav.contains(e.target)) {
+      resourceNav.classList.remove('active');
+    }
+  });
+}
+
+// Add this function to handle resource uploads
+window.showResourceForm = function() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content resource-form">
+      <div class="modal-header">
+        <h3>Add Resource</h3>
+        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p class="modal-description">Share a helpful ADHD resource with the community.</p>
+      
+      <div class="resource-type-grid">
+        <button class="resource-type-btn" data-type="music">
+          <i class="fas fa-music"></i>
+          <span>Music</span>
+        </button>
+        <button class="resource-type-btn" data-type="app">
+          <i class="fas fa-mobile-alt"></i>
+          <span>App</span>
+        </button>
+        <button class="resource-type-btn" data-type="website">
+          <i class="fas fa-globe"></i>
+          <span>Website</span>
+        </button>
+        <button class="resource-type-btn" data-type="book">
+          <i class="fas fa-book"></i>
+          <span>Book</span>
+        </button>
+      </div>
+      
+      <form id="resource-suggestion-form" class="resource-form-fields" style="display: none;">
+      </form>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Add click handlers for resource type buttons
+  const typeButtons = modal.querySelectorAll('.resource-type-btn');
+  typeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      typeButtons.forEach(b => b.classList.remove('selected'));
+      button.classList.add('selected');
+      
+      const form = document.getElementById('resource-suggestion-form');
+      form.style.display = 'block';
+      
+      // Show appropriate form fields based on resource type
+      switch(button.dataset.type) {
+        case 'music':
+          form.innerHTML = `
+            <div class="form-group">
+              <label>Playlist Name</label>
+              <input type="text" class="form-input" id="resource-name" required>
+            </div>
+            <div class="form-group">
+              <label>Platform</label>
+              <select class="form-input" id="resource-platform" required>
+                <option value="spotify">Spotify</option>
+                <option value="apple">Apple Music</option>
+                <option value="youtube">YouTube Music</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Playlist URL</label>
+              <input type="url" class="form-input" id="resource-url" required>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-input" id="resource-description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Tags</label>
+              <input type="text" class="form-input" id="resource-tags" placeholder="focus, study, relaxation">
+            </div>
+          `;
+          break;
+          
+        case 'app':
+          form.innerHTML = `
+            <div class="form-group">
+              <label>App Name</label>
+              <input type="text" class="form-input" id="resource-name" required>
+            </div>
+            <div class="form-group">
+              <label>Platform</label>
+              <select class="form-input" id="resource-platform" required>
+                <option value="ios">iOS</option>
+                <option value="android">Android</option>
+                <option value="web">Web</option>
+                <option value="desktop">Desktop</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>App URL</label>
+              <input type="url" class="form-input" id="resource-url" required>
+            </div>
+            <div class="form-group">
+              <label>Price Model</label>
+              <select class="form-input" id="resource-price" required>
+                <option value="free">Free</option>
+                <option value="freemium">Freemium</option>
+                <option value="paid">Paid</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-input" id="resource-description" rows="3"></textarea>
+            </div>
+          `;
+          break;
+          
+        case 'website':
+          form.innerHTML = `
+            <div class="form-group">
+              <label>Website Name</label>
+              <input type="text" class="form-input" id="resource-name" required>
+            </div>
+            <div class="form-group">
+              <label>URL</label>
+              <input type="url" class="form-input" id="resource-url" required>
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select class="form-input" id="resource-category" required>
+                <option value="education">Education</option>
+                <option value="tools">Tools & Resources</option>
+                <option value="community">Community</option>
+                <option value="blog">Blog</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-input" id="resource-description" rows="3"></textarea>
+            </div>
+          `;
+          break;
+          
+        case 'book':
+          form.innerHTML = `
+            <div class="form-group">
+              <label>Book Title</label>
+              <input type="text" class="form-input" id="resource-name" required>
+            </div>
+            <div class="form-group">
+              <label>Author</label>
+              <input type="text" class="form-input" id="resource-author" required>
+            </div>
+            <div class="form-group">
+              <label>ISBN (optional)</label>
+              <input type="text" class="form-input" id="resource-isbn">
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select class="form-input" id="resource-category" required>
+                <option value="self-help">Self Help</option>
+                <option value="educational">Educational</option>
+                <option value="scientific">Scientific</option>
+                <option value="memoir">Memoir</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-input" id="resource-description" rows="3"></textarea>
+            </div>
+          `;
+          break;
+      }
+      
+      // Add submit button to form
+      form.innerHTML += `
+        <div class="modal-actions">
+          <button type="button" class="btn" onclick="this.closest('.modal').remove()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Resource</button>
+        </div>
+      `;
+      
+      // Add form submit handler
+      form.addEventListener('submit', handleResourceSubmit);
+    });
+  });
+};
+
+// Handle resource form submission
+async function handleResourceSubmit(e) {
+  e.preventDefault();
+  
+  const user = auth.currentUser;
+  if (!user) {
+    showNotification('Please log in to submit resources');
+    return;
+  }
+  
+  const form = e.target;
+  const resourceType = document.querySelector('.resource-type-btn.selected').dataset.type;
+  
+  try {
+    // Gather form data
+    const resourceData = {
+      type: resourceType,
+      name: form.querySelector('#resource-name').value,
+      description: form.querySelector('#resource-description').value,
+      url: form.querySelector('#resource-url')?.value,
+      submittedBy: user.uid,
+      submittedAt: new Date().toISOString(),
+      status: 'pending', // Resources need approval before being public
+      ...getTypeSpecificData(form, resourceType)
+    };
+    
+    // Save to database
+    const resourcesRef = ref(database, 'resources');
+    const newResourceRef = push(resourcesRef);
+    await set(newResourceRef, resourceData);
+    
+    showNotification('Resource submitted successfully! It will be reviewed shortly.');
+    form.closest('.modal').remove();
+    
+  } catch (error) {
+    console.error('Error submitting resource:', error);
+    showNotification('Error submitting resource. Please try again.');
+  }
+}
+
+// Helper function to get type-specific form data
+function getTypeSpecificData(form, type) {
+  switch(type) {
+    case 'music':
+      return {
+        platform: form.querySelector('#resource-platform').value,
+        tags: form.querySelector('#resource-tags').value.split(',').map(t => t.trim())
+      };
+    case 'app':
+      return {
+        platform: form.querySelector('#resource-platform').value,
+        priceModel: form.querySelector('#resource-price').value
+      };
+    case 'website':
+      return {
+        category: form.querySelector('#resource-category').value
+      };
+    case 'book':
+      return {
+        author: form.querySelector('#resource-author').value,
+        isbn: form.querySelector('#resource-isbn').value,
+        category: form.querySelector('#resource-category').value
+      };
+    default:
+      return {};
+  }
+}
 
       // Filter functionality
       function applyFilters() {
