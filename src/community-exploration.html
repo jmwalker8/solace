@@ -1071,12 +1071,31 @@ textarea.playlist-input {
 }
 
 
-.resource-nav:hover .resource-dropdown-content {
-  display: block;
-}
-
 .resource-nav.active .resource-dropdown-content {
   display: block;
+  animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add responsive handling */
+@media (max-width: 768px) {
+  .resource-dropdown-content {
+    position: static;
+    width: 100%;
+    margin-top: 0.5rem;
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+  }
 }
 
 .resource-link {
@@ -4726,6 +4745,38 @@ async function fetchVideoDurations(videoIds) {
           return null;
         }
       }
+
+      document.addEventListener('DOMContentLoaded', () => {
+  const resourceNav = document.querySelector('.resource-nav');
+  const resourceBtn = document.querySelector('.resource-dropdown-btn');
+
+  // Toggle dropdown on button click
+  resourceBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isActive = resourceNav.classList.contains('active');
+    
+    // Close any other open dropdowns first
+    document.querySelectorAll('.resource-nav.active, .profile-dropdown.active').forEach(dropdown => {
+      if (dropdown !== resourceNav) {
+        dropdown.classList.remove('active');
+      }
+    });
+
+    resourceNav.classList.toggle('active');
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!resourceNav.contains(e.target)) {
+      resourceNav.classList.remove('active');
+    }
+  });
+
+  // Prevent closing when clicking inside dropdown
+  document.querySelector('.resource-dropdown-content').addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+});
 
       async function loadVideos() {
   console.log('Loading videos from database...');
