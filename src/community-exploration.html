@@ -1126,22 +1126,29 @@ textarea.playlist-input {
 }
 
 .suggest-resource-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  height: 48px;
   background: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
+  padding: 0 1.5rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .suggest-resource-btn:hover {
   background: var(--primary-dark);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+}
+.suggest-resource-btn i {
+  font-size: 1rem;
+}
+#resource-type-filter {
+  font-weight: 500;
 }
 
 /* Resource Form Styles */
@@ -2018,40 +2025,7 @@ textarea.playlist-input {
         <div class="menu-overlay"></div>
 
         <!-- Add this after the logo in the navbar -->
-<div class="resource-nav">
-  <button class="resource-dropdown-btn">
-    <i class="fas fa-play-circle"></i>
-    Videos
-    <i class="fas fa-chevron-down"></i>
-  </button>
-  <div class="resource-dropdown-content">
-    <a href="#" class="resource-link active" data-resource="videos">
-      <i class="fas fa-play-circle"></i>
-      Videos
-    </a>
-    <a href="#" class="resource-link" data-resource="music">
-      <i class="fas fa-music"></i>
-      Music
-    </a>
-    <a href="#" class="resource-link" data-resource="apps">
-      <i class="fas fa-mobile-alt"></i>
-      Apps
-    </a>
-    <a href="#" class="resource-link" data-resource="websites">
-      <i class="fas fa-globe"></i>
-      Websites
-    </a>
-    <a href="#" class="resource-link" data-resource="books">
-      <i class="fas fa-book"></i>
-      Books
-    </a>
-    <div class="dropdown-divider"></div>
-    <button class="suggest-resource-btn" onclick="window.showResourceForm()">
-      <i class="fas fa-plus"></i>
-      Suggest Resource
-    </button>
-  </div>
-</div>
+
         
         <!-- Main navigation actions -->
         <div class="navbar-actions">
@@ -2127,6 +2101,24 @@ textarea.playlist-input {
     <div class="container">
       
       <div class="filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="resource-type-filter">Resource Type</label>
+            <select id="resource-type-filter">
+              <option value="videos" selected>Videos</option>
+              <option value="music">Music</option>
+              <option value="apps">Apps</option>
+              <option value="websites">Websites</option>
+              <option value="books">Books</option>
+            </select>
+          </div>
+          <div class="filter-group" style="justify-content: flex-end; align-items: flex-end;">
+            <button class="btn suggest-resource-btn" onclick="window.showResourceForm()">
+              <i class="fas fa-plus"></i>
+              Submit Resource
+            </button>
+          </div>
+        </div>
         <div class="filter-row">
           <div class="filter-group">
             <label for="category-filter">Category</label>
@@ -4784,22 +4776,16 @@ function initializeInfiniteScroll() {
       }
 
       // Add this to your existing JavaScript
-function initializeResourceNav() {
-  const resourceNav = document.querySelector('.resource-nav');
-  const dropdownBtn = resourceNav.querySelector('.resource-dropdown-btn');
-  
-  dropdownBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    resourceNav.classList.toggle('active');
-  });
 
-  // Close dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!resourceNav.contains(e.target)) {
-      resourceNav.classList.remove('active');
-    }
+function initializeResourceFilters() {
+  const resourceTypeSelect = document.getElementById('resource-type-filter');
+  
+  resourceTypeSelect.addEventListener('change', (e) => {
+    const resourceType = e.target.value;
+    switchResourceType(resourceType);
   });
 }
+
 
 // Add this function to handle resource uploads
 window.showResourceForm = function() {
@@ -5561,7 +5547,8 @@ auth.onAuthStateChanged((user) => {
     loadVideos().then(() => {
       loadFilterPreferences();
       setupFilterHandlers();
-      initializeInfiniteScroll(); // Initialize infinite scroll after videos load
+      initializeResourceFilters(); // Add this line
+      initializeInfiniteScroll();
     });
     initializeViewToggle();
     initializeThemeToggle();
