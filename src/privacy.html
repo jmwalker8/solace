@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Solace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-light: #a78bfa;
+            --primary-dark: #7c3aed;
+            --secondary-color: #4c1d95;
+            --text-color: #1f2937;
+            --background-color: #f9fafb;
+            --card-background: #ffffff;
+            --navbar-background: #1e1b4b;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: var(--navbar-background);
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+    height: 32px;  /* or 2rem to match your font size */
+    width: auto;   /* maintains aspect ratio */
+    object-fit: contain;
+    /* optional: add a bit of margin between logo and text */
+    margin-right: 0.5rem;
+}
+
+/* If you want the logo to scale nicely on smaller screens */
+@media (max-width: 768px) {
+    .logo img {
+        height: 28px;  /* slightly smaller on mobile */
+    }
+}
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .highlight {
+            background-color: rgba(139, 92, 246, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            margin: 1rem 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .last-updated {
+            text-align: right;
+            font-style: italic;
+            opacity: 0.7;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo">
+                <img src="/assets/solace-logo.jpg" alt="Solace Logo">
+                Solace
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        
+        <div class="section">
+            <h2>Introduction</h2>
+            <p>At Solace, we take your privacy seriously. This policy describes how we collect, use, and protect your personal information when you use our ADHD video platform.</p>
+        </div>
+
+        <div class="section">
+            <h2>Information We Collect</h2>
+            <ul>
+                <li>Account information (email, username)</li>
+                <li>Authentication data (securely handled by Firebase)</li>
+                <li>User preferences and settings</li>
+                <li>Video interaction history</li>
+                <li>Playlist and watch later data</li>
+                <li>Comments and ratings</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Data Security</h2>
+            <div class="highlight">
+                <p>Your security is our priority. We use industry-standard security measures:</p>
+                <ul>
+                    <li>Firebase Authentication with secure password hashing</li>
+                    <li>Encrypted data transmission</li>
+                    <li>Secure database storage</li>
+                    <li>Regular security audits</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>How We Use Your Data</h2>
+            <p>We use your information to:</p>
+            <ul>
+                <li>Provide and improve our services</li>
+                <li>Personalize your experience</li>
+                <li>Maintain and optimize platform performance</li>
+                <li>Send important notifications</li>
+                <li>Analyze usage patterns to improve features</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Third-Party Services</h2>
+            <p>We use the following third-party services:</p>
+            <ul>
+                <li>Firebase Authentication and Database for secure user data management</li>
+                <li>YouTube Data API v3 for video content</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Your Rights</h2>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Access your personal data</li>
+                <li>Request data correction or deletion</li>
+                <li>Opt-out of non-essential communications</li>
+                <li>Export your data</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>For privacy concerns, contact us at: privacy@solace.com</p>
+        </div>
+
+        <div class="last-updated">
+            Last updated: January 20, 2024
+        </div>
+    </div>
+</body>
+</html>
