@@ -416,12 +416,47 @@
 }
 
 .testimonial {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 0 10px rgba(131, 58, 180, 0.2); /* Added glow effect */
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1rem;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.testimonial-name {
+    font-weight: 600;
+    color: var(--gray-800);
+    margin-bottom: 0.5rem;
+}
+
+.testimonial-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.testimonial-header h2 {
+    font-size: 2rem;
+    color: var(--gray-800);
+    margin-bottom: 1rem;
+}
+
+.add-testimonial-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.add-testimonial-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
 }
 
 .avatar {
@@ -433,16 +468,18 @@
 }
 
 .testimonial-text {
-  font-size: 16px;
-  color: #555;
-  margin: 10px 0;
+    color: var(--gray-700);
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
-.testimonial-name {
-  font-weight: bold;
-  color: #333;
-  margin-top: 5px;
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+    }
 }
+
 
 /* Animation */
 @keyframes scroll {
@@ -1315,6 +1352,102 @@
   margin-left: 2px;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray-700);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--gray-800);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.submit-testimonial {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.submit-testimonial:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Success/Error Messages */
+.message {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+.message.success {
+    background-color: #d1fae5;
+    color: #065f46;
+    display: block;
+}
+
+.message.error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    display: block;
+}
+
 .mobile-menu-button {
     display: none; /* Hidden by default on desktop */
     background: none;
@@ -1915,75 +2048,33 @@
   </section>
 
   <section class="creators-carousel">
+    <div class="testimonial-header">
+      <h2>What Our Users Say</h2>
+      <button id="addTestimonialBtn" class="add-testimonial-btn">Share Your Experience</button>
+    </div>
+
+    <!-- Testimonial Form Modal -->
+    <div id="testimonialModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Share Your Experience</h3>
+        <form id="testimonialForm">
+          <div class="form-group">
+            <label for="name">Name (optional)</label>
+            <input type="text" id="name" placeholder="Your name or 'Anonymous'">
+          </div>
+          <div class="form-group">
+            <label for="testimonial">Your Experience</label>
+            <textarea id="testimonial" required placeholder="Share how Solace has helped you..."></textarea>
+          </div>
+          <button type="submit" class="submit-testimonial">Submit</button>
+        </form>
+      </div>
+    </div>
+
     <div class="slider">
-      <div class="slide-track">
-        <!-- Testimonial 1 -->
-        <div class="slide">
-          <div class="testimonial">
-            <img src="/assets/manager.png" alt="Sarah Avatar" class="avatar" />
-            <p class="testimonial-text">"Solace has been life-changing! The curated content is exactly what I needed to better understand ADHD."</p>
-            <p class="testimonial-name">- Sarah W.</p>
-          </div>
-        </div>
-        <!-- Testimonial 2 -->
-        <div class="slide">
-          <div class="testimonial">
-            <img src="/assets/man.png" alt="James Avatar" class="avatar" />
-            <p class="testimonial-text">"The videos on this platform helped me implement practical strategies that actually work."</p>
-            <p class="testimonial-name">- James P.</p>
-          </div>
-        </div>
-        <!-- Testimonial 3 -->
-        <div class="slide">
-          <div class="testimonial">
-            <img src="/assets/user.png" alt="Emily Avatar" class="avatar" />
-            <p class="testimonial-text">"Finally, a place where I can find reliable ADHD information all in one place!"</p>
-            <p class="testimonial-name">- Anonymous.</p>
-          </div>
-        </div>
-        <!-- Testimonial 4 -->
-        <div class="slide">
-          <div class="testimonial">
-            <img src="/assets/person.png" alt="Mark Avatar" class="avatar" />
-            <p class="testimonial-text">"The content is so well-organized and informative. It’s a must-have for anyone navigating ADHD."</p>
-            <p class="testimonial-name">- Mark L.</p>
-          </div>
-        </div>
-       <!-- Testimonial 5 -->
-<div class="slide">
-  <div class="testimonial">
-    <img src="/assets/waitress.png" alt="Rachel Avatar" class="avatar" />
-    <p class="testimonial-text">"This platform is a treasure trove of ADHD knowledge. It’s been a game-changer for me and my family."</p>
-    <p class="testimonial-name">- Rachel T.</p>
-  </div>
-</div>
-<!-- Testimonial 6 -->
-<div class="slide">
-  <div class="testimonial">
-    <img src="/assets/boy.png" alt="Mike Avatar" class="avatar" />
-    <p class="testimonial-text">"I finally feel understood and supported. The curated videos made such a difference in my ADHD journey."</p>
-    <p class="testimonial-name">- Mike H.</p>
-  </div>
-</div>
-<!-- Testimonial 7 -->
-<div class="slide">
-  <div class="testimonial">
-    <img src="/assets/grandmother.png" alt="Anna Avatar" class="avatar" />
-    <p class="testimonial-text">"The insights I’ve gained here have empowered me to thrive at work and at home. Thank you, Solace!"</p>
-    <p class="testimonial-name">- Anna K.</p>
-  </div>
-</div>
-<!-- Testimonial 8 -->
-<div class="slide">
-  <div class="testimonial">
-    <img src="/assets/grandfather.png" alt="Tom Avatar" class="avatar" />
-    <p class="testimonial-text">"I’ve recommended Solace to everyone I know who struggles with ADHD. The content is top-notch!"</p>
-    <p class="testimonial-name">- Tom R.</p>
-  </div>
-</div>
-
-
-
+      <div id="testimonialTrack" class="slide-track">
+        <!-- Testimonials will be dynamically inserted here -->
       </div>
     </div>
   </section>
@@ -2379,6 +2470,127 @@ faqItems.forEach((item) => {
     faqItems.forEach((faqItem) => faqItem.classList.remove('active')); // Close all
     if (!isActive) item.classList.add('active'); // Open clicked if not already active
   });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('testimonialModal');
+    const addTestimonialBtn = document.getElementById('addTestimonialBtn');
+    const closeModal = document.querySelector('.close-modal');
+    const testimonialForm = document.getElementById('testimonialForm');
+    const testimonialTrack = document.getElementById('testimonialTrack');
+
+    // Open modal
+    addTestimonialBtn.addEventListener('click', () => {
+        modal.classList.add('active');
+    });
+
+    // Close modal
+    closeModal.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+
+    // Handle form submission
+    testimonialForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value || 'Anonymous';
+        const testimonialText = document.getElementById('testimonial').value;
+
+        try {
+            // Get reference to testimonials in Firebase
+            const testimonialRef = ref(database, 'testimonials');
+            
+            // Create new testimonial
+            const newTestimonial = {
+                name: name,
+                text: testimonialText,
+                timestamp: Date.now()
+            };
+
+            // Push to Firebase
+            const newTestimonialRef = push(testimonialRef);
+            await set(newTestimonialRef, newTestimonial);
+
+            // Show success message
+            showMessage('Thank you for sharing your experience!', 'success');
+            
+            // Reset form and close modal
+            testimonialForm.reset();
+            setTimeout(() => {
+                modal.classList.remove('active');
+                loadTestimonials(); // Reload testimonials
+            }, 2000);
+
+        } catch (error) {
+            console.error('Error submitting testimonial:', error);
+            showMessage('Error submitting testimonial. Please try again.', 'error');
+        }
+    });
+
+    // Function to show messages
+    function showMessage(text, type) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}`;
+        messageDiv.textContent = text;
+        
+        const form = document.getElementById('testimonialForm');
+        form.insertBefore(messageDiv, form.firstChild);
+
+        setTimeout(() => {
+            messageDiv.remove();
+        }, 3000);
+    }
+
+    // Function to load testimonials
+    async function loadTestimonials() {
+        try {
+            const testimonialRef = ref(database, 'testimonials');
+            const snapshot = await get(testimonialRef);
+
+            if (snapshot.exists()) {
+                // Convert to array and shuffle
+                const testimonials = Object.values(snapshot.val());
+                const shuffled = testimonials.sort(() => 0.5 - Math.random());
+                const selected = shuffled.slice(0, 8); // Get 8 random testimonials
+
+                // Clear existing testimonials
+                testimonialTrack.innerHTML = '';
+
+                // Add testimonials twice for smooth infinite scroll
+                const allTestimonials = [...selected, ...selected];
+                
+                allTestimonials.forEach(testimonial => {
+                    const testimonialDiv = createTestimonialElement(testimonial);
+                    testimonialTrack.appendChild(testimonialDiv);
+                });
+            }
+        } catch (error) {
+            console.error('Error loading testimonials:', error);
+        }
+    }
+
+    // Function to create testimonial element
+    function createTestimonialElement(testimonial) {
+        const div = document.createElement('div');
+        div.className = 'slide';
+        div.innerHTML = `
+            <div class="testimonial">
+                <p class="testimonial-text">${testimonial.text}</p>
+                <p class="testimonial-name">${testimonial.name}</p>
+            </div>
+        `;
+        return div;
+    }
+
+    // Load initial testimonials
+    loadTestimonials();
 });
      
 
