@@ -564,6 +564,23 @@ class ResourceManager {
     this.applyFilters();
   }
 
+       async saveResource(resourceId) {
+    if (!this.currentUser) return;
+    await db.ref(`users/${this.currentUser.uid}/saved/${resourceId}`).set(true);
+  }
+
+  async shareResource(resourceId) {
+    const resource = this.resources.find(r => r.id === resourceId);
+    if (navigator.share) {
+      await navigator.share({
+        title: resource.title,
+        text: resource.description,
+        url: resource.url
+      });
+    }
+  }
+}
+
   applyFilters() {
     let filtered = [...this.resources];
     
