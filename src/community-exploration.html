@@ -1,5548 +1,733 @@
+Let me help you create a complete revamped version of Solace as an innovative ADHD resource social media platform. I'll break this down into a complete solution.
+
+First, let's create the complete HTML structure with embedded CSS and JavaScript. Note that this will be a long response, so I'll need to break it into multiple parts.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Solace - ADHD Video Database</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="icon" href="/assets/favicon-16x16.png" type="image/x-icon" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solace - ADHD Resource Hub</title>
+    
+    <!-- External CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
-      /* Use the same root variables as your main site */
+        :root {
+            /* Color Scheme */
+            --primary: #7C3AED;
+            --primary-light: #8B5CF6;
+            --primary-dark: #6D28D9;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            
+            /* Light Theme */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F9FAFB;
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --border: #E5E7EB;
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
 
-      /* Theme Variables */
-      :root {
-        /* Light Theme (default) */
-        --primary-color: #8b5cf6;
-        --primary-light: #a78bfa;
-        --primary-dark: #7c3aed;
-        --secondary-color: #4c1d95;
-        --text-color: #1f2937;
-        --background-color: #f9fafb;
-        --card-background: #ffffff;
-        --navbar-background: #1e1b4b;
-        --input-background: #ffffff;
-        --input-text: #1f2937;
-        --border-color: #e5e7eb;
-        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      }
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-primary: #1F2937;
+            --bg-secondary: #111827;
+            --text-primary: #F9FAFB;
+            --text-secondary: #D1D5DB;
+            --border: #374151;
+        }
 
-      /* Dark Theme */
-      [data-theme='dark'] {
-        --primary-color: #a78bfa;
-        --primary-light: #8b5cf6;
-        --primary-dark: #7c3aed;
-        --secondary-color: #4c1d95;
-        --text-color: #f3f4f6;
-        --background-color: #111827;
-        --card-background: #1f2937;
-        --navbar-background: #0f172a;
-        --input-background: #374151;
-        --input-text: #f3f4f6;
-        --border-color: #374151;
-        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-        --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-      }
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      /* Additional Dark Mode Specific Styles */
-      [data-theme='dark'] .video-card {
-        background-color: var(--card-background);
-        box-shadow: var(--card-shadow);
-      }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
 
-      [data-theme='dark'] .video-card:hover {
-        box-shadow: var(--hover-shadow);
-      }
+        /* Layout */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
 
-      [data-theme='dark'] .video-title {
-        color: var(--text-color);
-      }
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--bg-primary);
+            border-right: 1px solid var(--border);
+            padding: var(--spacing-lg);
+            position: fixed;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
+        }
 
-      [data-theme='dark'] .video-description {
-        color: var(--text-color);
-        opacity: 0.9;
-      }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: var(--spacing-lg);
+        }
 
-      [data-theme='dark'] .filters {
-        background-color: var(--card-background);
-      }
-
-      [data-theme='dark'] .filter-group select,
-      [data-theme='dark'] .filter-group input {
-        background-color: var(--input-background);
-        color: var(--input-text);
-        border-color: var(--border-color);
-      }
-
-      [data-theme='dark'] .comment {
-        background-color: var(--card-background);
-      }
-
-      [data-theme='dark'] .comment-input textarea {
-        background-color: var(--input-background);
-        color: var(--input-text);
-        border-color: var(--border-color);
-      }
-
-      [data-theme='dark'] .tag {
-        background-color: var(--primary-dark);
-      }
-
-      [data-theme='dark'] .star {
-        color: var(--primary-light);
-      }
-
-      [data-theme='dark'] .btn-icon {
-        color: var(--text-color);
-      }
-
-      [data-theme='dark'] .btn-icon:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-
-      /* Additional Theme Toggle Styles */
-
-      #theme-toggle i {
-        font-size: 1.2rem;
-        transition: transform 0.3s ease;
-      }
-
-      body {
-        font-family: 'Poppins', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: var(--background-color);
-        color: var(--text-color);
-      }
-
-      /* Navigation */
-      .navbar {
-        background-color: var(--navbar-background);
-        padding: 1rem 0;
-        box-shadow: var(--shadow-md);
-      }
-
-      .navbar-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .navbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.navbar .btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s ease;
-}
-
-.navbar .btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-1px);
-}
-
-.navbar .btn i {
-  font-size: 1rem;
-  opacity: 0.9;
-}
-
-
-.navbar .profile-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.5rem 1rem;
-}
-
-.navbar .profile-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* Theme Toggle Button */
-#theme-toggle {
-  background: none;
-  padding: 0.5rem;
-  opacity: 0.8;
-}
-
-#theme-toggle:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-      .navbar a {
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-      }
-
-      .logo {
-            font-family: var(--font-display);
+        .logo {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
-            text-decoration: none;
+        }
+
+        /* Navigation */
+        .nav-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .nav-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .nav-link {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
 
+        .nav-link:hover {
+            background-color: var(--bg-secondary);
+        }
 
-      /* Main Container */
-      .container {
-  max-width: 1400px;
-  margin: 2rem auto;
-  padding: 0 2rem;
-}
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+        }
 
-      /* Filter Section */
-      .filters {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(124, 58, 237, 0.05));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(139, 92, 246, 0.1);
-  padding: 2rem;
-  border-radius: 24px;
-  margin-bottom: 3rem;
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.05),
-    0 0 0 1px rgba(139, 92, 246, 0.1);
-    box-sizing: border-box;
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: var(--spacing-xl);
+        }
+
+        /* Resource Cards */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .resource-card {
+            background-color: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .resource-thumbnail {
+            position: relative;
+            padding-top: 56.25%;
+            background-color: var(--bg-secondary);
+        }
+
+        .resource-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .resource-content {
+            padding: var(--spacing-lg);
+        }
+
+        .resource-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .resource-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-}
-
-.filter-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.filter-row:last-child {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 1.5rem;
-  align-items: flex-end;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-}
-
-      .filter-group label {
-  font-weight: 500;
-  color: var(--text-color);
-  margin-bottom: 0.5rem;
-  display: block;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.filter-group select,
-.filter-group input {
-  height: 48px;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 0 1rem;
-  font-size: 0.95rem;
-  background: white;
-  transition: all 0.2s ease;
-}
-
-.filter-group select:hover,
-.filter-group input:hover {
-  border-color: var(--primary-color);
-}
-
-.filter-group select:focus,
-.filter-group input:focus {
-  border-color: var(--primary-color);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-}
-
-      /* Video Grid */
-      .video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-.video-card {
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.05),
-    0 0 0 1px rgba(139, 92, 246, 0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-
-.video-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(139, 92, 246, 0.2);
-}
-
-.video-thumbnail {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 16:9 Aspect Ratio */
-  overflow: hidden;
-}
-.video-thumbnail img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.video-thumbnail::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 50%);
-}
-
-.video-card:hover .video-thumbnail img {
-  transform: scale(1.05);
-}
-
-.video-duration {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  z-index: 2;
-  backdrop-filter: blur(4px);
-}
-.video-info {
-  padding: 1.5rem;
-}
-
-.video-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  color: var(--text-color);
-  line-height: 1.4;
-}
-
-.progress-notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 16px 24px;
-  background: var(--primary-color);
-  color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  animation: slideIn 0.3s ease-out;
-}
-
-.progress-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.progress-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: 2px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
     opacity: 0;
-  }
-  to {
-    transform: translateX(0);
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal.active {
     opacity: 1;
-  }
-}
-
-      .video-description {
-        font-size: 0.9rem;
-        color: var(--text-color);
-        opacity: 0.8;
-        margin-bottom: 0.5rem;
-      }
-
-      .video-meta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  color: var(--text-color);
-  opacity: 0.8;
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.tag {
-  background: rgba(139, 92, 246, 0.1);
-  color: var(--primary-color);
-  padding: 0.4rem 0.8rem;
-  border-radius: 100px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.tag:hover {
-  background: rgba(139, 92, 246, 0.2);
-  transform: translateY(-1px);
-}
-
-      /* Community Feature Styles */
-      .video-community {
-  padding: 1rem 0;
-  border-top: 1px solid rgba(139, 92, 246, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.rating-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.stars {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.star {
-  color: #FCD34D;
-  transition: all 0.3s ease;
-}
-
-.star:hover {
-  transform: scale(1.2);
-  color: #F59E0B;
-}
-
-      .actions {
-        display: flex;
-        gap: 12px;
-      }
-
-      .btn-icon {
-        background: none;
-        border: none;
-        color: var(--text-color);
-        cursor: pointer;
-        padding: 4px;
-        border-radius: 4px;
-        transition: all 0.2s;
-      }
-
-      .btn-icon:hover {
-        background: var(--card-background);
-        color: var(--primary-color);
-      }
-
-      /* Comments Section */
-
-      .comment {
-        background: white;
-        border-radius: 8px;
-        padding: 12px;
-        margin-bottom: 12px;
-      }
-
-      .comment-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-      }
-
-      .comment-author {
-        font-weight: 600;
-        color: var(--text-color);
-      }
-
-      .comment-time {
-        font-size: 0.8rem;
-        color: var(--text-color);
-        opacity: 0.7;
-      }
-
-      .comment-content {
-        color: var(--text-color);
-        line-height: 1.4;
-      }
-
-      .comment-input {
-        margin-top: 16px;
-      }
-
-      .comment-input textarea {
-        width: 100%;
-        min-height: 80px;
-        padding: 12px;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        margin-bottom: 8px;
-        resize: vertical;
-      }
-
-      .btn-comment {
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-
-      .btn-comment:hover {
-        background: var(--primary-dark);
-      }
-
-      .video-duration {
-        position: absolute;
-        bottom: 8px;
-        right: 8px;
-        background: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-      }
-
-      /* List View Styles */
-      .video-grid.list-view {
-        grid-template-columns: 1fr;
-      }
-
-      .list-view .video-card {
-        display: grid;
-        grid-template-columns: 300px 1fr;
-        gap: 1rem;
-      }
-
-      .list-view .video-thumbnail {
-        height: 100%;
-        padding-top: 0;
-      }
-
-      .list-view .video-info {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      /* Watch Later Styles */
-      .btn-icon.active {
-        color: var(--primary-color);
-      }
-
-      .btn-icon.active i {
-        animation: pulse 1s;
-      }
-
-      /* Notification Styles */
-      .notification {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 12px 24px;
-        background: var(--primary-color);
-        color: white;
-        border-radius: 8px;
-        box-shadow: var(--shadow-md);
-        z-index: 1000;
-        animation: slideIn 0.3s ease-out;
-      }
-
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.2);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      @keyframes slideIn {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
-      /* Toggle Button Styles */
-      #view-toggle.list-active i {
-        color: var(--primary-color);
-      }
-
-      /* Playlist Modal */
-      
-      .playlist-modal {
-  max-width: 500px;
-  width: 90%;
-}
-
-.playlist-videos {
-  max-height: 70vh;
-  overflow-y: auto;
-  padding: 1rem;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.modal-header h3 {
-  margin: 0;
-}
-    
-
-      .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+    visibility: visible;
 }
 
 .modal-content {
-  background: var(--card-background);
-  padding: 2rem;
-  border-radius: 12px;
-  min-width: 300px;
-  max-width: 500px;
-  width: 90%;
-}
-
-.category-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.form-group label {
-  font-weight: 500;
-  color: var(--text-color);
-}
-
-.form-group select {
-  height: 40px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 0 1rem;
-  background: var(--input-background);
-  color: var(--input-text);
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.user-categories {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.edit-categories {
-  padding: 0.5rem;
-  border-radius: 50%;
-  background: var(--primary-color);
-  color: white;
-}
-
-.edit-categories:hover {
-  background: var(--primary-dark);
-  transform: translateY(-1px);
-}
-
-.playlist-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.close-modal {
-  padding: 0.5rem;
-  border-radius: 50%;
-  background: var(--background-color);
-}
-
-.playlists-list {
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 0.5rem;
-}
-
-.playlist-item {
-  padding: 1rem;
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: background-color 0.2s;
-}
-
-
-.playlist-item:hover {
-  background-color: rgba(139, 92, 246, 0.05);
-}
-.playlist-label {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  cursor: pointer;
-}
-
-.playlist-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.playlist-video-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: var(--card-background);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-  cursor: grab;
-  transition: all 0.2s ease;
-}
-
-#scroll-loading {
-  text-align: center;
-  padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-.loading-spinner {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(139, 92, 246, 0.1);
-  border-top: 3px solid var(--primary-color);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-.playlist-video-item .video-thumbnail {
-  position: relative;
-  width: 160px;
-  height: 90px;
-  flex-shrink: 0;
-  border-radius: 4px;
-  overflow: hidden;
-  padding-top: 0;
-}
-
-.playlist-video-item .video-thumbnail img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.playlist-video-item .video-details {
-  flex: 1;
-  min-width: 0;
-}
-
-.playlist-video-item .video-details h4 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--text-color);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.playlist-video-item .video-actions {
-  display: flex;
-  gap: 0.5rem;
-  margin-left: auto;
-}
-
-.playlist-video-item .video-duration {
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-}
-
-.drag-handle {
-  color: var(--text-color);
-  opacity: 0.5;
-  cursor: grab;
-  padding: 0.5rem;
-}
-
-.drag-handle:hover {
-  opacity: 0.8;
-}
-
-.playlist-name {
-  font-weight: 500;
-  color: var(--text-color);
-}
-
-.playlist-count {
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
-
-.btn-playlist-toggle {
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  border: 1px solid var(--primary-color);
-  background: transparent;
-  color: var(--primary-color);
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s;
-}
-
-.btn-playlist-toggle:hover {
-  background: var(--primary-color);
-  color: white;
-}
-
-.btn-playlist-toggle.added {
-  background: var(--primary-color);
-  color: white;
-}
-
-.floating-playlists {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  z-index: 100;
-}
-
-.btn-show-playlists {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s;
-}
-
-
-
-.new-playlist-section h4 {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-}
-
-.new-playlist-section {
-  border-top: 1px solid var(--border-color);
-  padding-top: 1.5rem;
-  margin-top: 0.5rem;
-}
-
-.playlist-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  background: var(--background-color);
-  color: var(--text-color);
-}
-
-textarea.playlist-input {
-  min-height: 80px;
-  resize: vertical;
-}
-
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
-}
-
-.checkbox-container input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-}
-
-      /* Buttons */
-      .btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.95rem;
-}
-
-#sign-out-btn {
-  color: white;
-  padding: 0.75rem 1.5rem;
-  background-color: red;
-}
-
-.btn i {
-  font-size: 1rem;
-}
-
-#apply-filters {
-  width: 100%;
-  height: 48px;
-  margin: 0;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-#age-filter {
-  width: 100%;
-  height: 48px;
-  margin-top: 37px;
-  
-}
-
-#apply-filters:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
-}
-
-#apply-filters:active {
-  transform: translateY(0px);
-}
-
-.filter-group:last-child {
-  display: flex;
-  align-items: flex-end;
-}
-
-.filter-group:last-child label {
-  display: none; /* Removes the empty label space */
-}
-
-.resource-nav {
-  position: relative;
-  cursor: pointer;
-}
-
-.resource-dropdown-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.resource-dropdown-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.resource-dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  opacity: 0;
-  visibility: hidden;
-  background: var(--card-background);
-  min-width: 220px;
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  z-index: 1000;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-}
-
-.resource-nav.active .resource-dropdown-content {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
-
-.resource-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  color: var(--text-color);
-  text-decoration: none;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.resource-link:hover {
-  background: var(--background-color);
-}
-
-.resource-link.active {
-  color: var(--primary-color);
-  background: rgba(139, 92, 246, 0.1);
-}
-
-.resource-link i {
-  font-size: 1.1rem;
-  opacity: 0.9;
-}
-
-.logo img {
-    height: 32px;  /* or 2rem to match your font size */
-    width: auto;   /* maintains aspect ratio */
-    object-fit: contain;
-    /* optional: add a bit of margin between logo and text */
-    margin-right: 0.5rem;
-}
-
-@media (max-width: 768px) {
-    .logo img {
-        height: 28px;  /* slightly smaller on mobile */
-    }
-}
-
-.dropdown-divider {
-  height: 1px;
-  background: var(--border-color);
-  margin: 0.5rem 0;
-}
-
-.suggest-resource-btn {
-  height: 48px;
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 0 1.5rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.suggest-resource-btn:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-}
-.suggest-resource-btn i {
-  font-size: 1rem;
-}
-#resource-type-filter {
-  font-weight: 500;
+    background: var(--card-background);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
 }
 
 /* Resource Form Styles */
 .resource-form {
-  max-width: 600px;
-  width: 90%;
-}
-
-.modal-description {
-  color: var(--text-color);
-  opacity: 0.8;
-  margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
 }
 
-.form-group label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: var(--text-color);
+.form-label {
+    font-weight: 500;
+    color: var(--text-primary);
 }
 
 .form-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--input-background);
-  color: var(--input-text);
-  transition: all 0.2s ease;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .form-input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-  outline: none;
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary-light);
 }
 
-.resource-type-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.resource-type-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  background: var(--card-background);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.resource-type-btn i {
-  font-size: 1.5rem;
-  color: var(--primary-color);
-}
-
-.resource-type-btn:hover {
-  border-color: var(--primary-color);
-  transform: translateY(-1px);
-}
-
-.resource-type-btn.selected {
-  background: rgba(139, 92, 246, 0.1);
-  border-color: var(--primary-color);
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .resource-dropdown-content {
-    position: fixed;
-    top: auto;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    width: auto;
-  }
-
-  .resource-type-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-      .btn:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-      }
-
-      .btn-secondary {
-        background: var(--secondary-color);
-      }
-
-      .profile-dropdown {
-        position: relative;
-        display: inline-flex;
-      }
-
-      .profile-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--card-background);
-        color: var(--text-color);
-        border: 1px solid var(--border-color);
-      }
-
-      .profile-btn:hover {
-        background: var(--background-color);
-      }
-
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        right: 0;
-        top: 100%;
-        background: var(--card-background);
-        min-width: 300px;
-        border-radius: 12px;
-        box-shadow: var(--shadow-lg);
-        z-index: 1000;
-        margin-top: 0.5rem;
-      }
-
-      .profile-dropdown.active .dropdown-content {
-        display: block;
-      }
-
-      .dropdown-header {
-        padding: 1rem;
-        border-bottom: 1px solid var(--border-color);
-      }
-
-      .user-stats {
-        display: flex;
-        justify-content: space-around;
-        text-align: center;
-      }
-
-      .stat {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .stat-value {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: var(--primary-color);
-      }
-
-      .stat-label {
-        font-size: 0.8rem;
-        opacity: 0.8;
-      }
-
-      .dropdown-section {
-        padding: 1rem;
-      }
-
-      .dropdown-section h4 {
-        margin: 0 0 0.5rem 0;
-        font-size: 0.9rem;
-        opacity: 0.8;
-      }
-
-      .activity-list {
-        max-height: 300px;
-        overflow-y: auto;
-      }
-
-      .activity-item {
-        padding: 0.5rem;
-        border-radius: 6px;
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .activity-item:hover {
-        background: var(--background-color);
-      }
-
-      .activity-icon {
-        color: var(--primary-color);
-      }
-
-      .activity-time {
-        font-size: 0.8rem;
-        opacity: 0.6;
-      }
-
-      .dropdown-footer {
-        padding: 1rem;
-        border-top: 1px solid var(--border-color);
-        display: flex;
-        justify-content: center;
-      }
-
-      .loading-text {
-        text-align: center;
-        padding: 1rem;
-        opacity: 0.6;
-      }
-
-      /* Loading States */
-      .loading {
-        text-align: center;
-        padding: 2rem;
-      }
-
-      .loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 3px solid rgba(139, 92, 246, 0.1);
-  border-top: 3px solid var(--primary-color);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-.navbar-right {
-  display: none; /* Hide the mobile container by default */
-}
-
-.apps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.app-card {
-  background: var(--card-background);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--card-shadow);
-  transition: all 0.3s ease;
-}
-
-.app-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--hover-shadow);
-}
-
-.app-badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 100px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.app-badge.free { background: #22c55e; color: white; }
-.app-badge.freemium { background: #6366f1; color: white; }
-.app-badge.paid { background: #ef4444; color: white; }
-
-
-
-.hamburger-menu{
-  display: none;
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  padding: 0.5rem;
-  z-index: 1002;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .filter-row {
-          grid-template-columns: 1fr;
-        }
-
-        .video-grid {
-          grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0.5rem;
-        }
-      }
-
-      .hamburger-menu {
-    display: block;
-  }
-
-      @media (max-width: 768px) {
-  .container {
-    padding: 0 1rem;
-    margin: 1rem auto;
-  }
-
-  /* Navbar Mobile Improvements */
-  .navbar-content {
-    position: relative;
+/* Tag Input Styles */
+.tag-input-container {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .profile-dropdown {
-    position: relative;
-    display: inline-flex;
-  }
-
-  .profile-btn {
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  .profile-btn i {
-    font-size: 1rem;
-  }
-
-
-  .navbar-actions {
-    position: fixed;
-    right: -100%;
-    top: 0;
-    width: 85%;
-    max-width: 400px;
-    height: 100vh;
-    background: var(--navbar-background);
-    padding: 5rem 1.5rem 2rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1001;
-    flex-direction: column;
-  }
-
-  .navbar-actions.active {
-    right: 0;
-  }
-
-
-  .navbar-right .profile-dropdown {
-    display: inline-flex; /* Show profile button in navbar-right */
-    width: 100%;
-  }
-
-  .navbar-actions > *:not(.profile-dropdown) {
-    display: block;
-  }
-
-  .navbar-actions.active {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 80%;
-    height: 100vh;
-    background: var(--navbar-background);
-    padding: 1rem;
-    z-index: 1000;
-    overflow-y: auto;
-  }
-
-  .navbar .btn {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    margin: 0.5rem 0;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.2s ease;
-  }
-
-
-  .navbar-actions .btn:active {
-    transform: scale(0.98);
-  }
-
-  .navbar .profile-dropdown {
-    width: 100%;
-  }
-
-  .navbar-actions .profile-btn {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .hamburger-menu {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 1002;
-    border-radius: 50%;
-    background: transparent;
-    transition: background-color 0.3s ease;
-  }
-
-  .hamburger-menu:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .hamburger-menu .bar {
-    width: 22px;
-    height: 2px;
-    margin: 3px 0;
-    background: white;
-    border-radius: 3px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .hamburger-menu.active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-  }
-
-  .hamburger-menu.active .bar:nth-child(2) {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-
-  .hamburger-menu.active .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-  }
-
-  .menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 1000;
-  }
-
-  .navbar-actions .btn {
-    width: 100%;
-    justify-content: flex-start;
-    margin: 0.25rem 0;
-  }
-
-  .menu-overlay.active {
-    opacity: 1;
-    visibility: visible;
-  }
-  /* Prevent body scroll when menu is open */
-  body.menu-open {
-    overflow: hidden;
-  }
-
-  /* Profile Dropdown Adjustments */
-  .dropdown-content {
-    position: relative;
-    width: 100%;
-    margin-top: 0.5rem;
-    box-shadow: none;
-  }
-
-  #theme-toggle {
-    background: rgba(255, 255, 255, 0.1);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .navbar .btn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.85rem;
-    white-space: nowrap;
-  }
-
-  .navbar .btn i {
-    margin-right: 0.25rem;
-  }
-
-  /* Filter Section Mobile Improvements */
-  .filters {
-    padding: 1rem;
-    border-radius: 12px;
-    margin-bottom: 1.5rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .filter-row {
-    grid-template-columns: 1fr !important;
-    gap: 0.75rem;
-  }
-
-  .filter-row:last-child {
-    grid-template-columns: 1fr !important;
-  }
-
-  .filter-group {
-    width: 100%;
-    margin: 0;
-    box-sizing: border-box;
-  }
-
-  .filter-group select,
-  .filter-group input {
-    width: 100%;
-    height: 40px;
-    font-size: 0.9rem;
-    max-width: auto;
-  }
-
-  .filter-group label {
-    font-size: 0.8rem;
-    margin-bottom: 0.25rem;
-  }
-
-  #apply-filters {
-    width: 100%;
-    height: 40px;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-  }
-  /* Video Grid Mobile Improvements */
-  .video-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0.5rem;
-  }
-
-  .video-card {
-    border-radius: 12px;
-  }
-
-  .video-thumbnail {
-    max-height: 200px;
-    padding-top: 56.25%;
-  }
-
-  .video-info {
-    padding: 0.75rem;
-  }
-
-  .video-title {
-    font-size: 1rem;
-    line-height: 1.3;
-    margin-bottom: 0.5rem;
-  }
-
-  .list-view .video-card {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-  }
-  .list-view .video-thumbnail {
-    padding-top: 0;
-    height: 100%;
-  }
-
-  .video-description {
-    font-size: 0.85rem;
-    line-height: 1.4;
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .video-meta {
     flex-wrap: wrap;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-  }
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+}
 
-  .tag-list {
-    gap: 0.35rem;
-  }
+.tag-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-primary);
+    flex: 1;
+    min-width: 120px;
+}
 
-  .tag {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-  }
-
-  /* Community Features Mobile Improvements */
-  .video-community {
-    padding: 0.75rem 0;
-  }
-
-  .rating-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .stars {
+.tag-item {
+    background: var(--primary-light);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
     font-size: 0.9rem;
-  }
-
-  .actions {
-    gap: 0.5rem;
-  }
-
-  .btn-icon {
-    padding: 0.35rem;
-  }
-
-  /* Comments Section Mobile */
-  .comments-section {
-    padding: 0.75rem;
-  }
-
-  .comment {
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .comment-header {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .comment-author {
-    font-size: 0.9rem;
-  }
-
-  .comment-time {
-    font-size: 0.75rem;
-  }
-
-  .comment-content {
-    font-size: 0.85rem;
-  }
-
-  .comment-input textarea {
-    min-height: 60px;
-    padding: 0.75rem;
-    font-size: 0.9rem;
-  }
-
-  /* Profile Dropdown Mobile */
-  .dropdown-content {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    max-height: calc(100vh - 60px);
-    overflow-y: auto;
-    border-radius: 0;
-    margin-top: 0;
-  }
-
-  .dropdown-header {
-    padding: 0.75rem;
-  }
-
-  .user-stats {
-    gap: 1rem;
-  }
-
-  .stat-value {
-    font-size: 1.25rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-  }
-
-  /* Modal Mobile Improvements */
-  .modal-content {
-    width: 95%;
-    max-width: none;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 1rem;
-  }
-
-  .playlist-form {
-    gap: 1rem;
-  }
-
-  .playlist-input {
-    padding: 0.75rem;
-    font-size: 0.9rem;
-  }
-
-  /* Video Card Hover States for Touch */
-  .video-card:hover {
-    transform: none;
-  }
-
-  .video-card:active {
-    transform: scale(0.98);
-  }
-
-  .btn-icon:active {
-    transform: scale(0.9);
-  }
 }
 
-/* Small Mobile Devices */
-@media (max-width: 375px) {
-  .navbar .btn {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.8rem;
-  }
-
-  .hamburger-menu .bar {
-  display: block;
-  width: 25px;
-  height: 3px;
-  margin: 5px auto;
-  transition: all 0.3s ease;
-  background-color: white;
-  border-radius: 3px;
+.tag-remove {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
 }
 
-  .video-title {
-    font-size: 0.95rem;
-  }
-
-  .video-card {
-    margin-bottom: 1rem;
-  }
-
-  .list-view .video-card {
-    grid-template-columns: 120px 1fr;
-  }
-
-  .video-card:hover .video-thumbnail img {
-  transform: scale(1.05);
+.tag-remove:hover {
+    opacity: 1;
 }
 
-.video-thumbnail::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #f3f4f6;
-  z-index: -1;
+/* Resource Grid Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-  .video-thumbnail {
-    height: 180px;
-  }
-
-  .stat-value {
-    font-size: 1.1rem;
-  }
-
-  .filters {
-    padding: 0.75rem;
-  }
-
-  .filter-group label {
-    font-size: 0.8rem;
-  }
-
-  .filter-group select,
-  .filter-group input {
-    font-size: 0.85rem;
-    height: 36px;
-  }
-
+.resource-card {
+    animation: fadeIn 0.3s ease forwards;
 }
 
-/* Better Loading States for Mobile */
-@media (max-width: 768px) {
-  .loading-spinner {
+/* Loading States */
+.loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.loading-spinner {
     width: 40px;
     height: 40px;
-    border-width: 2px;
-  }
-
-  .loading p {
-    font-size: 0.9rem;
-    margin-top: 0.75rem;
-  }
-
-  #load-more {
-    width: 100%;
-    margin: 1rem 0;
-    height: 40px;
-  }
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
-/* Tablet Optimizations */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .video-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .hamburger-menu {
-    display: none;  /* Ensure hamburger is hidden on tablet */
-  }
-
-  .filters {
-    padding: 1.5rem;
-  }
-
-  .filter-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .navbar-content {
-    padding: 0.75rem 1.5rem;
-  }
+/* Notification Styles */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
 }
 
-/* Landscape Mode Optimizations */
-@media (max-height: 500px) and (orientation: landscape) {
-  .video-thumbnail {
-    height: 150px;
-  }
-
-  .dropdown-content {
-    max-height: 80vh;
-  }
-
-  .modal-content {
-    max-height: 85vh;
-  }
+.notification.show {
+    transform: translateX(0);
 }
+
+/* Resource Type Icons */
+.resource-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: white;
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Focus Styles */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .filters,
+    .resource-actions,
+    .modal {
+        display: none !important;
+    }
+
+    .container {
+        margin: 0;
+        padding: 0;
+    }
+
+    .resource-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
     </style>
-  </head>
   <body>
-        
-    <nav class="navbar">
-      <div class="navbar-content">
-        <a href="#" class="logo">
-          <img src="/assets/solace-logo.jpg" alt="Solace Logo">
-          Solace
-        </a>
-    
-        <!-- Mobile-only container -->
-        <div class="navbar-right">
-          <button class="hamburger-menu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </button>
-        </div>
-    
-        <!-- Menu Overlay -->
-        <div class="menu-overlay"></div>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="/assets/logo.svg" alt="Solace Logo" class="logo-img">
+                <span class="logo">Solace</span>
+            </div>
 
-        <!-- Add this after the logo in the navbar -->
+            <nav class="nav-section">
+                <h2 class="nav-title">Resources</h2>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="videos">
+                            <i class="fas fa-play-circle"></i>
+                            Videos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="books">
+                            <i class="fas fa-book"></i>
+                            Books
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="apps">
+                            <i class="fas fa-mobile-alt"></i>
+                            Apps
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="websites">
+                            <i class="fas fa-globe"></i>
+                            Websites
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="podcasts">
+                            <i class="fas fa-microphone"></i>
+                            Podcasts
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="music">
+                            <i class="fas fa-music"></i>
+                            Music
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
-        
-        <!-- Main navigation actions -->
-        <div class="navbar-actions">
-          <button class="btn" id="refresh-videos" title="Check for new videos">
-            <i class="fas fa-sync-alt"></i>
-            Refresh Videos
-          </button>
-          
-          <button class="btn" id="clear-filters" title="Clear all filters">
-            <i class="fas fa-times"></i>
-            Clear Filters
-          </button>
-          
-          <button class="btn" id="view-toggle" title="Toggle View">
-            <i class="fas fa-th-list"></i>
-            Toggle View
-          </button>
-          
-          <button class="btn" id="watch-later-btn" onclick="window.location.href='/watchlater.html'" title="Watch Later">
-            <i class="fas fa-clock"></i>
-            Watch Later
-          </button>
-    
-          <!-- Profile Button -->
-          <div class="profile-dropdown">
-            <button class="btn profile-btn" id="profile-toggle">
-              <i class="fas fa-user"></i>
-              <span id="user-name">Loading...</span>
-              <i class="fas fa-chevron-down"></i>
+            <nav class="nav-section">
+                <h2 class="nav-title">Personal</h2>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="saved">
+                            <i class="fas fa-bookmark"></i>
+                            Saved
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="playlists">
+                            <i class="fas fa-list"></i>
+                            Playlists
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="history">
+                            <i class="fas fa-history"></i>
+                            History
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <button class="btn-add-resource">
+                <i class="fas fa-plus"></i>
+                Add Resource
             </button>
-            
-            <div class="dropdown-content">
-              <div class="dropdown-header">
-                <div class="user-stats">
-                  <div class="stat">
-                    <span class="stat-value" id="rated-count">0</span>
-                    <span class="stat-label">Rated</span>
-                  </div>
-                  <div class="stat">
-                    <span class="stat-value" id="watched-count">0</span>
-                    <span class="stat-label">Saved</span>
-                  </div>
-                  <div class="stat">
-                    <span class="stat-value" id="comment-count">0</span>
-                    <span class="stat-label">Comments</span>
-                  </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search resources...">
                 </div>
-              </div>
-              
-              <div class="dropdown-section">
-                <h4>Recent Activity</h4>
-                <div id="recent-activity" class="activity-list">
-                  <p class="loading-text">Loading activity...</p>
+
+                <div class="header-actions">
+                    <button class="btn-filter">
+                        <i class="fas fa-filter"></i>
+                        Filters
+                    </button>
+                    <button class="btn-view">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button class="btn-theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
                 </div>
-              </div>
-              
-              <div class="dropdown-footer">
-                <button class="btn btn-secondary" id="sign-out-btn" onclick="window.location.href='/login.html'">
-                  <i class="fas fa-sign-out-alt"></i>
-                  Sign Out
-                </button>
-              </div>
             </div>
-          </div>
-          
-          <button class="btn" id="theme-toggle" title="Toggle Theme">
-            <i class="fas fa-moon"></i>
-          </button>
-        </div>
-      </div>
-    </nav>
 
-    <div class="container">
-      
-      <div class="filters">
-        <div class="filter-row">
-          <div class="filter-group">
-            <label for="category-filter">Category</label>
-            <select id="category-filter">
-              <option value="">All Categories</option>
-              <option value="tips">Tips & Strategies</option>
-              <option value="education">Education</option>
-              <option value="motivation">Motivation</option>
-              <option value="lifestyle">Lifestyle</option>
-              <option value="medication">Medication</option>
-            </select>
-          </div>
-      
-          <div class="filter-group">
-            <label for="type-filter">ADHD Type</label>
-            <select id="type-filter">
-              <option value="">All Types</option>
-              <option value="inattentive">Inattentive</option>
-              <option value="hyperactive">Hyperactive</option>
-              <option value="combined">Combined</option>
-            </select>
-          </div>
-      
-          <div class="filter-group">
-            <label for="age-filter">Age Group</label>
-            <select id="age-filter">
-              <option value="">All Ages</option>
-              <option value="children">Children</option>
-              <option value="teenagers">Teenagers</option>
-              <option value="adults">Adults</option>
-            </select>
-          </div>
-        </div>
-      
-        <div class="filter-row">
-          <div class="filter-group">
-            <label for="duration-filter">Duration</label>
-            <select id="duration-filter">
-              <option value="">Any Length</option>
-              <option value="short">Short (< 5 min)</option>
-              <option value="medium">Medium (5-15 min)</option>
-              <option value="long">Long (> 15 min)</option>
-            </select>
-          </div>
-      
-          <div class="filter-group">
-            <label for="search-input">Search</label>
-            <input type="text" id="search-input" placeholder="Search videos...">
-          </div>
-      
-          <div class="filter-group">
-            <button id="apply-filters" class="btn">Apply Filters</button>
-          </div>
-        </div>
-      </div>
-      
-      
-
-      <div id="video-grid" class="video-grid">
-        <!-- Videos will be dynamically inserted here -->
-      </div>
-
-      <div id="loading" class="loading" style="display: none">
-        <div class="loading-spinner"></div>
-        <p>Loading more videos... (typically takes 30 seconds)</p>
-      </div>
-
+            <div class="resource-grid" id="resource-grid">
+                <!-- Resources will be dynamically inserted here -->
+            </div>
+        </main>
     </div>
 
-    <div class="floating-playlists">
-      <button class="btn-show-playlists" onclick="window.showPlaylists()">
-        <i class="fas fa-list-ul"></i>
-      </button>
-    </div>
-
-
-    <!-- Include Firebase -->
-
-    <script type="module">
-
-
-// Import Firebase modules
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import {
-  getDatabase,
-  ref,
-  get,
-  set,
-  push,
-} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
-
-      // Your Firebase config
-      const firebaseConfig = {
-        apiKey: 'AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI',
-        authDomain: 'solace-83466.firebaseapp.com',
-        databaseURL: 'https://solace-83466-default-rtdb.firebaseio.com',
-        projectId: 'solace-83466',
-        storageBucket: 'solace-83466.appspot.com',
-        messagingSenderId: '1035507922270',
-        appId: '1:1035507922270:web:496b548ba710523eb18bcf',
-        measurementId: 'G-H8RRCK340M',
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const database = getDatabase(app);
-
-const VIDEOS_PER_PAGE = 12;
-
-      // Make functions globally available
-      window.rateVideo = async function(videoId, rating, event) {
-  event.stopPropagation();
-  const user = auth.currentUser;
-  if (!user) {
-    alert('Please log in to rate videos');
-    return;
-  }
-
-  try {
-    const timestamp = new Date().toISOString();
-    
-    // Save rating in both locations
-    await Promise.all([
-      // Save in global ratings
-      set(ref(database, `ratings/${videoId}/${user.uid}`), {
-        rating,
-        timestamp
-      }),
-      // Save in user's ratings
-      set(ref(database, `users/${user.uid}/ratings/${videoId}`), {
-        rating,
-        timestamp
-      })
-    ]);
-
-    // Update UI
-    const starsContainer = event.target.closest('.stars');
-    updateStarDisplay(starsContainer, rating);
-    
-    // Update stats and activity
-    await Promise.all([
-      loadUserStats(user),
-      loadRecentActivity(user)
-    ]);
-
-  } catch (error) {
-    console.error('Error saving rating:', error);
-    alert('Error saving rating. Please try again.');
-  }
-};
-
-window.loadUserPlaylists = async function(videoId) {
-  const user = auth.currentUser;
-  const container = document.getElementById('playlists-container');
-  if (!container) return;
-
-  try {
-    const playlistsRef = ref(database, `users/${user.uid}/playlists`);
-    const snapshot = await get(playlistsRef);
-    
-    if (snapshot.exists()) {
-      const playlists = snapshot.val();
-      container.innerHTML = Object.entries(playlists)
-        .map(([playlistId, playlist]) => {
-          const isVideoInPlaylist = playlist.videos && playlist.videos.includes(videoId);
-          return `
-            <div class="playlist-item">
-              <div class="playlist-info">
-                <span class="playlist-name">${playlist.name}</span>
-                <span class="playlist-count">${playlist.videos ? playlist.videos.length : 0} videos</span>
-              </div>
-              <button 
-                class="btn-playlist-toggle ${isVideoInPlaylist ? 'added' : ''}"
-                onclick="window.toggleVideoInPlaylist('${videoId}', '${playlistId}', ${!isVideoInPlaylist})"
-              >
-                <i class="fas ${isVideoInPlaylist ? 'fa-check' : 'fa-plus'}"></i>
-                ${isVideoInPlaylist ? 'Added' : 'Add'}
-              </button>
+    <!-- Resource Modal Template -->
+    <template id="resource-modal-template">
+        <div class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="resource-title"></h2>
+                    <button class="btn-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="resource-details">
+                    <img class="resource-thumbnail" src="" alt="">
+                    <p class="resource-description"></p>
+                    <div class="resource-tags"></div>
+                    <a href="#" class="btn-resource" target="_blank">Go to Resource</a>
+                </div>
             </div>
-          `;
-        })
-        .join('') || '<p>No playlists yet</p>';
-    } else {
-      container.innerHTML = '<p>No playlists yet</p>';
-    }
-  } catch (error) {
-    console.error('Error loading playlists:', error);
-    container.innerHTML = '<p>Error loading playlists</p>';
-  }
-};
-
-window.showPlaylists = async function() {
-  const user = auth.currentUser;
-  if (!user) {
-    alert('Please log in to view playlists');
-    return;
-  }
-
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <div class="modal-content playlist-modal">
-      <div class="modal-header">
-        <h3>Your Playlists</h3>
-        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="playlists-list user-playlists" id="user-playlists">
-        <p class="loading-text">Loading playlists...</p>
-      </div>
-      <div class="new-playlist-section">
-        <h4>Create New Playlist</h4>
-        <div class="form-group">
-          <input type="text" id="new-playlist-name" placeholder="Playlist name" class="playlist-input">
-          <textarea id="new-playlist-description" placeholder="Description (optional)" class="playlist-input"></textarea>
-          <label class="checkbox-container">
-            <input type="checkbox" id="playlist-privacy">
-            <span>Make playlist private</span>
-          </label>
         </div>
-        <button class="btn" onclick="window.createPlaylist()">
-          <i class="fas fa-plus"></i>
-          Create New Playlist
-        </button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  // Load playlists
-  const container = document.getElementById('user-playlists');
-  try {
-    const playlistsRef = ref(database, `users/${user.uid}/playlists`);
-    const snapshot = await get(playlistsRef);
-    
-    if (snapshot.exists()) {
-      const playlists = snapshot.val();
-      container.innerHTML = Object.entries(playlists)
-        .map(([playlistId, playlist]) => `
-          <div class="playlist-item">
-            <div class="playlist-info">
-              <span class="playlist-name">${playlist.name}</span>
-              <span class="playlist-count">${playlist.videos ? playlist.videos.length : 0} videos</span>
-              ${playlist.description ? `<span class="playlist-description">${playlist.description}</span>` : ''}
-            </div>
-            <button class="btn-icon" onclick="window.viewPlaylist('${playlistId}')">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-          </div>
-        `)
-        .join('') || '<p>No playlists yet</p>';
-    } else {
-      container.innerHTML = '<p>No playlists yet</p>';
-    }
-  } catch (error) {
-    console.error('Error loading playlists:', error);
-    container.innerHTML = '<p>Error loading playlists</p>';
-  }
-};
-
-window.viewPlaylist = async function(playlistId) {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  // Create the playlist view modal
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <div class="modal-content playlist-modal">
-      <div class="modal-header">
-        <h3>Loading playlist...</h3>
-        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="playlist-videos" id="playlist-videos">
-        <div class="loading-spinner"></div>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  try {
-    // Get playlist data
-    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
-    const playlistSnapshot = await get(playlistRef);
-    if (!playlistSnapshot.exists()) {
-      throw new Error('Playlist not found');
-    }
-
-    const playlist = playlistSnapshot.val();
-    const videos = playlist.videos || [];
-
-    // Update modal header with playlist name
-    modal.querySelector('.modal-header h3').textContent = playlist.name;
-
-    // Get video details for each video in the playlist
-    const videoDetails = await Promise.all(
-      videos.map(async (videoId) => {
-        const videoRef = ref(database, `videos/${videoId}`);
-        const videoSnapshot = await get(videoRef);
-        return videoSnapshot.val();
-      })
-    );
-
-    // Filter out any null values (videos that might have been deleted)
-    const validVideos = videoDetails.filter(Boolean);
-
-    // Create the videos list with drag handles
-    const videosContainer = modal.querySelector('#playlist-videos');
-    videosContainer.innerHTML = `
-      <div class="playlist-info">
-        <p>${playlist.description || ''}</p>
-        <p class="video-count">${validVideos.length} videos</p>
-      </div>
-      <div class="playlist-videos-list" id="sortable-videos">
-        ${validVideos.map((video, index) => `
-          <div class="playlist-video-item" data-video-id="${video.id}">
-            <div class="drag-handle">
-              <i class="fas fa-grip-vertical"></i>
-            </div>
-            <div class="video-thumbnail">
-              <img src="${video.thumbnail}" alt="${video.title}">
-              <span class="video-duration">${video.duration || ''}</span>
-            </div>
-            <div class="video-details">
-              <h4>${video.title}</h4>
-              <p>${video.channelTitle}</p>
-            </div>
-            <div class="video-actions">
-              <button class="btn-icon" onclick="window.removeFromPlaylist('${playlistId}', '${video.id}')">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-
-    // Initialize drag and drop
-    const sortableList = document.getElementById('sortable-videos');
-    initializeDragAndDrop(sortableList, playlistId);
-
-  } catch (error) {
-    console.error('Error loading playlist:', error);
-    modal.querySelector('#playlist-videos').innerHTML = `
-      <p class="error-message">Error loading playlist videos</p>
-    `;
-  }
-};
-
-window.copyPlaylist = async function(originalUserId, playlistId) {
-  const user = auth.currentUser;
-  if (!user) {
-    showNotification('Please log in to copy this playlist');
-    return;
-  }
-
-  try {
-    // Get original playlist
-    const originalPlaylistRef = ref(database, `users/${originalUserId}/playlists/${playlistId}`);
-    const snapshot = await get(originalPlaylistRef);
-    if (!snapshot.exists()) {
-      showNotification('Playlist not found');
-      return;
-    }
-
-    const originalPlaylist = snapshot.val();
-
-    // Create new playlist data
-    const newPlaylistData = {
-      name: `Copy of ${originalPlaylist.name}`,
-      description: originalPlaylist.description,
-      isPrivate: true, // Default to private for copies
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      videos: [...originalPlaylist.videos],
-      order: [...originalPlaylist.order],
-      totalDuration: originalPlaylist.totalDuration,
-      videoCount: originalPlaylist.videoCount,
-      thumbnail: originalPlaylist.thumbnail,
-      copiedFrom: {
-        userId: originalUserId,
-        playlistId: playlistId,
-        originalName: originalPlaylist.name
-      }
-    };
-
-    // Save new playlist
-    const userPlaylistsRef = ref(database, `users/${user.uid}/playlists`);
-    const newPlaylistRef = push(userPlaylistsRef);
-    await set(newPlaylistRef, newPlaylistData);
-
-    showNotification('Playlist copied successfully');
-    
-    // Increment original playlist's copy count if public
-    if (!originalPlaylist.isPrivate) {
-      const statsRef = ref(database, `playlistStats/${playlistId}`);
-      const statsSnapshot = await get(statsRef);
-      const currentCopies = (statsSnapshot.exists() ? statsSnapshot.val().copies : 0) || 0;
-      await set(statsRef, {
-        copies: currentCopies + 1,
-        lastCopied: new Date().toISOString()
-      });
-    }
-
-    return newPlaylistRef.key;
-  } catch (error) {
-    console.error('Error copying playlist:', error);
-    showNotification('Error copying playlist');
-  }
-};
-
-function initializeDragAndDrop(container, playlistId) {
-  let draggedItem = null;
-  let draggedIndex = null;
-  let placeholder = null;
-
-  const items = container.querySelectorAll('.playlist-video-item');
-  
-  function createPlaceholder() {
-    const div = document.createElement('div');
-    div.className = 'playlist-video-placeholder';
-    return div;
-  }
-
-  items.forEach((item, index) => {
-    item.setAttribute('draggable', true);
-    item.dataset.index = index;
-    
-    item.addEventListener('dragstart', (e) => {
-      draggedItem = item;
-      draggedIndex = index;
-      
-      // Create and insert placeholder
-      placeholder = createPlaceholder();
-      placeholder.style.height = `${item.offsetHeight}px`;
-      
-      // Add dragging styles
-      setTimeout(() => {
-        item.classList.add('dragging');
-        item.style.opacity = '0.5';
-      }, 0);
-
-      // Set drag image
-      const dragImage = item.cloneNode(true);
-      dragImage.style.opacity = '0.7';
-      document.body.appendChild(dragImage);
-      e.dataTransfer.setDragImage(dragImage, 0, 0);
-      setTimeout(() => document.body.removeChild(dragImage), 0);
-    });
-
-    item.addEventListener('dragend', async () => {
-      item.classList.remove('dragging');
-      item.style.opacity = '';
-      
-      if (placeholder && placeholder.parentNode) {
-        placeholder.parentNode.removeChild(placeholder);
-      }
-
-      // Get new order
-      const newOrder = [...container.querySelectorAll('.playlist-video-item')]
-        .map(item => item.dataset.videoId);
-
-      // Save new order to database
-      try {
-        const playlistRef = ref(database, `users/${auth.currentUser.uid}/playlists/${playlistId}`);
-        const snapshot = await get(playlistRef);
-        if (snapshot.exists()) {
-          const playlist = snapshot.val();
-          await set(playlistRef, {
-            ...playlist,
-            order: newOrder,
-            updatedAt: new Date().toISOString()
-          });
-        }
-      } catch (error) {
-        console.error('Error saving new order:', error);
-        showNotification('Error saving playlist order');
-      }
-    });
-
-    item.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      if (!draggedItem || draggedItem === item) return;
-
-      const rect = item.getBoundingClientRect();
-      const mid = rect.top + rect.height / 2;
-      const insertBefore = e.clientY < mid;
-
-      if (placeholder) {
-        if (insertBefore && item.previousSibling !== placeholder) {
-          item.parentNode.insertBefore(placeholder, item);
-        } else if (!insertBefore && item.nextSibling !== placeholder) {
-          item.parentNode.insertBefore(placeholder, item.nextSibling);
-        }
-      }
-    });
-
-    item.addEventListener('drop', (e) => {
-      e.preventDefault();
-      if (!draggedItem || draggedItem === item) return;
-
-      const rect = item.getBoundingClientRect();
-      const mid = rect.top + rect.height / 2;
-      const insertBefore = e.clientY < mid;
-
-      if (insertBefore) {
-        item.parentNode.insertBefore(draggedItem, item);
-      } else {
-        item.parentNode.insertBefore(draggedItem, item.nextSibling);
-      }
-    });
-  });
-}
-
-// Add this to your existing JavaScript
-let currentResourceType = 'videos';
-
-function initializeResourceNav() {
-  const resourceLinks = document.querySelectorAll('.resource-link');
-  const dropdownBtn = document.querySelector('.resource-dropdown-btn');
-  
-  resourceLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const resourceType = link.dataset.resource;
-      
-      // Update active state
-      resourceLinks.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-      
-      // Update dropdown button
-      dropdownBtn.innerHTML = `
-        <i class="fas fa-${getResourceIcon(resourceType)}"></i>
-        ${capitalizeFirstLetter(resourceType)}
-        <i class="fas fa-chevron-down"></i>
-      `;
-      
-      // Switch resource type
-      switchResourceType(resourceType);
-    });
-  });
-}
-
-function getResourceIcon(type) {
-  const icons = {
-    videos: 'play-circle',
-    music: 'music',
-    apps: 'mobile-alt',
-    websites: 'globe',
-    books: 'book'
-  };
-  return icons[type] || 'play-circle';
-}
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function switchResourceType(type) {
-  currentResourceType = type;
-  
-  // Update filters based on resource type
-  updateFilters(type);
-  
-  // Reset and reload content
-  currentVideos = [];
-  filteredVideos = [];
-  displayedVideos = VIDEOS_PER_PAGE;
-  
-  // Load appropriate content
-  switch(type) {
-    case 'videos':
-      loadVideos();
-      break;
-    case 'music':
-      loadMusic();
-      break;
-    case 'apps':
-      loadApps();
-      break;
-    case 'websites':
-      loadWebsites();
-      break;
-    case 'books':
-      loadBooks();
-      break;
-  }
-}
-
-function updateFilters(resourceType) {
-  const filterContainer = document.querySelector('.filters');
-  
-  // Define filter options for each resource type
-  const filterConfigs = {
-    videos: [
-      {
-        id: 'category-filter',
-        label: 'Category',
-        options: ['Tips & Strategies', 'Education', 'Motivation', 'Lifestyle', 'Medication']
-      },
-      {
-        id: 'type-filter',
-        label: 'ADHD Type',
-        options: ['Inattentive', 'Hyperactive', 'Combined']
-      },
-      {
-        id: 'age-filter',
-        label: 'Age Group',
-        options: ['Children', 'Teenagers', 'Adults']
-      }
-    ],
-    apps: [
-      {
-        id: 'app-category-filter',
-        label: 'Category',
-        options: ['Task Management', 'Focus Tools', 'Habit Tracking', 'Meditation', 'Note Taking']
-      },
-      {
-        id: 'platform-filter',
-        label: 'Platform',
-        options: ['iOS', 'Android', 'Web', 'Desktop']
-      },
-      {
-        id: 'price-filter',
-        label: 'Price',
-        options: ['Free', 'Freemium', 'Paid']
-      }
-    ],
-    // Add configurations for other resource types...
-  };
-
-  // Update filter HTML based on resource type
-  if (filterConfigs[resourceType]) {
-    // Generate new filter HTML
-    const filterHTML = generateFilterHTML(filterConfigs[resourceType]);
-    filterContainer.innerHTML = filterHTML;
-    
-    // Reinitialize filter handlers
-    setupFilterHandlers();
-  }
-}
-
-// Add this function to show the resource suggestion form
-window.showResourceForm = function() {
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <div class="modal-content resource-form">
-      <div class="modal-header">
-        <h3>Suggest a Resource</h3>
-        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <p class="modal-description">Help the community by suggesting a helpful ADHD resource.</p>
-      
-      <div class="resource-type-grid">
-        <button class="resource-type-btn" data-type="video">
-          <i class="fas fa-play-circle"></i>
-          <span>Video</span>
-        </button>
-        <button class="resource-type-btn" data-type="app">
-          <i class="fas fa-mobile-alt"></i>
-          <span>App</span>
-        </button>
-        <button class="resource-type-btn" data-type="website">
-          <i class="fas fa-globe"></i>
-          <span>Website</span>
-        </button>
-        <button class="resource-type-btn" data-type="book">
-          <i class="fas fa-book"></i>
-          <span>Book</span>
-        </button>
-      </div>
-      
-      <form id="resource-suggestion-form" style="display: none;">
-        <!-- Form fields will be dynamically added based on resource type -->
-      </form>
-    </div>
-  `;
-  
-  document.body.appendChild(modal);
-  
-  // Add click handlers for resource type buttons
-  const typeButtons = modal.querySelectorAll('.resource-type-btn');
-  typeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      typeButtons.forEach(b => b.classList.remove('selected'));
-      button.classList.add('selected');
-      showResourceForm(button.dataset.type);
-    });
-  });
-};
-
-// Initialize resource navigation when the page loads
-
-// Function to save the new playlist order
-async function savePlaylistOrder(playlistId) {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  try {
-    // Get existing playlist data first
-    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
-    const snapshot = await get(playlistRef);
-    
-    if (!snapshot.exists()) {
-      console.error('Playlist not found');
-      return;
-    }
-
-    const existingPlaylist = snapshot.val();
-    
-    // Get the new video order
-    const container = document.getElementById('sortable-videos');
-    const newOrder = [...container.querySelectorAll('.playlist-video-item')]
-      .map(item => item.dataset.videoId);
-
-    // Update the playlist with new order while preserving other data
-    await set(playlistRef, {
-      ...existingPlaylist,
-      videos: newOrder,
-      updatedAt: new Date().toISOString()
-    });
-
-    showNotification('Playlist order updated');
-  } catch (error) {
-    console.error('Error saving playlist order:', error);
-    showNotification('Error saving playlist order');
-  }
-}
-
-// Function to remove a video from the playlist
-window.removeFromPlaylist = async function(playlistId, videoId) {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  try {
-    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
-    const snapshot = await get(playlistRef);
-    
-    if (!snapshot.exists()) return;
-
-    const playlist = snapshot.val();
-    const updatedVideos = playlist.videos.filter(id => id !== videoId);
-
-    // Update while preserving all other playlist data
-    await set(playlistRef, {
-      ...playlist,
-      videos: updatedVideos,
-      updatedAt: new Date().toISOString()
-    });
-
-    // Remove the video item from the UI
-    const videoItem = document.querySelector(`.playlist-video-item[data-video-id="${videoId}"]`);
-    if (videoItem) {
-      videoItem.remove();
-      
-      // Update video count
-      const countElement = document.querySelector('.video-count');
-      if (countElement) {
-        const count = parseInt(countElement.textContent);
-        countElement.textContent = `${count - 1} videos`;
-      }
-    }
-
-    showNotification('Video removed from playlist');
-  } catch (error) {
-    console.error('Error removing video:', error);
-    showNotification('Error removing video');
-  }
-};
-
-window.addToPlaylist = async function(videoId, event) {
-  event.stopPropagation();
-  const user = auth.currentUser;
-  if (!user) {
-    alert('Please log in to use playlists');
-    return;
-  }
-
-  // Create modal
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <div class="modal-content playlist-modal">
-      <div class="modal-header">
-        <h3>Add to Playlist</h3>
-        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="playlist-form">
-        <!-- Existing playlists -->
-        <div class="playlists-list" id="playlists-container">
-          <p class="loading-text">Loading playlists...</p>
-        </div>
-
-        <!-- Create new playlist section -->
-        <div class="new-playlist-section">
-          <h4>Create New Playlist</h4>
-          <div class="form-group">
-            <input type="text" id="new-playlist-name" placeholder="Playlist name" class="playlist-input">
-            <textarea id="new-playlist-description" placeholder="Description (optional)" class="playlist-input"></textarea>
-            <label class="checkbox-container">
-              <input type="checkbox" id="playlist-privacy">
-              <span>Make playlist private</span>
-            </label>
-          </div>
-          <button class="btn" onclick="window.createPlaylist('${videoId}')">
-            <i class="fas fa-plus"></i>
-            Create New Playlist
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  // Load existing playlists
-  await window.loadUserPlaylists(videoId);
-};
-
-window.createPlaylist = async function(videoId) {
-  const user = auth.currentUser;
-  const nameInput = document.getElementById('new-playlist-name');
-  const descInput = document.getElementById('new-playlist-description');
-  const privacyInput = document.getElementById('playlist-privacy');
-
-  if (!nameInput.value.trim()) {
-    alert('Please enter a playlist name');
-    return;
-  }
-
-  try {
-    // Get video details if a videoId is provided
-    let thumbnailUrl = null;
-    if (videoId) {
-      const videoRef = ref(database, `videos/${videoId}`);
-      const videoSnapshot = await get(videoRef);
-      if (videoSnapshot.exists()) {
-        thumbnailUrl = videoSnapshot.val().thumbnail;
-      }
-    }
-
-    const playlistData = {
-      name: nameInput.value.trim(),
-      description: descInput.value.trim(),
-      isPrivate: privacyInput.checked,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      videos: videoId ? [videoId] : [],
-      order: videoId ? [videoId] : [], // Add to order if video provided
-      totalDuration: 0,
-      videoCount: videoId ? 1 : 0,
-      thumbnail: thumbnailUrl
-    };
-
-    const playlistsRef = ref(database, `users/${user.uid}/playlists`);
-    const newPlaylistRef = push(playlistsRef);
-    await set(newPlaylistRef, playlistData);
-
-    // Update stats only if needed
-    if (videoId) {
-      await updatePlaylistStats(newPlaylistRef.key);
-    }
-
-    showNotification('Playlist created successfully');
-    document.querySelector('.modal').remove();
-
-    // Refresh playlists display if it exists
-    const playlistsContainer = document.getElementById('user-playlists');
-    if (playlistsContainer) {
-      await window.loadUserPlaylists(videoId);
-    }
-
-    return newPlaylistRef.key;
-
-  } catch (error) {
-    console.error('Error creating playlist:', error);
-    alert('Error creating playlist');
-  }
-};
-
-window.toggleVideoInPlaylist = async function(videoId, playlistId, isChecked) {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  try {
-    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
-    const snapshot = await get(playlistRef);
-    if (!snapshot.exists()) return;
-
-    const playlist = snapshot.val();
-    let videos = playlist.videos || [];
-
-    if (isChecked && !videos.includes(videoId)) {
-      videos.push(videoId);
-    } else if (!isChecked) {
-      videos = videos.filter(id => id !== videoId);
-    }
-
-    await set(playlistRef, {
-      ...playlist,
-      videos,
-      updatedAt: new Date().toISOString()
-    });
-
-    showNotification(isChecked ? 'Added to playlist' : 'Removed from playlist');
-  } catch (error) {
-    console.error('Error updating playlist:', error);
-    alert('Error updating playlist');
-  }
-};
-
-window.sharePlaylist = async function(playlistId) {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  try {
-    const playlistRef = ref(database, `users/${user.uid}/playlists/${playlistId}`);
-    const snapshot = await get(playlistRef);
-    if (!snapshot.exists()) return;
-
-    const playlist = snapshot.val();
-    
-    // Create a shareable record
-    const shareRef = ref(database, `sharedPlaylists/${playlistId}`);
-    await set(shareRef, {
-      playlistId,
-      userId: user.uid,
-      sharedAt: new Date().toISOString(),
-      views: 0,
-      playlist: {
-        name: playlist.name,
-        description: playlist.description,
-        thumbnail: playlist.thumbnail,
-        videoCount: playlist.videoCount
-      }
-    });
-
-    // Generate share URL
-    const shareUrl = `${window.location.origin}/shared/${playlistId}`;
-    
-    // Create share modal
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.innerHTML = `
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Share Playlist</h3>
-          <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        <div class="share-content">
-          <div class="share-url-container">
-            <input type="text" value="${shareUrl}" readonly class="share-url-input">
-            <button class="btn" onclick="copyShareUrl(this)">
-              <i class="fas fa-copy"></i>
-              Copy
-            </button>
-          </div>
-          <div class="share-options">
-            <button class="btn" onclick="window.open('https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}')">
-              <i class="fab fa-twitter"></i>
-              Twitter
-            </button>
-            <button class="btn" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}')">
-              <i class="fab fa-facebook"></i>
-              Facebook
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    return shareUrl;
-  } catch (error) {
-    console.error('Error sharing playlist:', error);
-    showNotification('Error sharing playlist');
-  }
-};
-
-// Helper function to copy share URL
-window.copyShareUrl = function(button) {
-  const input = button.previousElementSibling;
-  input.select();
-  document.execCommand('copy');
-  
-  // Update button text temporarily
-  const originalText = button.innerHTML;
-  button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-  setTimeout(() => {
-    button.innerHTML = originalText;
-  }, 2000);
-};
-
-      // Database Schema for Community Features
-      const communitySchema = {
-        ratings: {
-          $videoId: {
-            $userId: {
-              rating: Number, // Value between 1 and 5
-              timestamp: String, // ISO date string
-            },
-          },
-        },
-        comments: {
-          $videoId: {
-            $commentId: {
-              userId: String,
-              username: String,
-              content: String,
-              timestamp: String, // ISO date string
-              likes: Number,
-              replies: {
-                $replyId: {
-                  userId: String,
-                  username: String,
-                  content: String,
-                  timestamp: String, // ISO date string
-                },
-              },
-            },
-          },
-        },
-        playlists: {
-          $userId: {
-            $playlistId: {
-              name: String,
-              description: String,
-              videos: Array, // Array of video IDs
-              isPublic: Boolean,
-              createdAt: String, // ISO date string
-              updatedAt: String, // ISO date string
-            },
-          },
-        },
-      };
-
-      const videoSchema = {
-        id: String,
-        title: String,
-        description: String,
-        thumbnail: String,
-        publishedAt: String,
-        channelTitle: String,
-        duration: String,
-        viewCount: Number,
-        category: String,
-        type: String,
-        ageGroup: String,
-        tags: Array,
-        stats: {
-          ratingCount: Number,
-          commentCount: Number,
-          averageRating: Number,
-        },
-      };
-
-      // YouTube API Configuration
-      const YOUTUBE_API_KEY = 'AIzaSyAoXITyBKjS9vcfTZDCGRRCfvDojJXorsg';
-      const SEARCH_TERMS = [
-        'ADHD tips and tricks',
-        'ADHD explained',
-        'ADHD strategies',
-        'ADHD motivation',
-        'ADHD productivity',
-        'ADHD organization',
-        'ADHD focus techniques',
-        'ADHD lifestyle',
-        'ADHD management',
-      ];
-
-      let nextPageToken = '';
-      let currentVideos = [];
-      let isLoading = false;
-
-      // Function to fetch videos from YouTube
-      async function fetchYouTubeVideos(searchTerm, pageToken = '') {
-  const params = {
-    part: 'snippet',
-    q: searchTerm,
-    maxResults: 50, // Get maximum results per page
-    type: 'video',
-    videoEmbeddable: true,
-    relevanceLanguage: 'en',
-    key: YOUTUBE_API_KEY,
-    pageToken: pageToken,
-    order: 'relevance', // Get most relevant results
-    videoDefinition: 'high', // Get high quality videos
-    publishedAfter: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString() // Last year
-  };
-
-  const queryString = Object.entries(params)
-    .filter(([, value]) => value)
-    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-    .join('&');
-
-  try {
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?${queryString}`
-    );
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching YouTube videos:', error);
-    return null;
-  }
-}
-
-function showProgressNotification(message, persistent = false) {
-  // Remove any existing progress notifications
-  const existingNotification = document.querySelector('.progress-notification');
-  if (existingNotification) {
-    existingNotification.remove();
-  }
-
-  const notification = document.createElement('div');
-  notification.className = 'progress-notification';
-  notification.innerHTML = `
-    <div class="progress-content">
-      <div class="progress-spinner"></div>
-      <div class="progress-message">${message}</div>
-    </div>
-  `;
-
-  document.body.appendChild(notification);
-
-  if (!persistent) {
-    setTimeout(() => {
-      notification.remove();
-    }, 3000);
-  }
-
-  return notification;
-}
-
-      // Function to get video details
-      async function getVideoDetails(videoId) {
-        const params = {
-          part: 'contentDetails,statistics',
-          id: videoId,
-          key: AIzaSyAoXITyBKjS9vcfTZDCGRRCfvDojJXorsg,
-        };
-
-        const queryString = Object.entries(params)
-          .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-          .join('&');
-
-        const response = await fetch(
-          `https://www.googleapis.com/youtube/v3/videos?${queryString}`
-        );
-        const data = await response.json();
-
-        return data.items?.[0] || null; // Return the first item or null
-      }
-
-      function getVideoCategory(video, type) {
-  // If community has categorized this video, use that
-  if (video.communityCategories && video.communityCategories[type]) {
-    return video.communityCategories[type];
-  }
-  // Otherwise use automated category
-  return video[type];
-}
-
-      // Function to process and store videos
-      async function processAndStoreVideos(searchResults) {
-  try {
-    const videoRef = ref(database, 'videos');
-    const processedVideos = [];
-    const seenVideoIds = new Set();
-
-    // Get existing videos first
-    const existingSnapshot = await get(videoRef);
-    const existingVideos = existingSnapshot.exists() ? existingSnapshot.val() : {};
-
-    for (const item of searchResults.items) {
-      try {
-        const videoId = item.id.videoId;
-
-        // Skip if we've already seen this video ID in current batch
-        if (seenVideoIds.has(videoId)) {
-          continue;
-        }
-        seenVideoIds.add(videoId);
-
-        // Skip if video exists and is newer than current result
-        if (existingVideos[videoId] && 
-            new Date(existingVideos[videoId].publishedAt) >= new Date(item.snippet.publishedAt)) {
-          continue;
-        }
-
-        const videoDetails = await getVideoDetails(videoId);
-        const duration = videoDetails?.contentDetails?.duration || null;
-        const viewCount = videoDetails?.statistics?.viewCount || 0;
-
-        const video = {
-          id: videoId,
-          title: item.snippet.title,
-          description: item.snippet.description,
-          thumbnail: item.snippet.thumbnails.high.url,
-          publishedAt: item.snippet.publishedAt,
-          channelTitle: item.snippet.channelTitle,
-          duration: duration,
-          viewCount: viewCount,
-          category: determineCategory(item.snippet.title, item.snippet.description),
-          type: determineType(item.snippet.title, item.snippet.description),
-          ageGroup: determineAgeGroup(item.snippet.title, item.snippet.description),
-          tags: generateTags(item.snippet.title, item.snippet.description),
-        };
-
-        processedVideos.push(video);
-      } catch (error) {
-        console.error('Error processing video:', error);
-        continue;
-      }
-    }
-
-    // Store each unique video
-    const user = auth.currentUser;
-    if (user) {
-      for (const video of processedVideos) {
-        try {
-          const newVideoRef = ref(database, `videos/${video.id}`);
-          await set(newVideoRef, video);
-        } catch (error) {
-          console.error('Error storing video:', error);
-        }
-      }
-    }
-
-    return processedVideos;
-  } catch (error) {
-    console.error('Error in processAndStoreVideos:', error);
-    throw error;
-  }
-}
-
-      function fetchVideoDetails(videoIds) {
-  const apiKey = YOUTUBE_API_KEY; // Replace with your API key
-  const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds.join(
-    ','
-  )}&key=${apiKey}`;
-
-  return fetch(apiUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      // Map video durations
-      return data.items.map((item) => ({
-        id: item.id,
-        duration: parseYouTubeDuration(item.contentDetails.duration),
-      }));
-    });
-}
-
-// Helper to parse ISO 8601 duration format (e.g., PT15M30S)
-// Parse duration string to minutes
-function parseYouTubeDuration(duration) {
-  if (!duration) return 0;
-  
-  // Handle formatted duration (MM:SS or HH:MM:SS)
-  if (duration.includes(':')) {
-    const parts = duration.split(':').map(part => parseInt(part));
-    if (parts.length === 2) {
-      // MM:SS format
-      return parts[0] + (parts[1] / 60);
-    } else if (parts.length === 3) {
-      // HH:MM:SS format
-      return (parts[0] * 60) + parts[1] + (parts[2] / 60);
-    }
-    return 0;
-  }
-  
-  // Handle ISO 8601 format (PT1H2M10S)
-  const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  if (!match) return 0;
-
-  const hours = parseInt(match[1] || '0');
-  const minutes = parseInt(match[2] || '0');
-  const seconds = parseInt(match[3] || '0');
-
-  return (hours * 60) + minutes + (seconds / 60);
-}
-
-// Determine duration category
-function determineDuration(duration) {
-  console.log('Determining duration for:', duration);
-  if (!duration) {
-    console.log('No duration provided');
-    return null;
-  }
-
-  const minutes = parseYouTubeDuration(duration);
-  console.log('Duration in minutes:', minutes);
-
-  // Return category based on minutes
-  if (minutes < 5) return 'short';
-  if (minutes <= 15) return 'medium';
-  return 'long';
-}
-
-
-      // Helper functions for categorizing videos
-      function determineCategory(title, description) {
-  const text = (title + ' ' + description).toLowerCase();
-  const keywords = {
-    tips: ['tip', 'strategy', 'how to', 'technique', 'hack', 'guide', 'method', 'advice'],
-    education: ['explain', 'what is', 'understanding', 'learn', 'basics', 'introduction', 'overview', 'science'],
-    motivation: ['motivation', 'inspire', 'encouragement', 'success', 'overcome', 'journey', 'story', 'experience'],
-    lifestyle: ['lifestyle', 'daily', 'routine', 'life', 'living', 'day in the life', 'habits', 'schedule'],
-    medication: ['medication', 'treatment', 'therapy', 'medicine', 'drug', 'prescription', 'doctor', 'psychiatrist']
-  };
-
-  // Count matches for each category
-  const matches = {};
-  Object.entries(keywords).forEach(([category, words]) => {
-    matches[category] = words.filter(word => text.includes(word)).length;
-  });
-
-  // Find category with most matches
-  const maxMatches = Math.max(...Object.values(matches));
-  if (maxMatches === 0) return 'education'; // Default category
-
-  return Object.entries(matches).find(([_, count]) => count === maxMatches)[0];
-}
-
-function determineType(title, description) {
-  const text = (title + ' ' + description).toLowerCase();
-  const typeKeywords = {
-    inattentive: ['inattentive', 'inattention', 'focus', 'concentration', 'distraction', 'forgetful', 'spacing out'],
-    hyperactive: ['hyperactive', 'impulsive', 'energy', 'restless', 'fidgety', 'cannot sit still', 'hyper'],
-    combined: ['combined', 'both types', 'all symptoms', 'inattentive and hyperactive']
-  };
-
-  // Count matches for each type
-  const matches = {};
-  Object.entries(typeKeywords).forEach(([type, words]) => {
-    matches[type] = words.filter(word => text.includes(word)).length;
-  });
-
-  const maxMatches = Math.max(...Object.values(matches));
-  return maxMatches === 0 ? 'all' : Object.entries(matches).find(([_, count]) => count === maxMatches)[0];
-}
-
-function determineAgeGroup(title, description) {
-  const text = (title + ' ' + description).toLowerCase();
-  const ageKeywords = {
-    children: ['child', 'kid', 'parent', 'young', 'elementary', 'school age', 'childhood'],
-    teenagers: ['teen', 'adolescent', 'high school', 'middle school', 'young adult', 'youth'],
-    adults: ['adult', 'workplace', 'college', 'university', 'professional', 'career', 'work']
-  };
-
-  // Count matches for each age group
-  const matches = {};
-  Object.entries(ageKeywords).forEach(([age, words]) => {
-    matches[age] = words.filter(word => text.includes(word)).length;
-  });
-
-  const maxMatches = Math.max(...Object.values(matches));
-  return maxMatches === 0 ? 'all' : Object.entries(matches).find(([_, count]) => count === maxMatches)[0];
-}
-
-      function generateTags(title, description) {
-        const text = (title + ' ' + description).toLowerCase();
-        const tags = [];
-        const commonTags = [
-          'focus',
-          'productivity',
-          'organization',
-          'symptoms',
-          'treatment',
-          'strategies',
-          'management',
-          'tips',
-          'motivation',
-          'lifestyle',
-          'education',
-          'work',
-          'school',
-          'relationships',
-          'self-help',
-        ];
-
-        commonTags.forEach((tag) => {
-          if (text.includes(tag)) tags.push(tag);
-        });
-
-        return tags.slice(0, 5); // Limit to 5 tags
-      }
-
-      // Initialize video display
-      let displayedVideos = 12;
-      let filteredVideos = [];
-
-      async function refreshVideos() {
-  const button = document.getElementById('refresh-videos');
-  button.disabled = true;
-  button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
-
-  let progressNotification = showProgressNotification('Checking API quota...', true);
-  let totalNewVideos = 0;
-  let processedTerms = 0;
-
-  try {
-    // Check quota
-    const quotaRef = ref(database, 'youtubeQuota');
-    const quotaSnapshot = await get(quotaRef);
-    const quota = quotaSnapshot.val() || {
-      count: 0,
-      date: new Date().toDateString(),
-    };
-
-    // Reset quota if it's a new day
-    if (quota.date !== new Date().toDateString()) {
-      quota.count = 0;
-      quota.date = new Date().toDateString();
-    }
-
-    // If we've hit our quota, just load existing videos
-    if (quota.count >= 100) {
-      progressNotification.remove();
-      showNotification('Daily quota reached. Loading existing videos only.');
-      await loadVideos();
-      return;
-    }
-
-    // Track all new videos
-    const newVideos = new Map();
-    
-    // Get existing videos first
-    const videoRef = ref(database, 'videos');
-    const existingSnapshot = await get(videoRef);
-    const existingVideos = existingSnapshot.exists() ? existingSnapshot.val() : {};
-    
-    // Track the newest video date for each search term
-    const latestDates = {};
-    Object.values(existingVideos).forEach(video => {
-      const searchTerm = determineSearchTerm(video.title, video.description);
-      if (searchTerm) {
-        const date = new Date(video.publishedAt);
-        if (!latestDates[searchTerm] || date > new Date(latestDates[searchTerm])) {
-          latestDates[searchTerm] = video.publishedAt;
-        }
-      }
-    });
-
-    // Fetch videos for each search term with pagination
-    for (const searchTerm of SEARCH_TERMS) {
-      if (quota.count >= 100) break;
-
-      processedTerms++;
-      progressNotification.remove();
-      progressNotification = showProgressNotification(
-        `Fetching videos for "${searchTerm}" (${processedTerms}/${SEARCH_TERMS.length})...`,
-        true
-      );
-
-      let pageToken = '';
-      let pageCount = 0;
-      const MAX_PAGES = 3;
-      const latestDate = latestDates[searchTerm];
-
-      while (pageCount < MAX_PAGES && quota.count < 100) {
-        const results = await fetchYouTubeVideos(searchTerm, pageToken);
-        quota.count += 1;
-
-        if (results?.items?.length > 0) {
-          // Get video details in batches
-          const videoIds = results.items.map(item => item.id.videoId);
-          progressNotification.remove();
-          progressNotification = showProgressNotification(
-            `Loading details for ${videoIds.length} videos...`,
-            true
-          );
-
-          const videoDetailsChunks = await Promise.all(
-            chunk(videoIds, 50).map(ids => getVideoDetailsInBatch(ids))
-          );
-
-          // Process videos
-          for (const item of results.items) {
-            const videoId = item.id.videoId;
-            const publishedAt = item.snippet.publishedAt;
-            
-            // Skip if we have a newer version
-            if (existingVideos[videoId] && 
-                new Date(existingVideos[videoId].publishedAt) >= new Date(publishedAt)) {
-              continue;
-            }
-            
-            // Find matching details
-            const details = videoDetailsChunks
-              .flat()
-              .find(detail => detail?.id === videoId);
-
-            if (details) {
-              const video = {
-                id: videoId,
-                title: item.snippet.title,
-                description: item.snippet.description,
-                thumbnail: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default?.url,
-                publishedAt: publishedAt,
-                channelTitle: item.snippet.channelTitle,
-                duration: details.contentDetails?.duration,
-                viewCount: parseInt(details.statistics?.viewCount) || 0,
-                category: determineCategory(item.snippet.title, item.snippet.description),
-                type: determineType(item.snippet.title, item.snippet.description),
-                ageGroup: determineAgeGroup(item.snippet.title, item.snippet.description),
-                tags: generateTags(item.snippet.title, item.snippet.description),
-                searchTerm: searchTerm // Store which search term found this video
-              };
-
-              const videoKey = generateUniqueVideoKey(video);
-              if (!newVideos.has(videoKey)) {
-                newVideos.set(videoKey, video);
-                totalNewVideos++;
-              }
-            }
-          }
-
-          pageToken = results.nextPageToken;
-          if (!pageToken) break;
-          
-          pageCount++;
-        } else {
-          break;
-        }
-      }
-    }
-
-    // Update quota
-    await set(quotaRef, quota);
-
-    // Store new videos
-    if (newVideos.size > 0) {
-      progressNotification.remove();
-      progressNotification = showProgressNotification(
-        `Saving ${newVideos.size} new videos...`,
-        true
-      );
-
-      const batch = [];
-      for (const video of newVideos.values()) {
-        batch.push(set(ref(database, `videos/${video.id}`), video));
-      }
-      await Promise.all(batch);
-
-      showNotification(`Added ${totalNewVideos} new videos!`);
-    } else {
-      showNotification('No new videos found');
-    }
-
-    // Reload videos
-    progressNotification.remove();
-    progressNotification = showProgressNotification('Reloading video list...', true);
-    await loadVideos();
-
-  } catch (error) {
-    console.error('Error refreshing videos:', error);
-    showNotification('Error updating videos. Loading existing videos.');
-    await loadVideos();
-  } finally {
-    if (progressNotification) {
-      progressNotification.remove();
-    }
-    button.disabled = false;
-    button.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Videos';
-  }
-}
-
-function determineSearchTerm(title, description) {
-  const text = (title + ' ' + description).toLowerCase();
-  return SEARCH_TERMS.find(term => 
-    text.includes(term.toLowerCase()) || 
-    term.toLowerCase().split(' ').every(word => text.includes(word))
-  );
-}
-
-      function generateUniqueVideoKey(video) {
-  // Normalize the title by removing extra spaces and converting to lowercase
-  const normalizedTitle = video.title?.trim().toLowerCase().replace(/\s+/g, ' ') || '';
-  const normalizedChannel = video.channelTitle?.trim().toLowerCase().replace(/\s+/g, ' ') || '';
-  const duration = video.duration || '';
-  
-  // Create a composite key that includes all relevant fields
-  return `${normalizedTitle}|${normalizedChannel}|${duration}`;
-}
-
-      function updateStarDisplay(container, rating) {
-        if (!container) return;
-
-        const stars = container.querySelectorAll('.star');
-        stars.forEach((star, index) => {
-          if (index < rating) {
-            star.classList.remove('far');
-            star.classList.add('fas');
-          } else {
-            star.classList.remove('fas');
-            star.classList.add('far');
-          }
-        });
-      }
-
-      document.getElementById('clear-filters').addEventListener('click', () => {
-        // Clear all filter inputs
-        document.getElementById('category-filter').value = '';
-        document.getElementById('type-filter').value = '';
-        document.getElementById('age-filter').value = '';
-        document.getElementById('duration-filter').value = '';
-        document.getElementById('search-input').value = '';
-
-        // Reset to show all videos
-        filteredVideos = [...currentVideos];
-        displayVideos();
-      });
-
-      function processVideoData(item, details) {
-        const duration = details.items[0]?.contentDetails?.duration;
-        const viewCount = details.items[0]?.statistics?.viewCount;
-
-        return {
-          id: item.id.videoId,
-          title: item.snippet.title,
-          description: item.snippet.description,
-          thumbnail: item.snippet.thumbnails.high.url,
-          publishedAt: item.snippet.publishedAt,
-          channelTitle: item.snippet.channelTitle,
-          duration: duration,
-          viewCount: viewCount,
-          category: determineCategory(
-            item.snippet.title,
-            item.snippet.description
-          ),
-          type: determineType(item.snippet.title, item.snippet.description),
-          ageGroup: determineAgeGroup(
-            item.snippet.title,
-            item.snippet.description
-          ),
-          tags: generateTags(item.snippet.title, item.snippet.description),
-        };
-      }
-
-      // Display videos in the grid
-      async function displayVideos() {
-  console.log('Displaying videos...');
-  
-  const videoGrid = document.getElementById('video-grid');
-  if (!videoGrid) return;
-
-  // Only clear grid if we're displaying the first batch
-  if (displayedVideos === VIDEOS_PER_PAGE) {
-    videoGrid.innerHTML = '';
-  }
-
-  if (filteredVideos.length === 0) {
-    videoGrid.innerHTML = '<p>No videos match the current filters</p>';
-    return;
-  }
-
-  const fragment = document.createDocumentFragment();
-  const displayedKeys = new Set();
-  
-  // Get all currently displayed video keys
-  videoGrid.querySelectorAll('.video-card').forEach(card => {
-    const video = currentVideos.find(v => v.id === card.dataset.videoId);
-    if (video) {
-      displayedKeys.add(generateUniqueVideoKey(video));
-    }
-  });
-
-  // Calculate start index based on already displayed videos
-  const startIndex = videoGrid.children.length;
-  const endIndex = Math.min(displayedVideos, filteredVideos.length);
-  
-  for (let i = startIndex; i < endIndex; i++) {
-    const video = filteredVideos[i];
-    const uniqueKey = generateUniqueVideoKey(video);
-    
-    if (!displayedKeys.has(uniqueKey)) {
-      displayedKeys.add(uniqueKey);
-
-      try {
-        const card = createVideoCard(video);
-        if (card) {
-          // Add video ID to card for reference
-          card.dataset.videoId = video.id;
-          
-          const [rating, watchLater] = await Promise.all([
-            loadVideoRatings(video.id),
-            loadWatchLaterStatus(video.id),
-          ]);
-
-          if (rating) {
-            const starsContainer = card.querySelector('.stars');
-            if (starsContainer) updateStarDisplay(starsContainer, rating);
-          }
-
-          if (watchLater) {
-            const watchLaterBtn = card.querySelector(`[onclick*="addToWatchLater('${video.id}"]`);
-            if (watchLaterBtn) watchLaterBtn.classList.add('active');
-          }
-
-          fragment.appendChild(card);
-        }
-      } catch (error) {
-        console.error('Error creating video card:', error);
-      }
-    }
-  }
-
-  videoGrid.appendChild(fragment);
-
-  // Update loading indicator visibility
-  const loadingIndicator = document.getElementById('scroll-loading');
-  if (loadingIndicator) {
-    const remainingVideos = filteredVideos.length - displayedVideos;
-    loadingIndicator.style.display = remainingVideos > 0 ? 'block' : 'none';
-  }
-}
-
-async function loadFilterPreferences() {
-  if (!auth.currentUser) return;
-
-  try {
-    const preferencesRef = ref(database, `users/${auth.currentUser.uid}/filterPreferences`);
-    const snapshot = await get(preferencesRef);
-
-    if (snapshot.exists()) {
-      const preferences = snapshot.val();
-      console.log('Loading saved filter preferences:', preferences);
-
-      // Apply saved preferences to filter inputs
-      document.getElementById('category-filter').value = preferences.category || '';
-      document.getElementById('type-filter').value = preferences.type || '';
-      document.getElementById('age-filter').value = preferences.ageGroup || '';
-      document.getElementById('duration-filter').value = preferences.duration || '';
-      document.getElementById('search-input').value = preferences.search || '';
-
-      // Apply filters if any were saved
-      if (Object.values(preferences).some(value => value)) {
-        applyFilters();
-      }
-    }
-  } catch (error) {
-    console.error('Error loading filter preferences:', error);
-  }
-}
-
-      function createVideoCard(video) {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-
-  // Add click handler to open video
-  const handleCardClick = (e) => {
-    // Only open video if not clicking on interactive elements
-    if (
-      !e.target.closest('.video-community') &&
-      !e.target.closest('.comments-section')
-    ) {
-      window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank');
-    }
-  };
-
-  card.addEventListener('click', handleCardClick);
-
-  // Get stats or default values
-  const stats = video.stats || {
-    ratingCount: 0,
-    commentCount: 0,
-    averageRating: 0,
-  };
-
-  card.innerHTML = `
-    <div class="video-thumbnail">
-      <img src="${video.thumbnail || ''}" alt="${video.title}" loading="lazy">
-      ${
-        video.duration
-          ? `<span class="video-duration">${video.duration}</span>`
-          : ''
-      }
-    </div>
-    <div class="video-info">
-      <h3 class="video-title">${video.title || 'Untitled'}</h3>
-      <p class="video-description">${(video.description || '').slice(
-        0,
-        100
-      )}...</p>
-      
-      <div class="video-community">
-        <div class="rating-container">
-          <div class="stars">
-            ${[1, 2, 3, 4, 5]
-              .map(
-                (num) => `
-                <i class="far fa-star star" 
-                   data-rating="${num}" 
-                   onclick="window.rateVideo('${video.id}', ${num}, event)">
-                </i>
-              `
-              )
-              .join('')}
-          </div>
-          <span class="rating-count">(${stats.ratingCount || 0})</span>
-        </div>
-        
-        <div class="actions">
-          <button class="btn-icon save-video" onclick="window.addToWatchLater('${
-            video.id
-          }', event)" title="Save to Watch Later">
-            <i class="fas fa-clock"></i>
-          </button>
-          <button class="btn-icon save-video" onclick="window.addToPlaylist('${
-            video.id
-          }', event)" title="Save to Playlist">
-            <i class="fas fa-bookmark"></i>
-          </button>
-          <button class="btn-icon" onclick="window.toggleComments('${
-            video.id
-          }', event)" title="Show Comments">
-            <i class="fas fa-comment"></i>
-            <span class="comment-count">${stats.commentCount || 0}</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="video-meta">
-        <span><i class="fas fa-user"></i> ${
-          video.channelTitle || 'Unknown Channel'
-        }</span>
-        ${
-          video.viewCount
-            ? `<span><i class="fas fa-eye"></i> ${parseInt(
-                video.viewCount
-              ).toLocaleString()} views</span>`
-            : ''
-        }
-      </div>
-      
-      <div class="tag-list">
-        ${(video.tags || [])
-          .map((tag) => `<span class="tag">${tag}</span>`)
-          .join('')}
-      </div>
-    </div>
-
-    <div class="comments-section" id="comments-${
-      video.id
-    }" style="display: none;">
-      <div class="comments-container"></div>
-      <div class="comment-input">
-        <textarea id="comment-input-${
-          video.id
-        }" placeholder="Add a comment..."></textarea>
-        <button onclick="window.postComment('${
-          video.id
-        }', document.getElementById('comment-input-${
-    video.id
-  }').value, event)" class="btn-comment">
-          Post Comment
-        </button>
-      </div>
-    </div>
-  `;
-
-  // Setup comment handlers after DOM elements are created
-  setTimeout(() => {
-    setupCommentHandlers(video.id);
-  }, 0);
-
-  return card;
-}
-
-function addCategoryOptions(videoCard, video) {
-  const categorySection = document.createElement('div');
-  categorySection.className = 'user-categories';
-  categorySection.innerHTML = `
-    <button class="btn-icon edit-categories" onclick="window.editCategories('${video.id}', event)">
-      <i class="fas fa-tags"></i>
-    </button>
-  `;
-  videoCard.querySelector('.video-info').appendChild(categorySection);
-}
-
-      // Add this function to your code
-function formatTimeAgo(timestamp) {
-    const date = new Date(timestamp);
-    const now = new Date();
-    const secondsAgo = Math.floor((now - date) / 1000);
-
-    if (secondsAgo < 60) {
-        return 'just now';
-    }
-
-    const minutesAgo = Math.floor(secondsAgo / 60);
-    if (minutesAgo < 60) {
-        return `${minutesAgo} minute${minutesAgo === 1 ? '' : 's'} ago`;
-    }
-
-    const hoursAgo = Math.floor(minutesAgo / 60);
-    if (hoursAgo < 24) {
-        return `${hoursAgo} hour${hoursAgo === 1 ? '' : 's'} ago`;
-    }
-
-    const daysAgo = Math.floor(hoursAgo / 24);
-    if (daysAgo < 30) {
-        return `${daysAgo} day${daysAgo === 1 ? '' : 's'} ago`;
-    }
-
-    const monthsAgo = Math.floor(daysAgo / 30);
-    if (monthsAgo < 12) {
-        return `${monthsAgo} month${monthsAgo === 1 ? '' : 's'} ago`;
-    }
-
-    const yearsAgo = Math.floor(monthsAgo / 12);
-    return `${yearsAgo} year${yearsAgo === 1 ? '' : 's'} ago`;
-}
-
-function formatDuration(duration) {
-  if (!duration) return '';
-  
-  // If already in MM:SS or HH:MM:SS format, return as is
-  if (duration.includes(':')) return duration;
-  
-  // Handle ISO format
-  const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  if (!match) return '';
-
-  const hours = parseInt(match[1] || '0');
-  const minutes = parseInt(match[2] || '0');
-  const seconds = parseInt(match[3] || '0');
-
-  if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  } else {
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  }
-}
-
-function validateVideo(video) {
-  // Ensure all required fields exist
-  const requiredFields = ['id', 'title', 'thumbnail'];
-  if (!video || typeof video !== 'object') return false;
-
-  for (const field of requiredFields) {
-    if (!video[field]) return false;
-  }
-
-  // Ensure all fields have proper types or defaults
-  return {
-    ...video,
-    description: video.description || '',
-    channelTitle: video.channelTitle || 'Unknown Channel',
-    tags: Array.isArray(video.tags) ? video.tags : [],
-    viewCount: video.viewCount || 0,
-    category: video.category || 'uncategorized',
-    type: video.type || 'all',
-    ageGroup: video.ageGroup || 'all',
-    publishedAt: video.publishedAt || new Date().toISOString(),
-  };
-}
-
-      // Star Rating Generation and Handling
-      function generateStarRating(videoId) {
-        return `
-    <div class="stars" data-video-id="${videoId}">
-      ${[1, 2, 3, 4, 5]
-        .map(
-          (num) => `
-        <i class="far fa-star star" 
-           data-rating="${num}" 
-           onclick="window.rateVideo('${videoId}', ${num}, event)">
-        </i>
-      `
-        )
-        .join('')}
-    </div>
-  `;
-      }
-
-      async function loadRatingCount(videoId) {
-        try {
-          const ratingsRef = ref(database, `ratings/${videoId}`);
-          const snapshot = await get(ratingsRef);
-          return snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-        } catch (error) {
-          console.error('Error loading rating count:', error);
-          return 0;
-        }
-      }
-
-      window.postComment = async function(videoId, commentText, event) {
-    event?.stopPropagation();
-    if (!commentText.trim()) return;
-
-    const user = auth.currentUser;
-    if (!user) {
-        alert('Please log in to comment');
-        return;
-    }
-
-    try {
-        const timestamp = new Date().toISOString();
-        const commentData = {
-            authorId: user.uid,
-            authorName: user.displayName || 'Anonymous',
-            text: commentText.trim(),
-            timestamp
-        };
-
-        // Generate a unique comment ID
-        const commentRef = ref(database, `videoComments/${videoId}`);
-        const newCommentRef = push(commentRef);
-        const commentId = newCommentRef.key;
-
-        await Promise.all([
-            // Save to video comments
-            set(newCommentRef, commentData),
-            // Save to user's comments
-            set(ref(database, `users/${user.uid}/comments/${commentId}`), {
-                videoId,
-                text: commentText.trim(),
-                timestamp
-            })
-        ]);
-
-        // Clear input and refresh
-        const textarea = document.getElementById(`comment-input-${videoId}`);
-        if (textarea) textarea.value = '';
-
-        // Refresh everything
-        await Promise.all([
-            loadComments(videoId),
-            loadUserStats(user),
-            loadRecentActivity(user)
-        ]);
-    } catch (error) {
-        console.error('Error posting comment:', error);
-        alert('Error posting comment. Please try again.');
-    }
-};
-
-window.editCategories = async function(videoId, event) {
-  event.stopPropagation();
-  const user = auth.currentUser;
-  if (!user) {
-    alert('Please log in to categorize videos');
-    return;
-  }
-
-  const video = currentVideos.find(v => v.id === videoId);
-  if (!video) return;
-
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h3>Categorize Video</h3>
-      <div class="category-form">
-        <div class="form-group">
-          <label>Category:</label>
-          <select id="user-category">
-            <option value="tips" ${video.category === 'tips' ? 'selected' : ''}>Tips & Strategies</option>
-            <option value="education" ${video.category === 'education' ? 'selected' : ''}>Education</option>
-            <option value="motivation" ${video.category === 'motivation' ? 'selected' : ''}>Motivation</option>
-            <option value="lifestyle" ${video.category === 'lifestyle' ? 'selected' : ''}>Lifestyle</option>
-            <option value="medication" ${video.category === 'medication' ? 'selected' : ''}>Medication</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>ADHD Type:</label>
-          <select id="user-type">
-            <option value="all" ${video.type === 'all' ? 'selected' : ''}>All Types</option>
-            <option value="inattentive" ${video.type === 'inattentive' ? 'selected' : ''}>Inattentive</option>
-            <option value="hyperactive" ${video.type === 'hyperactive' ? 'selected' : ''}>Hyperactive</option>
-            <option value="combined" ${video.type === 'combined' ? 'selected' : ''}>Combined</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Age Group:</label>
-          <select id="user-age">
-            <option value="all" ${video.ageGroup === 'all' ? 'selected' : ''}>All Ages</option>
-            <option value="children" ${video.ageGroup === 'children' ? 'selected' : ''}>Children</option>
-            <option value="teenagers" ${video.ageGroup === 'teenagers' ? 'selected' : ''}>Teenagers</option>
-            <option value="adults" ${video.ageGroup === 'adults' ? 'selected' : ''}>Adults</option>
-          </select>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn" onclick="window.saveCategories('${videoId}')">Save</button>
-        <button class="btn" onclick="this.closest('.modal').remove()">Cancel</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-};
-
-window.saveCategories = async function(videoId) {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  const category = document.getElementById('user-category').value;
-  const type = document.getElementById('user-type').value;
-  const ageGroup = document.getElementById('user-age').value;
-
-  try {
-    // Save user's categorization
-    await set(ref(database, `videoCategorizations/${videoId}/${user.uid}`), {
-      category,
-      type,
-      ageGroup,
-      timestamp: new Date().toISOString()
-    });
-
-    // Update video in database with community-voted categories
-    const categorizationsRef = ref(database, `videoCategorizations/${videoId}`);
-    const snapshot = await get(categorizationsRef);
-    
-    if (snapshot.exists()) {
-      const categorizations = Object.values(snapshot.val());
-      
-      // Calculate most common values
-      const mostCommonCategory = getMostCommonValue(categorizations.map(c => c.category));
-      const mostCommonType = getMostCommonValue(categorizations.map(c => c.type));
-      const mostCommonAge = getMostCommonValue(categorizations.map(c => c.ageGroup));
-
-      // Update video categories
-      await set(ref(database, `videos/${videoId}/communityCategories`), {
-        category: mostCommonCategory,
-        type: mostCommonType,
-        ageGroup: mostCommonAge,
-        votes: categorizations.length
-      });
-    }
-
-    // Remove modal and show success message
-    document.querySelector('.modal').remove();
-    showNotification('Categories updated successfully');
-    
-    // Refresh the video display
-    await loadVideos();
-  } catch (error) {
-    console.error('Error saving categories:', error);
-    alert('Error saving categories. Please try again.');
-  }
-};
-
-// Modify the rating function as well
-window.rateVideo = async function(videoId, rating, event) {
-    event.stopPropagation();
-    const user = auth.currentUser;
-    if (!user) {
-        alert('Please log in to rate videos');
-        return;
-    }
-
-    try {
-        const timestamp = new Date().toISOString();
-        
-        await Promise.all([
-            // Save in global ratings
-            set(ref(database, `ratings/${videoId}/${user.uid}`), {
-                rating,
-                timestamp
-            }),
-            // Save in user's ratings
-            set(ref(database, `users/${user.uid}/ratings/${videoId}`), {
-                rating,
-                timestamp
-            })
-        ]);
-
-        // Update UI
-        const starsContainer = event.target.closest('.stars');
-        updateStarDisplay(starsContainer, rating);
-        
-        // Get updated rating count
-        const ratingsRef = ref(database, `ratings/${videoId}`);
-        const snapshot = await get(ratingsRef);
-        const ratings = snapshot.val() || {};
-        const ratingCount = Object.keys(ratings).length;
-
-        // Update count display
-        const countDisplay = starsContainer.nextElementSibling;
-        if (countDisplay) {
-            countDisplay.textContent = `(${ratingCount})`;
-        }
-
-        // Refresh profile stats
-        await Promise.all([
-            loadUserStats(user),
-            loadRecentActivity(user)
-        ]);
-
-    } catch (error) {
-        console.error('Error saving rating:', error);
-        alert('Error saving rating. Please try again.');
-    }
-};
-
-function getMostCommonValue(arr) {
-  const counts = arr.reduce((acc, val) => {
-    acc[val] = (acc[val] || 0) + 1;
-    return acc;
-  }, {});
-  
-  return Object.entries(counts)
-    .sort(([,a], [,b]) => b - a)[0][0];
-}
-
-      async function loadComments(videoId) {
-        const commentsContainer = document.querySelector(
-          `#comments-${videoId} .comments-container`
-        );
-        if (!commentsContainer) return;
-
-        try {
-          const commentsRef = ref(database, `videoComments/${videoId}`);
-          const snapshot = await get(commentsRef);
-
-          if (snapshot.exists()) {
-            const comments = Object.entries(snapshot.val())
-              .map(([id, comment]) => ({
-                id,
-                ...comment,
-              }))
-              .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sort newest first
-
-            commentsContainer.innerHTML = comments
-              .map(
-                (comment) => `
-          <div class="comment">
-            <div class="comment-header">
-              <span class="comment-author">${comment.authorName}</span>
-              <span class="comment-time">${new Date(
-                comment.timestamp
-              ).toLocaleString()}</span>
-            </div>
-            <div class="comment-content">${comment.text}</div>
-          </div>
-        `
-              )
-              .join('');
-
-            // Update both comment count displays
-            const commentCount = comments.length;
-            // Update count in comments section
-            const commentCountInSection = document.querySelector(
-              `#comments-${videoId} .comment-count`
-            );
-            if (commentCountInSection) {
-              commentCountInSection.textContent = commentCount;
-            }
-            // Update count in video card
-            const commentCountInCard = document.querySelector(
-              `.video-card:has([data-video-id="${videoId}"]) .comment-count`
-            );
-            if (commentCountInCard) {
-              commentCountInCard.textContent = commentCount;
-            }
-
-            // Update video stats in database
-            const videoStatsRef = ref(
-              database,
-              `videos/${videoId}/stats/commentCount`
-            );
-            await set(videoStatsRef, commentCount);
-          } else {
-            commentsContainer.innerHTML =
-              '<p class="no-comments">No comments yet. Be the first to comment!</p>';
-          }
-        } catch (error) {
-          console.error('Error loading comments:', error);
-          commentsContainer.innerHTML =
-            '<p class="error">Error loading comments</p>';
-        }
-      }
-
-      // Add comment submit handler
-      function setupCommentHandlers(videoId) {
-        const commentSection = document.getElementById(`comments-${videoId}`);
-        if (!commentSection) return;
-
-        const textarea = commentSection.querySelector('textarea');
-        const submitBtn = commentSection.querySelector('.btn-comment');
-
-        if (!textarea || !submitBtn) return;
-
-        // Clear existing event listeners
-        submitBtn.replaceWith(submitBtn.cloneNode(true));
-        const newSubmitBtn = commentSection.querySelector('.btn-comment');
-
-        // Add new event listener
-        newSubmitBtn.addEventListener('click', async () => {
-          const content = textarea.value.trim();
-          if (content) {
-            await window.postComment(videoId, content);
-            textarea.value = ''; // Clear textarea after posting
-          }
-        });
-
-        // Add enter key support
-        textarea.addEventListener('keypress', async (e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            const content = textarea.value.trim();
-            if (content) {
-              await window.postComment(videoId, content);
-              textarea.value = '';
-            }
-          }
-        });
-      }
-
-      // Add this to make the rating function globally available
-      window.rateVideo = async function(videoId, rating, event) {
-    event.stopPropagation();
-    const user = auth.currentUser;
-    if (!user) {
-        alert('Please log in to rate videos');
-        return;
-    }
-
-    try {
-        const timestamp = new Date().toISOString();
-        
-        await Promise.all([
-            // Save in global ratings
-            set(ref(database, `ratings/${videoId}/${user.uid}`), {
-                rating,
-                timestamp
-            }),
-            // Save in user's ratings
-            set(ref(database, `users/${user.uid}/ratings/${videoId}`), {
-                rating,
-                timestamp
-            })
-        ]);
-
-        // Update UI
-        const starsContainer = event.target.closest('.stars');
-        updateStarDisplay(starsContainer, rating);
-        
-        // Get updated rating count
-        const ratingsRef = ref(database, `ratings/${videoId}`);
-        const snapshot = await get(ratingsRef);
-        const ratings = snapshot.val() || {};
-        const ratingCount = Object.keys(ratings).length;
-
-        // Update count display
-        const countDisplay = starsContainer.nextElementSibling;
-        if (countDisplay) {
-            countDisplay.textContent = `(${ratingCount})`;
-        }
-
-        // Refresh profile stats
-        await Promise.all([
-            loadUserStats(user),
-            loadRecentActivity(user)
-        ]);
-
-    } catch (error) {
-        console.error('Error saving rating:', error);
-        alert('Error saving rating. Please try again.');
-    }
-};
-
-async function fetchVideoDurations(videoIds) {
-  if (!videoIds || videoIds.length === 0) {
-    console.warn('No video IDs provided for fetching durations');
-    return {};
-  }
-
-  // YouTube API has a limit of 50 videos per request
-  const chunks = [];
-  for (let i = 0; i < videoIds.length; i += 50) {
-    chunks.push(videoIds.slice(i, i + 50));
-  }
-
-  const durations = {};
-  const apiKey = YOUTUBE_API_KEY;
-
-  try {
-    // Process each chunk of video IDs
-    for (const chunk of chunks) {
-      const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${chunk.join(',')}&key=${apiKey}`;
-      
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      
-      if (data.error) {
-        console.error('YouTube API error:', data.error);
-        continue;
-      }
-
-      if (!data.items) {
-        console.warn('No items found in response:', data);
-        continue;
-      }
-
-      // Process each video in the chunk
-      data.items.forEach(item => {
-        if (item.contentDetails && item.contentDetails.duration) {
-          durations[item.id] = formatDuration(item.contentDetails.duration);
-        }
-      });
-    }
-
-    return durations;
-  } catch (error) {
-    console.error('Error fetching video durations:', error);
-    return {};
-  }
-}
-
-
-
-
-      // Add this to the loadVideos function to load existing ratings
-      async function loadVideoRatings(videoId) {
-        try {
-          // Get all ratings for this video
-          const ratingsRef = ref(database, `ratings/${videoId}`);
-          const snapshot = await get(ratingsRef);
-
-          // Get current user's rating if they're logged in
-          const user = auth.currentUser;
-          let userRating = null;
-          if (user && snapshot.exists()) {
-            userRating = snapshot.val()[user.uid]?.rating || null;
-          }
-
-          // Update UI with rating count
-          const count = snapshot.exists()
-            ? Object.keys(snapshot.val()).length
-            : 0;
-          const countElement = document.querySelector(
-            `[data-video-id="${videoId}"]`
-          )?.nextElementSibling;
-          if (countElement) {
-            countElement.textContent = `(${count})`;
-          }
-
-          return userRating;
-        } catch (error) {
-          console.error('Error loading ratings:', error);
-          return null;
-        }
-      }
-
-      async function loadVideos() {
-  console.log('Loading videos from database...');
-  const videoRef = ref(database, 'videos');
-
-  try {
-    const snapshot = await get(videoRef);
-    if (snapshot.exists()) {
-      // Create a Map to store unique videos
-      const videoMap = new Map();
-      
-      // Process videos and remove duplicates
-      Object.values(snapshot.val())
-        .map(video => validateVideo(video))
-        .filter(Boolean)
-        .forEach(video => {
-          const uniqueKey = generateUniqueVideoKey(video);
-          const existingVideo = videoMap.get(uniqueKey);
-          
-          // Keep the newer version if duplicate found
-          if (!existingVideo || new Date(video.publishedAt) > new Date(existingVideo.publishedAt)) {
-            videoMap.set(uniqueKey, video);
-            console.log(`Video processed: ${video.title}`);
-          } else {
-            console.log(`Duplicate found: ${video.title}`);
-          }
-        });
-      
-      // Convert Map back to array and sort by publish date
-      currentVideos = Array.from(videoMap.values())
-        .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-
-      console.log(`Loaded ${currentVideos.length} unique videos`);
-      
-      // Get durations for unique videos
-      const videoIds = currentVideos.map(video => video.id);
-      const durations = await fetchVideoDurations(videoIds);
-      
-      // Assign durations to videos
-      currentVideos = currentVideos.map(video => ({
-        ...video,
-        duration: durations[video.id] || video.duration || ''
-      }));
-
-      filteredVideos = [...currentVideos];
-      displayVideos();
-    } else {
-      console.log('No videos found in database');
-      document.getElementById('video-grid').innerHTML = 
-        '<p>No videos available. Please try refreshing the page.</p>';
-    }
-  } catch (error) {
-    console.error('Error loading videos:', error);
-    document.getElementById('video-grid').innerHTML = 
-      '<p>Error loading videos. Please try refreshing the page.</p>';
-  }
-}
-
-async function loadMoreVideos() {
-  if (isLoading) return;
-
-  try {
-    isLoading = true;
-    const loadingIndicator = document.getElementById('scroll-loading');
-    if (loadingIndicator) {
-      loadingIndicator.style.display = 'block';
-    }
-
-    // Wait a small amount of time to prevent rapid scrolling issues
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    // Load next batch of videos
-    displayedVideos += VIDEOS_PER_PAGE;
-    await displayVideos();
-
-  } catch (error) {
-    console.error('Error loading more videos:', error);
-    showNotification('Error loading more videos. Please try again.');
-  } finally {
-    isLoading = false;
-    const loadingIndicator = document.getElementById('scroll-loading');
-    if (loadingIndicator) {
-      loadingIndicator.style.display = 'none';
-    }
-  }
-}
-
-function initializeInfiniteScroll() {
-  // Remove the old load more button if it exists
-  const oldButton = document.getElementById('load-more');
-  if (oldButton) {
-    oldButton.remove();
-  }
-
-  // Create loading indicator
-  const loadingIndicator = document.createElement('div');
-  loadingIndicator.id = 'scroll-loading';
-  loadingIndicator.className = 'loading';
-  loadingIndicator.style.display = 'none';
-  loadingIndicator.innerHTML = `
-    <div class="loading-spinner"></div>
-    <p>Loading more videos...</p>
-  `;
-  document.getElementById('video-grid').after(loadingIndicator);
-
-  // Create and configure intersection observer
-  const observer = new IntersectionObserver(
-    async (entries) => {
-      const target = entries[0];
-      if (target.isIntersecting && !isLoading) {
-        const remainingVideos = filteredVideos.length - displayedVideos;
-        if (remainingVideos > 0) {
-          await loadMoreVideos();
-        }
-      }
-    },
-    {
-      root: null, // Use viewport as root
-      rootMargin: '100px', // Start loading when user is 100px from bottom
-      threshold: 0.1
-    }
-  );
-
-  // Observe the loading indicator
-  observer.observe(loadingIndicator);
-}
-
-
-      // Add this with your other initialization code
-      function initializeViewToggle() {
-        const viewToggle = document.getElementById('view-toggle');
-        const videoGrid = document.getElementById('video-grid');
-
-        // Load saved preference
-        const currentView = localStorage.getItem('videoView') || 'grid';
-        if (currentView === 'list') {
-          videoGrid.classList.add('list-view');
-          viewToggle.classList.add('list-active');
-        }
-
-        viewToggle.addEventListener('click', () => {
-          videoGrid.classList.toggle('list-view');
-          viewToggle.classList.toggle('list-active');
-
-          // Save preference
-          const isListView = videoGrid.classList.contains('list-view');
-          localStorage.setItem('videoView', isListView ? 'list' : 'grid');
-        });
-      }
-
-      function initializeThemeToggle() {
-        const themeToggle = document.getElementById('theme-toggle');
-        const prefersDarkScheme = window.matchMedia(
-          '(prefers-color-scheme: dark)'
-        );
-
-        // Load saved theme or use system preference
-        const savedTheme = localStorage.getItem('theme');
-        const systemTheme = prefersDarkScheme.matches ? 'dark' : 'light';
-        const currentTheme = savedTheme || systemTheme;
-
-        // Set initial theme
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        updateThemeIcon(currentTheme === 'dark');
-
-        // Theme toggle handler
-        themeToggle.addEventListener('click', () => {
-          const isDark =
-            document.documentElement.getAttribute('data-theme') === 'dark';
-          const newTheme = isDark ? 'light' : 'dark';
-
-          document.documentElement.setAttribute('data-theme', newTheme);
-          localStorage.setItem('theme', newTheme);
-          updateThemeIcon(!isDark);
-        });
-
-        // System theme change handler
-        prefersDarkScheme.addListener((e) => {
-          if (!localStorage.getItem('theme')) {
-            const newTheme = e.matches ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            updateThemeIcon(e.matches);
-          }
-        });
-      }
-
-      function updateThemeIcon(isDark) {
-        const icon = document.querySelector('#theme-toggle i');
-        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-      }
-
-      // Add this to your existing JavaScript
-
-function initializeResourceFilters() {
-  const resourceTypeSelect = document.getElementById('resource-type-filter');
-  
-  resourceTypeSelect.addEventListener('change', (e) => {
-    const resourceType = e.target.value;
-    switchResourceType(resourceType);
-  });
-}
-
-
-// Add this function to handle resource uploads
-window.showResourceForm = function() {
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <div class="modal-content resource-form">
-      <div class="modal-header">
-        <h3>Add Resource</h3>
-        <button class="btn-icon close-modal" onclick="this.closest('.modal').remove()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <p class="modal-description">Share a helpful ADHD resource with the community.</p>
-      
-      <div class="resource-type-grid">
-        <button class="resource-type-btn" data-type="music">
-          <i class="fas fa-music"></i>
-          <span>Music</span>
-        </button>
-        <button class="resource-type-btn" data-type="app">
-          <i class="fas fa-mobile-alt"></i>
-          <span>App</span>
-        </button>
-        <button class="resource-type-btn" data-type="website">
-          <i class="fas fa-globe"></i>
-          <span>Website</span>
-        </button>
-        <button class="resource-type-btn" data-type="book">
-          <i class="fas fa-book"></i>
-          <span>Book</span>
-        </button>
-      </div>
-      
-      <form id="resource-suggestion-form" class="resource-form-fields" style="display: none;">
-      </form>
-    </div>
-  `;
-  
-  document.body.appendChild(modal);
-  
-  // Add click handlers for resource type buttons
-  const typeButtons = modal.querySelectorAll('.resource-type-btn');
-  typeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      typeButtons.forEach(b => b.classList.remove('selected'));
-      button.classList.add('selected');
-      
-      const form = document.getElementById('resource-suggestion-form');
-      form.style.display = 'block';
-      
-      // Show appropriate form fields based on resource type
-      switch(button.dataset.type) {
-        case 'music':
-          form.innerHTML = `
-            <div class="form-group">
-              <label>Playlist Name</label>
-              <input type="text" class="form-input" id="resource-name" required>
-            </div>
-            <div class="form-group">
-              <label>Platform</label>
-              <select class="form-input" id="resource-platform" required>
-                <option value="spotify">Spotify</option>
-                <option value="apple">Apple Music</option>
-                <option value="youtube">YouTube Music</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Playlist URL</label>
-              <input type="url" class="form-input" id="resource-url" required>
-            </div>
-            <div class="form-group">
-              <label>Description</label>
-              <textarea class="form-input" id="resource-description" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-              <label>Tags</label>
-              <input type="text" class="form-input" id="resource-tags" placeholder="focus, study, relaxation">
-            </div>
-          `;
-          break;
-          
-        case 'app':
-          form.innerHTML = `
-            <div class="form-group">
-              <label>App Name</label>
-              <input type="text" class="form-input" id="resource-name" required>
-            </div>
-            <div class="form-group">
-              <label>Platform</label>
-              <select class="form-input" id="resource-platform" required>
-                <option value="ios">iOS</option>
-                <option value="android">Android</option>
-                <option value="web">Web</option>
-                <option value="desktop">Desktop</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>App URL</label>
-              <input type="url" class="form-input" id="resource-url" required>
-            </div>
-            <div class="form-group">
-              <label>Price Model</label>
-              <select class="form-input" id="resource-price" required>
-                <option value="free">Free</option>
-                <option value="freemium">Freemium</option>
-                <option value="paid">Paid</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Description</label>
-              <textarea class="form-input" id="resource-description" rows="3"></textarea>
-            </div>
-          `;
-          break;
-          
-        case 'website':
-          form.innerHTML = `
-            <div class="form-group">
-              <label>Website Name</label>
-              <input type="text" class="form-input" id="resource-name" required>
-            </div>
-            <div class="form-group">
-              <label>URL</label>
-              <input type="url" class="form-input" id="resource-url" required>
-            </div>
-            <div class="form-group">
-              <label>Category</label>
-              <select class="form-input" id="resource-category" required>
-                <option value="education">Education</option>
-                <option value="tools">Tools & Resources</option>
-                <option value="community">Community</option>
-                <option value="blog">Blog</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Description</label>
-              <textarea class="form-input" id="resource-description" rows="3"></textarea>
-            </div>
-          `;
-          break;
-          
-        case 'book':
-          form.innerHTML = `
-            <div class="form-group">
-              <label>Book Title</label>
-              <input type="text" class="form-input" id="resource-name" required>
-            </div>
-            <div class="form-group">
-              <label>Author</label>
-              <input type="text" class="form-input" id="resource-author" required>
-            </div>
-            <div class="form-group">
-              <label>ISBN (optional)</label>
-              <input type="text" class="form-input" id="resource-isbn">
-            </div>
-            <div class="form-group">
-              <label>Category</label>
-              <select class="form-input" id="resource-category" required>
-                <option value="self-help">Self Help</option>
-                <option value="educational">Educational</option>
-                <option value="scientific">Scientific</option>
-                <option value="memoir">Memoir</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Description</label>
-              <textarea class="form-input" id="resource-description" rows="3"></textarea>
-            </div>
-          `;
-          break;
-      }
-      
-      // Add submit button to form
-      form.innerHTML += `
-        <div class="modal-actions">
-          <button type="button" class="btn" onclick="this.closest('.modal').remove()">Cancel</button>
-          <button type="submit" class="btn btn-primary">Submit Resource</button>
-        </div>
-      `;
-      
-      // Add form submit handler
-      form.addEventListener('submit', handleResourceSubmit);
-    });
-  });
-};
-
-// Handle resource form submission
-async function handleResourceSubmit(e) {
-  e.preventDefault();
-  
-  const user = auth.currentUser;
-  if (!user) {
-    showNotification('Please log in to submit resources');
-    return;
-  }
-  
-  const form = e.target;
-  const resourceType = document.querySelector('.resource-type-btn.selected').dataset.type;
-  
-  try {
-    // Gather form data
-    const resourceData = {
-      type: resourceType,
-      name: form.querySelector('#resource-name').value,
-      description: form.querySelector('#resource-description').value,
-      url: form.querySelector('#resource-url')?.value,
-      submittedBy: user.uid,
-      submittedAt: new Date().toISOString(),
-      status: 'pending', // Resources need approval before being public
-      ...getTypeSpecificData(form, resourceType)
-    };
-    
-    // Save to database
-    const resourcesRef = ref(database, 'resources');
-    const newResourceRef = push(resourcesRef);
-    await set(newResourceRef, resourceData);
-    
-    showNotification('Resource submitted successfully! It will be reviewed shortly.');
-    form.closest('.modal').remove();
-    
-  } catch (error) {
-    console.error('Error submitting resource:', error);
-    showNotification('Error submitting resource. Please try again.');
-  }
-}
-
-// Helper function to get type-specific form data
-function getTypeSpecificData(form, type) {
-  switch(type) {
-    case 'music':
-      return {
-        platform: form.querySelector('#resource-platform').value,
-        tags: form.querySelector('#resource-tags').value.split(',').map(t => t.trim())
-      };
-    case 'app':
-      return {
-        platform: form.querySelector('#resource-platform').value,
-        priceModel: form.querySelector('#resource-price').value
-      };
-    case 'website':
-      return {
-        category: form.querySelector('#resource-category').value
-      };
-    case 'book':
-      return {
-        author: form.querySelector('#resource-author').value,
-        isbn: form.querySelector('#resource-isbn').value,
-        category: form.querySelector('#resource-category').value
-      };
-    default:
-      return {};
-  }
-}
-
-      // Filter functionality
-      function applyFilters() {
-  console.log('Applying filters...');
-  
-  const filters = {
-    category: document.getElementById('category-filter').value,
-    type: document.getElementById('type-filter').value,
-    ageGroup: document.getElementById('age-filter').value,
-    duration: document.getElementById('duration-filter').value,
-    search: document.getElementById('search-input').value.toLowerCase(),
-  };
-
-  // Create a Map to store unique filtered videos
-  const filteredVideoMap = new Map();
-  
-  currentVideos.forEach((video) => {
-    let matches = true;
-
-    // Apply all filters
-    if (filters.category) {
-      const videoCategory = getVideoCategory(video, 'category');
-      matches = matches && (videoCategory === filters.category);
-    }
-
-    if (filters.type) {
-      const videoType = getVideoCategory(video, 'type');
-      matches = matches && (videoType === filters.type || videoType === 'all');
-    }
-
-    if (filters.ageGroup) {
-      const videoAge = getVideoCategory(video, 'ageGroup');
-      matches = matches && (videoAge === filters.ageGroup || videoAge === 'all');
-    }
-
-    if (filters.duration && video.duration) {
-      const durationCategory = determineDuration(video.duration);
-      matches = matches && (durationCategory === filters.duration);
-    }
-
-    if (filters.search) {
-      const searchContent = [
-        video.title || '',
-        video.description || '',
-        ...(video.tags || []),
-        video.channelTitle || '',
-      ].map(item => item.toLowerCase());
-      
-      matches = matches && searchContent.some(content => content.includes(filters.search));
-    }
-
-    // If all filters match, add to filtered videos Map
-    if (matches) {
-      const uniqueKey = generateUniqueVideoKey(video);
-      if (!filteredVideoMap.has(uniqueKey)) {
-        filteredVideoMap.set(uniqueKey, video);
-      }
-    }
-  });
-
-  // Convert Map back to array and sort
-  filteredVideos = Array.from(filteredVideoMap.values())
-    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-
-  // Reset displayed videos count and update display
-  displayedVideos = VIDEOS_PER_PAGE;
-  displayVideos();
-}
-
-
-      function clearFilters() {
-        const filterInputs = [
-          'category-filter',
-          'type-filter',
-          'age-filter',
-          'duration-filter',
-          'search-input',
-        ];
-
-        // Clear all inputs
-        filterInputs.forEach((id) => {
-          document.getElementById(id).value = '';
-        });
-
-        // Clear saved preferences
-        if (auth.currentUser) {
-          set(
-            ref(database, `users/${auth.currentUser.uid}/filterPreferences`),
-            null
-          );
-        }
-
-        // Reset videos
-        filteredVideos = [...currentVideos];
-        displayVideos();
-      }
-
-      document
-        .getElementById('clear-filters')
-        .addEventListener('click', clearFilters);
-      document
-        .getElementById('apply-filters')
-        .addEventListener('click', applyFilters);
-
-      let searchTimeout;
-      document.getElementById('search-input').addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-          applyFilters();
-        }, 300); // Wait 300ms after user stops typing
-      });
-
-      function parseDuration(duration) {
-        if (!duration) return 0;
-
-        const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-        if (!match) return 0;
-
-        const hours = parseInt(match[1] || '0');
-        const minutes = parseInt(match[2] || '0');
-        const seconds = parseInt(match[3] || '0');
-
-        return hours * 60 + minutes + seconds / 60;
-      }
-
-      // Add to your global window functions
-      window.addToWatchLater = async function(videoId, event) {
-  event.stopPropagation();
-  const user = auth.currentUser;
-  if (!user) {
-    alert('Please log in to save videos');
-    return;
-  }
-
-  try {
-    const watchLaterRef = ref(database, `users/${user.uid}/watchLater/${videoId}`);
-    const timestamp = new Date().toISOString();
-
-    const snapshot = await get(watchLaterRef);
-    if (snapshot.exists()) {
-      // Remove from Watch Later
-      await set(watchLaterRef, null);
-      event.target.closest('.btn-icon').classList.remove('active');
-      showNotification('Removed from Watch Later');
-    } else {
-      // Add to Watch Later
-      await set(watchLaterRef, {
-        addedAt: timestamp,
-        videoId: videoId
-      });
-      event.target.closest('.btn-icon').classList.add('active');
-      showNotification('Added to Watch Later');
-    }
-
-    // Update button state and refresh stats
-    await Promise.all([
-      loadUserStats(user),
-      loadRecentActivity(user)
-    ]);
-  } catch (error) {
-    console.error('Error updating Watch Later:', error);
-    alert('Error updating Watch Later. Please try again.');
-  }
-};
-
-
-      // Add helper functions
-      function showNotification(message) {
-        // You can enhance this with a nicer notification system later
-        const notification = document.createElement('div');
-        notification.className = 'notification';
-        notification.textContent = message;
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-          notification.remove();
-        }, 3000);
-      }
-
-      async function updateWatchLaterButton(videoId) {
-        const user = auth.currentUser;
-        if (!user) return;
-
-        const button = document.querySelector(
-          `[onclick*="addToWatchLater('${videoId}"]`
-        );
-        if (!button) return;
-
-        const watchLaterRef = ref(
-          database,
-          `users/${user.uid}/watchLater/${videoId}`
-        );
-        const snapshot = await get(watchLaterRef);
-
-        if (snapshot.exists()) {
-          button.classList.add('active');
-          button.title = 'Remove from Watch Later';
-        } else {
-          button.classList.remove('active');
-          button.title = 'Save to Watch Later';
-        }
-      }
-
-      // Add check for Watch Later status when loading videos
-      async function loadWatchLaterStatus(videoId) {
-        const user = auth.currentUser;
-        if (!user) return false;
-
-        const watchLaterRef = ref(
-          database,
-          `users/${user.uid}/watchLater/${videoId}`
-        );
-        const snapshot = await get(watchLaterRef);
-        return snapshot.exists();
-      }
-
-      // Profile functionality
-      async function initializeProfile(user) {
-  try {
-    // Set user name
-    const userNameElement = document.getElementById('user-name');
-    if (userNameElement) {
-      const userRef = ref(database, `users/${user.uid}`);
-      const userSnapshot = await get(userRef);
-      const userData = userSnapshot.val() || {};
-      userNameElement.textContent = userData.displayName || user.email || 'User';
-    }
-
-    // Setup profile dropdown toggle
-    const profileToggle = document.getElementById('profile-toggle');
-    const profileDropdown = document.querySelector('.profile-dropdown');
-
-    if (profileToggle && profileDropdown) {
-      profileToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        profileDropdown.classList.toggle('active');
-      });
-
-      // Close dropdown when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!profileDropdown.contains(e.target)) {
-          profileDropdown.classList.remove('active');
-        }
-      });
-    }
-
-    // Load user stats and activity
-    await Promise.all([
-      loadUserStats(user),
-      loadRecentActivity(user)
-    ]);
-  } catch (error) {
-    console.error('Error initializing profile:', error);
-  }
-}
-
-      
-async function loadUserStats(user) {
-  try {
-    console.log('Loading user stats for:', user.uid);
-    const ratedCountElement = document.getElementById('rated-count');
-    const watchedCountElement = document.getElementById('watched-count');
-    const commentCountElement = document.getElementById('comment-count');
-
-    if (!ratedCountElement || !watchedCountElement || !commentCountElement) {
-      console.log('Stat elements not found');
-      return;
-    }
-
-    // Get user's personal data
-    const userRef = ref(database, `users/${user.uid}`);
-    const userSnapshot = await get(userRef);
-    console.log('User data:', userSnapshot.val());
-    const userData = userSnapshot.val() || {};
-
-    // Count watched videos
-    const watchLater = userData.watchLater || {};
-    const watchedCount = Object.keys(watchLater).length;
-    console.log('Watched count:', watchedCount);
-
-    // Count rated videos
-    const userRatings = userData.ratings || {};
-    const ratedCount = Object.keys(userRatings).length;
-    console.log('Rated count:', ratedCount);
-
-    // Count comments
-    const userComments = userData.comments || {};
-    const commentCount = Object.keys(userComments).length;
-    console.log('Comment count:', commentCount);
-
-    // Update UI
-    ratedCountElement.textContent = ratedCount;
-    watchedCountElement.textContent = watchedCount;
-    commentCountElement.textContent = commentCount;
-  } catch (error) {
-    console.error('Error loading user stats:', error);
-  }
-}
-
-async function loadRecentActivity(user) {
-  const activityList = document.getElementById('recent-activity');
-  if (!activityList) {
-    console.log('Activity list element not found');
-    return;
-  }
-
-  try {
-    activityList.innerHTML = '<p class="loading-text">Loading activity...</p>';
-
-    // Get user's data
-    const userRef = ref(database, `users/${user.uid}`);
-    const userSnapshot = await get(userRef);
-    const userData = userSnapshot.val() || {};
-    console.log('User data for activity:', userData);
-
-    const activities = [];
-
-    // Process watch later
-    if (userData.watchLater) {
-      Object.entries(userData.watchLater).forEach(([videoId, data]) => {
-        activities.push({
-          type: 'watchlater',
-          videoId,
-          timestamp: data.addedAt,
-        });
-      });
-    }
-
-    // Process ratings
-    if (userData.ratings) {
-      Object.entries(userData.ratings).forEach(([videoId, data]) => {
-        activities.push({
-          type: 'rating',
-          videoId,
-          timestamp: data.timestamp,
-          data: data.rating
-        });
-      });
-    }
-
-    // Process comments
-    if (userData.comments) {
-      Object.entries(userData.comments).forEach(([videoId, data]) => {
-        activities.push({
-          type: 'comment',
-          videoId,
-          timestamp: data.timestamp,
-          data: data.text
-        });
-      });
-    }
-
-    console.log('Collected activities:', activities);
-
-    // Sort by timestamp and take latest 10
-    activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-    const recentActivities = activities.slice(0, 10);
-
-    if (recentActivities.length === 0) {
-      console.log('No activities found');
-      activityList.innerHTML = '<p class="loading-text">No recent activity</p>';
-      return;
-    }
-
-    // Generate activity HTML
-    const activityHTML = await Promise.all(recentActivities.map(async activity => {
-      const videoRef = ref(database, `videos/${activity.videoId}`);
-      const videoSnapshot = await get(videoRef);
-      const videoData = videoSnapshot.val();
-      
-      if (!videoData) {
-        console.log('Video not found:', activity.videoId);
-        return '';
-      }
-
-      const timeAgo = formatTimeAgo(activity.timestamp);
-      let icon, text;
-
-      switch (activity.type) {
-        case 'rating':
-          icon = 'star';
-          text = `Rated "${videoData.title}" ${activity.data} stars`;
-          break;
-        case 'watchlater':
-          icon = 'clock';
-          text = `Saved "${videoData.title}" to Watch Later`;
-          break;
-        case 'comment':
-          icon = 'comment';
-          text = `Commented on "${videoData.title}"`;
-          break;
-      }
-
-      return `
-        <div class="activity-item">
-          <i class="fas fa-${icon} activity-icon"></i>
-          <div class="activity-content">
-            <div>${text}</div>
-            <div class="activity-time">${timeAgo}</div>
-          </div>
-        </div>
-      `;
-    }));
-
-    const filteredHTML = activityHTML.filter(html => html);
-    console.log('Generated HTML count:', filteredHTML.length);
-    activityList.innerHTML = filteredHTML.join('');
-  } catch (error) {
-    console.error('Error loading recent activity:', error);
-    if (activityList) {
-      activityList.innerHTML = '<p class="loading-text">Error loading activity</p>';
-    }
-  }
-}
-
-function setupFilterHandlers() {
-  console.log('Setting up filter handlers');
-  
-  // Only set up the Apply Filters button handler
-  const applyFiltersBtn = document.getElementById('apply-filters');
-  if (applyFiltersBtn) {
-    applyFiltersBtn.addEventListener('click', () => {
-      console.log('Apply Filters button clicked');
-      applyFilters();
-    });
-  } else {
-    console.error('Apply filters button not found');
-  }
-
-  // Remove automatic filter triggers from inputs
-  const filterInputs = [
-    'category-filter',
-    'type-filter',
-    'age-filter',
-    'duration-filter',
-    'search-input'
-  ];
-
-  // Clear all other event listeners by cloning and replacing elements
-  filterInputs.forEach(id => {
-    const element = document.getElementById(id);
-    if (element) {
-      const clone = element.cloneNode(true);
-      element.parentNode.replaceChild(clone, element);
-    }
-  });
-
-  document.addEventListener('touchstart', function() {}, {passive: true});
-
-  // Special handling for search input with debounce
-  const searchInput = document.getElementById('search-input');
-  if (searchInput) {
-    let searchTimeout;
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
-        console.log('Search input changed');
-        applyFilters();
-      }, 300);
-    });
-  }
-}
-
-// Hamburger Menu functionality
-const hamburger = document.querySelector('.hamburger-menu');
-const navbarActions = document.querySelector('.navbar-actions');
-const menuOverlay = document.querySelector('.menu-overlay');
-
-function toggleMenu() {
-  hamburger.classList.toggle('active');
-  navbarActions.classList.toggle('active');
-  menuOverlay.classList.toggle('active');
-  document.body.classList.toggle('menu-open');
-}
-
-function closeMenu() {
-  hamburger.classList.remove('active');
-  navbarActions.classList.remove('active');
-  menuOverlay.classList.remove('active');
-  document.body.classList.remove('menu-open');
-}
-
-hamburger.addEventListener('click', toggleMenu);
-menuOverlay.addEventListener('click', closeMenu);
-
-// Close menu when clicking nav items
-const navLinks = document.querySelectorAll('.navbar-actions .btn');
-navLinks.forEach(link => {
-  link.addEventListener('click', closeMenu);
-});
-
-// Close menu on escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeMenu();
-});
-
-// Close menu when window is resized past mobile breakpoint
-window.addEventListener('resize', () => {
-  if (window.innerWidth > 768) closeMenu();
-});
-
-// Call this in your initialization code instead of the DOMContentLoaded event
-auth.onAuthStateChanged((user) => {
-  if (user) {
-    loadVideos().then(() => {
-      loadFilterPreferences();
-      setupFilterHandlers();
-      initializeResourceFilters(); // Add this line
-      initializeInfiniteScroll();
-    });
-    initializeViewToggle();
-    initializeThemeToggle();
-    initializeProfile(user);
-  } else {
-    window.location.href = '/login.html';
-  }
-});
-
-
-// Remove any existing event listeners
-document.removeEventListener('DOMContentLoaded', setupFilterHandlers);
-    </script>
+    </template>
   </body>
+</head>
+  <script type="module">
+    // Initialize Firebase with environment variables
+const firebaseConfig = {
+  apiKey: AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI,
+  authDomain: "solace-83466.firebaseapp.com",
+  databaseURL: "https://solace-83466-default-rtdb.firebaseio.com",
+  projectId: "solace-83466",
+  storageBucket: "solace-83466.appspot.com",
+  messagingSenderId: "1035507922270",
+  appId: process.env.FIREBASE_APP_ID
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const auth = firebase.auth();
+
+// Resource Management
+class ResourceManager {
+  constructor() {
+    this.currentType = 'videos';
+    this.resources = [];
+    this.filters = {};
+    this.page = 1;
+    this.perPage = 12;
+  }
+
+  async fetchResources(type) {
+    const snapshot = await db.ref(`resources/${type}`).once('value');
+    this.resources = Object.values(snapshot.val() || {});
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    let filtered = [...this.resources];
+    
+    Object.entries(this.filters).forEach(([key, value]) => {
+      if (value) {
+        filtered = filtered.filter(resource => resource[key] === value);
+      }
+    });
+
+    this.displayResources(filtered);
+  }
+
+  displayResources(resources) {
+    const grid = document.querySelector('.resource-grid');
+    const start = (this.page - 1) * this.perPage;
+    const end = start + this.perPage;
+    
+    const toDisplay = resources.slice(start, end);
+    
+    grid.innerHTML = toDisplay.map(resource => this.createResourceCard(resource)).join('');
+  }
+
+  createResourceCard(resource) {
+    return `
+      <div class="resource-card" data-id="${resource.id}">
+        <div class="resource-thumbnail">
+          <img src="${resource.thumbnail}" alt="${resource.title}">
+          ${this.getResourceBadge(resource)}
+        </div>
+        <div class="resource-content">
+          <h3 class="resource-title">${resource.title}</h3>
+          <p class="resource-description">${resource.description}</p>
+          <div class="resource-tags">
+            ${resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+          </div>
+          <div class="resource-actions">
+            <button onclick="resourceManager.saveResource('${resource.id}')">
+              <i class="fas fa-bookmark"></i>
+            </button>
+            <button onclick="resourceManager.shareResource('${resource.id}')">
+              <i class="fas fa-share"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  getResourceBadge(resource) {
+    const badges = {
+      free: 'bg-green-500',
+      premium: 'bg-purple-500',
+      new: 'bg-blue-500'
+    };
+
+    return resource.badge ? 
+      `<span class="resource-badge ${badges[resource.badge]}">${resource.badge}</span>` : '';
+  }
+}
+
+// User Management
+class UserManager {
+  constructor() {
+    this.currentUser = null;
+    this.preferences = {};
+    this.initAuthListener();
+  }
+
+  initAuthListener() {
+    auth.onAuthStateChanged(user => {
+      this.currentUser = user;
+      if (user) {
+        this.loadUserPreferences();
+        this.updateUI();
+      } else {
+        window.location.href = '/login.html';
+      }
+    });
+  }
+
+  async loadUserPreferences() {
+    const snapshot = await db.ref(`users/${this.currentUser.uid}/preferences`).once('value');
+    this.preferences = snapshot.val() || {};
+  }
+
+  async savePreference(key, value) {
+    await db.ref(`users/${this.currentUser.uid}/preferences/${key}`).set(value);
+    this.preferences[key] = value;
+  }
+}
+
+// Theme Management
+class ThemeManager {
+  constructor() {
+    this.theme = localStorage.getItem('theme') || 'light';
+    this.initTheme();
+  }
+
+  initTheme() {
+    document.documentElement.setAttribute('data-theme', this.theme);
+    this.updateThemeToggle();
+  }
+
+  toggleTheme() {
+    this.theme = this.theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', this.theme);
+    this.initTheme();
+  }
+
+  updateThemeToggle() {
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) {
+      toggle.innerHTML = `<i class="fas fa-${this.theme === 'light' ? 'moon' : 'sun'}"></i>`;
+    }
+  }
+}
+
+// Initialize Managers
+const resourceManager = new ResourceManager();
+const userManager = new UserManager();
+const themeManager = new ThemeManager();
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+  resourceManager.fetchResources('videos');
+  
+  // Infinite scroll
+  window.addEventListener('scroll', () => {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+      resourceManager.page++;
+      resourceManager.applyFilters();
+    }
+  });
+});
+  </script>
 </html>
