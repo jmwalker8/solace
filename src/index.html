@@ -127,6 +127,180 @@ button:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease-in-out;
 }
+
+/* Mobile Navigation Styles */
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem;
+  background: #0D1117;
+  border-top: 1px solid rgba(48, 54, 61, 0.4);
+  z-index: 50;
+  display: flex;
+  justify-content: space-around;
+}
+
+@media (min-width: 1024px) {
+  .mobile-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4rem;
+    flex-direction: column;
+    border-top: none;
+    border-right: 1px solid rgba(48, 54, 61, 0.4);
+  }
+}
+
+/* Responsive Container */
+.content-container {
+  padding: 1rem;
+  margin-bottom: 4rem; /* Space for mobile nav */
+}
+
+@media (min-width: 1024px) {
+  .content-container {
+    margin-left: 4rem;
+    margin-bottom: 0;
+    padding: 2rem;
+  }
+}
+
+/* Card Grid Responsiveness */
+.resource-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .resource-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .resource-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Responsive Container */
+.content-container {
+  padding: 1rem;
+  margin-bottom: 4rem; /* Space for mobile nav */
+}
+
+@media (min-width: 1024px) {
+  .content-container {
+    margin-left: 4rem;
+    margin-bottom: 0;
+    padding: 2rem;
+  }
+}
+
+/* Card Grid Responsiveness */
+.resource-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .resource-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .resource-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Better Touch Targets */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.75rem;
+}
+
+/* Touch Feedback */
+.touch-feedback {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-feedback::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.touch-feedback:active::after {
+  opacity: 0.1;
+}
+
+/* Mobile-Friendly Inputs */
+input, textarea, select {
+  font-size: 16px; /* Prevents iOS zoom */
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  -webkit-appearance: none;
+}
+
+/* Custom Select Styling */
+.custom-select {
+  position: relative;
+  display: block;
+}
+
+.custom-select select {
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml,...");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+}
+
+/* Mobile Modal Layout */
+.modal-container {
+  padding: 1rem;
+  max-height: 90vh;
+  width: 100%;
+  margin: 1rem;
+  border-radius: 1rem;
+}
+
+@media (min-width: 640px) {
+  .modal-container {
+    max-width: 28rem;
+    margin: 0 auto;
+  }
+}
+
+/* Bottom Sheet Style for Mobile */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #0D1117;
+  border-radius: 1rem 1rem 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+}
+
+.bottom-sheet.active {
+  transform: translateY(0);
+}
+
 </style>
 <body>
     <div id="root"></div>
