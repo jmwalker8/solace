@@ -32,17 +32,70 @@
   <!-- Load React -->
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,300,400&display=swap" rel="stylesheet">
 
   <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16832194187"> </script> 
   <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-16832194187'); </script>
   <!-- Event snippet for Page view conversion page --> <script> gtag('event', 'conversion', { 'send_to': 'AW-16832194187/zpHwCI_sopMaEIvNm9o-', 'value': 1.0, 'currency': 'USD' }); </script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              900: '#0F172A',
+              800: '#1E293B',
+            },
+            accent: {
+              500: '#6366F1',
+              400: '#818CF8',
+            },
+            teal: '#2DD4BF'
+          },
+          fontFamily: {
+            sans: ['Satoshi', 'sans-serif']
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.3s ease-out',
+            'float': 'float 6s ease-in-out infinite'
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: 0, transform: 'translateY(10px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
 <style>
+  /* Enhanced animations */
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Smooth transitions */
+    .smooth-transition {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
   .fade-in {
     animation: fadeIn 0.5s ease-out;
@@ -99,6 +152,7 @@ button:hover {
     const auth = firebase.auth();
     const db = firebase.database();
     const storage = firebase.storage();
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
 
     const HF_API_KEY = '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';
 
@@ -254,39 +308,72 @@ button:hover {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
 
     const handleAuth = async (e) => {
-    e.preventDefault();
-    setError('');
+        e.preventDefault();
+        setLoading(true);
+        setError('');
 
-    try {
-        if (isLogin) {
-            // Login
-            await auth.signInWithEmailAndPassword(email, password);
-        } else {
-            // Sign up
-            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-            const user = userCredential.user;
-            
-            // Initialize user profile in Firebase
-            await firebase.database().ref(`users/${user.uid}`).set({
-                username: email.split('@')[0], // Default username
-                resourcesShared: 0,
-                resourcesCompleted: 0
-            });
+        try {
+            if (isLogin) {
+                await auth.signInWithEmailAndPassword(email, password);
+            } else {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                await firebase.database().ref(`users/${user.uid}`).set({
+                    username: email.split('@')[0],
+                    email: email,
+                    resourcesShared: 0,
+                    resourcesCompleted: 0,
+                    createdAt: firebase.database.ServerValue.TIMESTAMP
+                });
+            }
+            onClose();
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
         }
-        onClose();
-    } catch (error) {
-        setError(error.message);
-    }
-};
+    };
+
+    const handleGoogleSignIn = async () => {
+        setLoading(true);
+        setError('');
+        
+        try {
+            const result = await auth.signInWithPopup(googleProvider);
+            const user = result.user;
+            
+            const userRef = firebase.database().ref(`users/${user.uid}`);
+            const snapshot = await userRef.once('value');
+            
+            if (!snapshot.exists()) {
+                await userRef.set({
+                    username: user.displayName || user.email.split('@')[0],
+                    email: user.email,
+                    avatar_url: user.photoURL,
+                    resourcesShared: 0,
+                    resourcesCompleted: 0,
+                    createdAt: firebase.database.ServerValue.TIMESTAMP
+                });
+            }
+            onClose();
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="fixed inset-0 bg-[#0D1117]/95 z-50 flex items-center justify-center p-4 backdrop-blur-xl">
             <div className={`${colors.bg.secondary} rounded-xl p-8 max-w-md w-full border ${colors.border}`}>
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-[#58A6FF]">
-                        {isLogin ? 'Welcome Back' : 'Join ADHDFlow'}
+                        {isLogin ? 'Welcome Back' : 'Join SolaceADHD'}
                     </h2>
                     <button onClick={onClose} className="text-[#8B949E] hover:text-[#C9D1D9]">
                         ✕
@@ -312,66 +399,167 @@ button:hover {
                             ${colors.text.primary} focus:border-[#58A6FF]/30 transition-all duration-300`}
                         required
                     />
+                    
                     {error && <p className="text-red-500 text-sm">{error}</p>}
-                    <button type="submit" className="w-full bg-[#58A6FF] text-white py-3 rounded-lg hover:bg-[#58A6FF]/90 transition-all duration-300">
-                        {isLogin ? 'Login' : 'Create Account'}
+                    
+                    <button 
+                        type="submit" 
+                        disabled={loading}
+                        className="w-full bg-[#58A6FF] text-white py-3 rounded-lg hover:bg-[#58A6FF]/90 
+                            transition-all duration-300 disabled:opacity-50"
+                    >
+                        {loading ? 'Processing...' : (isLogin ? 'Login' : 'Create Account')}
                     </button>
                 </form>
+
+                <div className="relative my-6">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-700"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                        <span className={`px-2 ${colors.bg.secondary} ${colors.text.secondary}`}>
+                            Or continue with
+                        </span>
+                    </div>
+                </div>
+
+                <button
+                    onClick={handleGoogleSignIn}
+                    disabled={loading}
+                    className="w-full flex items-center justify-center gap-3 px-4 py-3 
+                        border border-gray-700 rounded-lg hover:bg-gray-800 transition-colors
+                        disabled:opacity-50"
+                >
+                    <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
+                    <span className={colors.text.primary}>
+                        {isLogin ? 'Sign in with Google' : 'Sign up with Google'}
+                    </span>
+                </button>
             </div>
         </div>
     );
 };
 
+
+const handleGoogleSignIn = async () => {
+    try {
+        const result = await auth.signInWithPopup(googleProvider);
+        const user = result.user;
+        
+        // Check if this is a new user
+        const userRef = firebase.database().ref(`users/${user.uid}`);
+        const snapshot = await userRef.once('value');
+        
+        if (!snapshot.exists()) {
+            // Create new user profile
+            await userRef.set({
+                username: user.displayName || user.email.split('@')[0],
+                email: user.email,
+                avatar_url: user.photoURL,
+                resourcesShared: 0,
+                resourcesCompleted: 0,
+                createdAt: firebase.database.ServerValue.TIMESTAMP
+            });
+        }
+    } catch (error) {
+        console.error('Google sign in error:', error);
+        setError(error.message);
+    }
+};
+
+
     // Navigation Component
-    const Navigation = ({ currentPage, setCurrentPage }) => (
-    <nav className={`fixed bottom-0 left-0 right-0 ${colors.bg.secondary} backdrop-blur-xl border-t ${colors.border}`}>
-        <div className="max-w-4xl mx-auto px-4">
-            <div className="flex justify-between py-3">
-                {[
-                    {
-                        icon: <NavigationIcons.Home />,
-                        id: 'main',
-                        label: 'Home'
-                    },
-                    {
-                        icon: <NavigationIcons.Discover />,
-                        id: 'discover',
-                        label: 'Discover'
-                    },
-                    {
-                        icon: <NavigationIcons.Create />,
-                        id: 'post',
-                        label: 'Post'
-                    },
-                    {
-                        icon: <NavigationIcons.Profile />,
-                        id: 'profile',
-                        label: 'Profile'
-                    }
-                ].map(({ icon, id, label }) => (
-                    <button
-                        key={id}
-                        onClick={() => setCurrentPage(id)}
-                        className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                            currentPage === id 
-                                ? 'text-[#58A6FF] bg-[#58A6FF]/10' 
-                                : 'text-[#8B949E] hover:text-[#58A6FF] hover:bg-[#21262D]'
-                        }`}
-                    >
-                        <div className="flex flex-col items-center gap-1">
-                            {icon}
-                            <span className="text-xs">{label}</span>
-                        </div>
-                    </button>
-                ))}
-            </div>
+    const Navigation = ({ currentPage, setCurrentPage }) => {
+  const navItems = [
+    {
+      icon: <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>,
+      id: 'main',
+      label: 'Home'
+    },
+    {
+      icon: <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>,
+      id: 'discover',
+      label: 'Discover'
+    },
+    {
+      icon: <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 4v16m8-8H4" />
+      </svg>,
+      id: 'post',
+      label: 'Post'
+    },
+    {
+      icon: <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      </svg>,
+      id: 'profile',
+      label: 'Profile'
+    }
+  ];
+
+  return (
+    <nav className="fixed lg:left-0 lg:top-0 lg:h-full lg:w-16 
+                    bottom-0 left-0 right-0 w-full
+                    bg-[#0D1117] border-t lg:border-r lg:border-t-0 border-gray-800/40
+                    z-50 transition-all">
+      <div className="h-full">
+        <div className="flex lg:flex-col lg:h-full items-center justify-center gap-1 lg:gap-8 px-2 py-2 lg:py-8">
+          {navItems.map(({ icon, id, label }) => (
+            <button
+              key={id}
+              onClick={() => setCurrentPage(id)}
+              className={`relative group flex lg:flex-col items-center gap-2 
+                         min-w-[64px] lg:min-w-0 px-3 py-2.5 lg:p-3
+                         transition-all duration-200 
+                         ${currentPage === id 
+                           ? 'text-purple-400' 
+                           : 'text-gray-500 hover:text-gray-300'}`}
+            >
+              {/* Icon */}
+              <div className={`transition-transform duration-200 
+                            ${currentPage === id 
+                              ? 'scale-110 transform' 
+                              : 'group-hover:scale-105'}`}>
+                {icon}
+              </div>
+              
+              {/* Label */}
+              <span className={`text-xs font-medium transition-colors duration-200
+                              lg:opacity-0 lg:group-hover:opacity-100 lg:absolute lg:left-20 
+                              lg:bg-gray-900 lg:text-gray-100 lg:px-2.5 lg:py-1.5 lg:rounded-md
+                              lg:whitespace-nowrap lg:before:absolute lg:before:w-2 lg:before:h-2 
+                              lg:before:bg-gray-900 lg:before:rounded-sm lg:before:rotate-45
+                              lg:before:-left-1 lg:before:top-1/2 lg:before:-translate-y-1/2`}>
+                {label}
+              </span>
+
+              {/* Active indicator */}
+              {currentPage === id && (
+                <>
+                  {/* Mobile indicator */}
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1 
+                                 bg-purple-400 rounded-full lg:hidden" />
+                  
+                  {/* Desktop indicator */}
+                  <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 
+                                 w-0.5 h-5 bg-purple-400 rounded-full" />
+                </>
+              )}
+            </button>
+          ))}
         </div>
+      </div>
     </nav>
-);
+  );
+};
 
     // Resource Card Component
    
-    const ResourceCard = ({ resource, onUpvote, onDownvote, onSave, isSaved, setCurrentPage}) => {
+    const ResourceCard = ({ resource, onUpvote, onDownvote, onSave, isSaved, setCurrentPage, votingResources = {} }) => {
     if (!resource) return null;
 
     const {
@@ -380,16 +568,22 @@ button:hover {
         tags = [],
         timeToComplete = '',
         progress = 0,
-        upvotes = [],
-        downvotes = [],
+        upvotes = {},
+        downvotes = {},
         postedBy = 'Anonymous',
         thumbnail = '',
         link = ''
     } = resource;
 
     const userId = auth.currentUser ? auth.currentUser.uid : null;
-    const hasUpvoted = userId && upvotes.includes(userId);
-    const hasDownvoted = userId && downvotes.includes(userId);
+    // Change from array.includes() to object property check
+const hasUpvoted = userId && resource.upvotes?.[userId];
+const hasDownvoted = userId && resource.downvotes?.[userId];
+const isVoting = votingResources[resource.id] || false;
+
+
+    const [showProfileModal, setShowProfileModal] = React.useState(false);
+    const [currentProfileId, setCurrentProfileId] = React.useState(null);
 
     const handleLinkClick = (e) => {
         e.stopPropagation();
@@ -398,86 +592,155 @@ button:hover {
         }
     };
 
-    return (
-        <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border} 
-            hover:bg-[#1C2128] transition-all duration-300 group fade-in`}>
+    const renderVotingButtons = () => (
+        <div className="flex items-center bg-[#21262D] rounded-lg overflow-hidden">
+            <button 
+                onClick={() => onUpvote(resource.id)}
+                disabled={isVoting}
+                className={`p-2 transition-colors duration-300 group flex items-center gap-1
+                    ${hasUpvoted ? 'text-green-500 bg-green-500/10' : 'text-[#8B949E] hover:text-green-500 hover:bg-green-500/10'}
+                    ${isVoting ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 4v16m0-16L4 12m8-8l8 8" />
+                </svg>
+                <span className="text-sm">
+                    {Object.keys(upvotes || {}).length}
+                </span>
+            </button>
             
-            {thumbnail && (
-                <div className="w-full h-48 overflow-hidden rounded-lg mb-4 relative">
-                    <img
-                        src={thumbnail}
-                        alt={title}
-                        className="w-full h-full object-cover object-center"
-                    />
-                </div>
-            )}
+            <button 
+                onClick={() => onDownvote(resource.id)}
+                disabled={isVoting}
+                className={`p-2 transition-colors duration-300 group flex items-center gap-1
+                    ${hasDownvoted ? 'text-red-500 bg-red-500/10' : 'text-[#8B949E] hover:text-red-500 hover:bg-red-500/10'}
+                    ${isVoting ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 20V4m0 16l-8-8m8 8l8-8" />
+                </svg>
+                <span className="text-sm">
+                    {Object.keys(downvotes || {}).length}
+                </span>
+            </button>
+        </div>
+    );
 
-            <div className="space-y-4">
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-[#58A6FF] opacity-90">
+
+    return (
+        <div className={`${colors.bg.secondary} rounded-xl border ${colors.border} 
+            hover:bg-[#1C2128] transition-all duration-300 group overflow-hidden`}>
+            
+            {/* Header Section with Thumbnail */}
+            <div className="relative">
+                {thumbnail ? (
+                    <div className="w-full h-48 overflow-hidden">
+                        <img
+                            src={thumbnail}
+                            alt={title}
+                            className="w-full h-full object-cover object-center transform 
+                                group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#1C2128] to-transparent opacity-60" />
+                    </div>
+                ) : (
+                    <div className="h-2 bg-gradient-to-r from-[#58A6FF]/20 to-[#BD6AFF]/20" />
+                )}
+            </div>
+
+            {/* Content Section */}
+            <div className="p-6 space-y-4">
+                {/* Title and Actions */}
+                <div className="flex justify-between items-start gap-4">
+                    <h3 className="text-lg font-semibold text-[#58A6FF] group-hover:text-[#58A6FF]/90 
+                        transition-colors duration-300">
                         {title}
                     </h3>
-                    <div className="flex gap-2">
-                        <button 
-                            onClick={() => onUpvote(resource.id)}
-                            className={`p-2 rounded-lg transition-colors duration-300 
-                                ${hasUpvoted ? 'text-green-500 bg-green-500/10' : 'text-[#8B949E] hover:text-green-500'}`}
-                        >
-                            👍 {upvotes.length}
-                        </button>
-                        <button 
-                            onClick={() => onDownvote(resource.id)}
-                            className={`p-2 rounded-lg transition-colors duration-300 
-                                ${hasDownvoted ? 'text-red-500 bg-red-500/10' : 'text-[#8B949E] hover:text-red-500'}`}
-                        >
-                            👎 {downvotes.length}
-                        </button>
+                    <div className="flex items-center gap-2">
+                        {renderVotingButtons()}
                         <button 
                             onClick={() => onSave(resource.id)}
-                            className={`p-2 rounded-lg transition-colors duration-300 
-                                ${isSaved ? 'text-[#58A6FF] bg-[#58A6FF]/10' : 'text-[#8B949E] hover:text-[#58A6FF]'}`}
+                            className={`p-2 rounded-lg transition-colors duration-300
+                                ${isSaved ? 'text-[#58A6FF] bg-[#58A6FF]/10' : 'text-[#8B949E] hover:text-[#58A6FF] hover:bg-[#58A6FF]/10'}`}
                         >
-                            🔖
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill={isSaved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                            </svg>
                         </button>
                     </div>
                 </div>
 
-                <p className={`${colors.text.secondary} leading-relaxed whitespace-pre-line`}>
+                {/* Description */}
+                <p className={`${colors.text.secondary} leading-relaxed text-sm whitespace-pre-line`}>
                     {description}
                 </p>
 
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                        className="bg-[#58A6FF] h-2 rounded-full"
-                        style={{ width: `${progress}%` }}
-                    />
+                {/* Progress Bar */}
+                <div className="space-y-1">
+                    <div className="flex justify-between items-center text-sm">
+                        <span className={`${colors.text.secondary}`}>Progress</span>
+                        <span className={`${colors.text.secondary}`}>{progress}%</span>
+                    </div>
+                    <div className="w-full bg-[#21262D] rounded-full h-2 overflow-hidden">
+                        <div
+                            className="h-full bg-gradient-to-r from-[#58A6FF] to-[#BD6AFF] transition-all duration-300"
+                            style={{ width: `${progress}%` }}
+                        />
+                    </div>
                 </div>
 
+                {/* Tags */}
                 <div className="flex flex-wrap gap-2">
-                    {Array.isArray(tags) && tags.map(tag => (
-                        <span key={tag} 
-                            className="px-3 py-1 rounded-full text-sm bg-[#21262D] text-[#58A6FF] border border-[#30363D]">
+                    {tags.map(tag => (
+                        <span
+                            key={tag}
+                            className="px-3 py-1 rounded-full text-xs bg-[#21262D] text-[#58A6FF] 
+                                border border-[#30363D] hover:border-[#58A6FF]/30 transition-colors duration-300"
+                        >
                             {tag}
                         </span>
                     ))}
                 </div>
 
-                <div className="flex items-center gap-4 text-sm text-[#8B949E] pt-4 border-t border-[#30363D]">
-                    <span>⏱️ {timeToComplete}</span>
-                    <button
-                onClick={() => setCurrentPage(`profile-${postedBy}`)}
-                className="hover:text-[#58A6FF] transition-colors duration-300"
-            >
-                Posted by @{postedBy}
-            </button>
+                {/* Footer */}
+                <div className="flex items-center justify-between pt-4 border-t border-[#30363D]">
+                    <div className="flex items-center gap-4 text-sm">
+                        <span className={`${colors.text.secondary} flex items-center gap-1`}>
+                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {timeToComplete}
+                        </span>
+                        <button
+                    onClick={() => {
+                        setCurrentProfileId(resource.postedBy);
+                        setShowProfileModal(true);
+                    }}
+                    className={`${colors.text.secondary} hover:text-[#58A6FF] transition-colors duration-300 flex items-center gap-1`}
+                >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    {resource.postedBy}
+                </button>
+
+
+                    </div>
+
+                    {showProfileModal && (
+                <UserProfileModal 
+                    userId={currentProfileId} 
+                    onClose={() => setShowProfileModal(false)} 
+                />
+            )}
 
                     {link && (
                         <button
                             onClick={handleLinkClick}
-                            className="ml-auto px-4 py-2 bg-[#58A6FF] text-white rounded-lg 
-                                hover:bg-[#58A6FF]/90 transition-all duration-300 flex items-center gap-2"
+                            className="flex items-center gap-2 px-4 py-2 bg-[#58A6FF] text-white rounded-lg 
+                                hover:bg-[#58A6FF]/90 transition-all duration-300"
                         >
-                            <span>Go to Resource</span>
+                            <span className="text-sm">View Resource</span>
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                                     d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -489,6 +752,37 @@ button:hover {
         </div>
     );
 };
+
+
+
+const handleFollowUser = async (targetUserId) => {
+    if (!auth.currentUser) {
+        setShowAuth(true);
+        return;
+    }
+    
+    try {
+        const currentUserId = auth.currentUser.uid;
+        const followerRef = firebase.database().ref(`users/${targetUserId}/followers/${currentUserId}`);
+        const followingRef = firebase.database().ref(`users/${currentUserId}/following/${targetUserId}`);
+        
+        const snapshot = await followerRef.once('value');
+        const isFollowing = snapshot.exists();
+        
+        if (isFollowing) {
+            // Unfollow
+            await followerRef.remove();
+            await followingRef.remove();
+        } else {
+            // Follow
+            await followerRef.set(true);
+            await followingRef.set(true);
+        }
+    } catch (error) {
+        console.error('Error following/unfollowing user:', error);
+    }
+};
+
 
 
     // Quick Win Card Component
@@ -669,62 +963,175 @@ button:hover {
     </div>
 );
 
-const DiscoverPage = ({ resources, onUpvote, onDownvote, onSave, savedResources,  setCurrentPage }) => {
+const DiscoverPage = ({ resources, onUpvote, onDownvote, onSave, savedResources, setCurrentPage, votingResources,
+    user,
+    setShowAuth,
+    setIsLogin  }) => {
     const [activeFilter, setActiveFilter] = React.useState('all');
+    const [selectedTags, setSelectedTags] = React.useState([]);
+    const [sortOrder, setSortOrder] = React.useState('desc');
+    const [dateRange, setDateRange] = React.useState('all');
+    
+
+    const predefinedTags = ['Productivity',
+    'Study',
+    'Focus',
+    'Health',
+    'Routine',
+    'Work',
+    'Mindfulness',
+    'Time Management',];
 
     const filteredResources = React.useMemo(() => {
-        switch (activeFilter) {
-          case 'popular':
-    return [...resources].sort((a, b) => {
-        const aScore = ((a.upvotes && a.upvotes.length) || 0) - ((a.downvotes && a.downvotes.length) || 0);
-        const bScore = ((b.upvotes && b.upvotes.length) || 0) - ((b.downvotes && b.downvotes.length) || 0);
-        return bScore - aScore;
-    });
-            case 'recent':
-                return [...resources].sort((a, b) => b.createdAt - a.createdAt);
-            case 'all':
-            default:
-                return resources;
+        if (!Array.isArray(resources)) return [];
+        
+        let filtered = [...resources];
+
+        if (selectedTags.length > 0) {
+            filtered = filtered.filter(resource => 
+                resource.tags?.some(tag => selectedTags.includes(tag.toLowerCase()))
+            );
         }
-    }, [resources, activeFilter]);
+
+        if (dateRange !== 'all') {
+            const now = Date.now();
+            const ranges = {
+                'today': 24 * 60 * 60 * 1000,
+                'week': 7 * 24 * 60 * 60 * 1000,
+                'month': 30 * 24 * 60 * 60 * 1000
+            };
+            filtered = filtered.filter(resource => 
+                (now - resource.createdAt) <= ranges[dateRange]
+            );
+        }
+
+        switch (activeFilter) {
+            case 'trending':
+                filtered.sort((a, b) => {
+                    const aScore = ((a.upvotes?.length || 0) - (a.downvotes?.length || 0));
+                    const bScore = ((b.upvotes?.length || 0) - (b.downvotes?.length || 0));
+                    return sortOrder === 'desc' ? bScore - aScore : aScore - bScore;
+                });
+                break;
+            case 'recent':
+                filtered.sort((a, b) => 
+                    sortOrder === 'desc' 
+                        ? b.createdAt - a.createdAt 
+                        : a.createdAt - b.createdAt
+                );
+                break;
+            case 'popular':
+                filtered.sort((a, b) => {
+                    const aScore = (a.upvotes?.length || 0);
+                    const bScore = (b.upvotes?.length || 0);
+                    return sortOrder === 'desc' ? bScore - aScore : aScore - bScore;
+                });
+                break;
+        }
+
+        return filtered;
+    }, [resources, activeFilter, selectedTags, sortOrder, dateRange]);
 
     return (
         <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-purple-300">Discover Resources</h2>
-            
-            <div className="flex gap-2 overflow-x-auto pb-2">
-                {['all', 'popular', 'recent', 'productivity', 'study', 'focus'].map(filter => (
-                    <button
-                        key={filter}
-                        onClick={() => setActiveFilter(filter)}
-                        className={`px-4 py-2 rounded-full text-sm whitespace-nowrap ${
-                            activeFilter === filter 
-                                ? 'bg-purple-600 text-white' 
-                                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                        }`}
-                    >
-                        {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                    </button>
-                ))}
+            <div className="sticky top-0 bg-[#0D1117] p-4 z-10">
+                <div className="flex flex-col space-y-4">
+                    {/* Main Filters Row */}
+                    <div className="flex items-center justify-between">
+                        <div className="flex gap-2">
+                            {['All', 'Trending', 'Recent', 'Popular'].map(filter => (
+                                <button
+                                    key={filter}
+                                    onClick={() => setActiveFilter(filter.toLowerCase())}
+                                    className={`px-4 py-2 rounded-full text-sm ${
+                                        activeFilter === filter.toLowerCase()
+                                            ? 'bg-[#58A6FF] text-white'
+                                            : 'bg-[#1C2333] text-gray-400 hover:bg-[#252D3F]'
+                                    }`}
+                                >
+                                    {filter}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
+                                className="p-2 rounded bg-[#1C2333] hover:bg-[#252D3F]"
+                            >
+                                <svg 
+                                    className="w-4 h-4 text-gray-400" 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path 
+                                        strokeLinecap="round" 
+                                        strokeLinejoin="round" 
+                                        strokeWidth={2} 
+                                        d={sortOrder === 'desc' ? "M19 9l-7 7-7-7" : "M5 15l7-7 7 7"} 
+                                    />
+                                </svg>
+                            </button>
+
+                            <select
+                                value={dateRange}
+                                onChange={(e) => setDateRange(e.target.value)}
+                                className="bg-[#1C2333] text-gray-400 px-4 py-2 rounded appearance-none hover:bg-[#252D3F] outline-none"
+                            >
+                                <option value="all">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Tags Row */}
+                    {/* Tags Container */}
+<div className="flex items-center overflow-x-auto scrollbar-hide py-2">
+    <div className="flex gap-2 px-1">
+        {predefinedTags.map(tag => (
+            <button
+                key={tag}
+                onClick={() => setSelectedTags(prev => 
+                    prev.includes(tag) 
+                        ? prev.filter(t => t !== tag)
+                        : [...prev, tag]
+                )}
+                className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all duration-300 ${
+                    selectedTags.includes(tag)
+                        ? 'bg-[#58A6FF]/20 text-[#58A6FF] border border-[#58A6FF]'
+                        : 'bg-[#1C2333] text-gray-400 hover:bg-[#252D3F] border border-transparent'
+                }`}
+            >
+                {tag}
+            </button>
+        ))}
+    </div>
+</div>
+                </div>
             </div>
 
+            {/* Resources Grid */}
             <div className="grid gap-4">
                 {filteredResources.map(resource => (
-                  <ResourceCard
-    key={resource.id}
-    resource={resource}
-    onUpvote={handleUpvote}
-    onDownvote={handleDownvote}
-    onSave={handleSaveResource}
-    isSaved={savedResources.includes(resource.id)}
-    setCurrentPage={setCurrentPage}
-/>
-
+                    <ResourceCard
+                    key={resource.id}
+                        resource={resource}
+                        onUpvote={user ? onUpvote : () => setShowAuth(true)}
+                        onDownvote={user ? onDownvote : () => setShowAuth(true)}
+                        onSave={user ? onSave : () => setShowAuth(true)}
+                        isSaved={savedResources.includes(resource.id)}
+                        setCurrentPage={setCurrentPage}
+                        votingResources={votingResources}
+                    />
                 ))}
             </div>
         </div>
     );
 };
+
 
     const SuccessMessage = () => (
     <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg fade-in">
@@ -739,36 +1146,22 @@ const ErrorMessage = ({ message }) => (
 );
 
 const handleUpvote = async (resourceId) => {
-    if (!auth.currentUser) {
-        alert('Please log in to upvote a resource.');
-        return;
+  const userId = auth.currentUser.uid;
+  const db = firebase.database();
+  
+  // Transaction ensures atomic updates
+  await db.ref(`resources/${resourceId}`).transaction(resource => {
+    if (resource) {
+      // Remove from downvotes
+      if (resource.downvotes?.[userId]) {
+        delete resource.downvotes[userId];
+      }
+      // Toggle upvote
+      resource.upvotes = resource.upvotes || {};
+      resource.upvotes[userId] = !resource.upvotes[userId];
     }
-
-    try {
-        const resourceRef = firebase.database().ref(`resources/${resourceId}`);
-        const snapshot = await resourceRef.once('value');
-        const resource = snapshot.val();
-
-        if (resource) {
-            const upvotes = resource.upvotes || [];
-            const downvotes = resource.downvotes || [];
-            const userId = auth.currentUser.uid;
-
-            if (upvotes.includes(userId)) {
-                await resourceRef.update({
-                    upvotes: upvotes.filter(id => id !== userId)
-                });
-            } else {
-                await resourceRef.update({
-                    upvotes: [...upvotes, userId],
-                    downvotes: downvotes.filter(id => id !== userId)
-                });
-            }
-            loadResources();
-        }
-    } catch (error) {
-        console.error('Error upvoting resource:', error);
-    }
+    return resource;
+  });
 };
 
 
@@ -839,7 +1232,6 @@ const handleSaveResource = async (resourceId) => {
 };
 
 
-
 const PostPage = ({ user, onPost }) => {
   const [formData, setFormData] = React.useState({
     title: '',
@@ -848,7 +1240,7 @@ const PostPage = ({ user, onPost }) => {
     timeToComplete: '',
     progress: 0,
     thumbnail: null,
-    link: '', // Add this new field
+    link: '',
   });
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -866,7 +1258,6 @@ const PostPage = ({ user, onPost }) => {
     'Time Management',
   ];
 
-  // Handle file upload
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -874,171 +1265,224 @@ const PostPage = ({ user, onPost }) => {
     }
   };
 
-  // Handle tag selection
   const handleTagChange = (tag) => {
     const updatedTags = formData.tags.includes(tag)
-      ? formData.tags.filter((t) => t !== tag) // Remove if already selected
-      : [...formData.tags, tag]; // Add if not selected
+      ? formData.tags.filter((t) => t !== tag)
+      : formData.tags.length < 3 
+        ? [...formData.tags, tag] 
+        : formData.tags;
     setFormData({ ...formData, tags: updatedTags });
   };
 
-  <input
-    type="url"
-    placeholder="Resource Link (optional)"
-    value={formData.link}
-    onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-    className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
-      ${colors.text.primary} focus:border-[#58A6FF]/30 transition-all duration-300`}
-  />
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-        let thumbnailUrl = '';
-        if (formData.thumbnail) {
-            const storageRef = storage.ref(`thumbnails/${formData.thumbnail.name}`);
-            await storageRef.put(formData.thumbnail);
-            thumbnailUrl = await storageRef.getDownloadURL();
-        }
+      let thumbnailUrl = '';
+      if (formData.thumbnail) {
+        const storageRef = storage.ref(`thumbnails/${formData.thumbnail.name}`);
+        await storageRef.put(formData.thumbnail);
+        thumbnailUrl = await storageRef.getDownloadURL();
+      }
 
-        const newResource = {
-            title: formData.title,
-            description: formData.description,
-            tags: formData.tags,
-            timeToComplete: formData.timeToComplete,
-            progress: formData.progress,
-            thumbnail: thumbnailUrl,
-            link: formData.link, // Add this line
-            postedBy: user.uid,
-            upvotes: [],
-            downvotes: [],
-            createdAt: firebase.database.ServerValue.TIMESTAMP,
-        };
+      const newResource = {
+        title: formData.title,
+        description: formData.description,
+        tags: formData.tags,
+        timeToComplete: formData.timeToComplete,
+        progress: formData.progress,
+        thumbnail: thumbnailUrl,
+        link: formData.link,
+        postedBy: user.uid,
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
+        upvotes: {},
+        downvotes: {}
+      };
 
-        const ref = firebase.database().ref('resources').push();
-        await ref.set(newResource);
-        
-        // Reset form
-        setFormData({
-            title: '',
-            description: '',
-            tags: [],
-            timeToComplete: '',
-            progress: 0,
-            thumbnail: null,
-            link: '', // Add this line
-        });
+      const ref = firebase.database().ref('resources').push();
+      await ref.set(newResource);
+      
+      setFormData({
+        title: '',
+        description: '',
+        tags: [],
+        timeToComplete: '',
+        progress: 0,
+        thumbnail: null,
+        link: '',
+      });
 
-        onPost();
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 3000);
+      onPost();
     } catch (error) {
-        setError('Failed to post resource. Please try again.');
-        console.error('Error posting resource:', error);
+      setError('Failed to post resource. Please try again.');
+      console.error('Error posting resource:', error);
+    } finally {
+      setIsLoading(false);
     }
-};
+  };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-300">Share a Resource</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Title */}
-        <input
-          type="text"
-          placeholder="Title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
-            ${colors.text.primary} focus:border-[#58A6FF]/30 transition-all duration-300`}
-          required
-        />
-
-        {/* Description */}
-        <textarea
-          placeholder="Description"
-          value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
-            ${colors.text.primary} focus:border-[#58A6FF]/30 transition-all duration-300`}
-          required
-        />
-
-        {/* Thumbnail Upload */}
-        <div>
-          <label className={`block text-sm font-medium ${colors.text.secondary} mb-2`}>
-            Thumbnail (Optional)
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
-              ${colors.text.primary} focus:border-[#58A6FF]/30 transition-all duration-300`}
-          />
-        </div>
-
-        {/* Predefined Tags */}
-        <div>
-          <label className={`block text-sm font-medium ${colors.text.secondary} mb-2`}>
-            Tags (Select up to 3)
-          </label>
-          <div className="flex flex-wrap gap-2">
-            {PREDEFINED_TAGS.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                onClick={() => handleTagChange(tag)}
-                className={`px-3 py-1 rounded-full text-sm ${
-                  formData.tags.includes(tag)
-                    ? 'bg-[#58A6FF] text-white'
-                    : 'bg-[#21262D] text-[#8B949E] hover:bg-[#2C323A]'
-                } transition-all duration-300`}
-              >
-                {tag}
-              </button>
-            ))}
+    <div className="max-w-2xl mx-auto space-y-6">
+      <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border}`}>
+        <h2 className={`text-xl font-semibold ${colors.text.primary} mb-6`}>
+          Share a Resource
+        </h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Title */}
+          <div className="space-y-2">
+            <label className={`block text-sm font-medium ${colors.text.secondary}`}>
+              Title
+            </label>
+            <input
+              type="text"
+              placeholder="E.g., Time Blocking Method for ADHD"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
+                ${colors.text.primary} placeholder-[#8B949E] focus:border-[#58A6FF] focus:ring-1 focus:ring-[#58A6FF]
+                transition-all duration-300`}
+              required
+            />
           </div>
-        </div>
 
-        {/* Time to Complete */}
-        <input
-          type="text"
-          placeholder="Time to Complete"
-          value={formData.timeToComplete}
-          onChange={(e) => setFormData({ ...formData, timeToComplete: e.target.value })}
-          className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
-            ${colors.text.primary} focus:border-[#58A6FF]/30 transition-all duration-300`}
-          required
-        />
+          {/* Description */}
+          <div className="space-y-2">
+            <label className={`block text-sm font-medium ${colors.text.secondary}`}>
+              Description
+            </label>
+            <textarea
+              placeholder="Describe your strategy or resource..."
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className={`w-full p-3 min-h-[120px] ${colors.bg.accent} rounded-lg border ${colors.border} 
+                ${colors.text.primary} placeholder-[#8B949E] focus:border-[#58A6FF] focus:ring-1 focus:ring-[#58A6FF]
+                transition-all duration-300`}
+              required
+            />
+          </div>
 
-        {/* Progress */}
-        <input
-          type="number"
-          placeholder="Progress (0-100)"
-          value={formData.progress}
-          onChange={(e) => setFormData({ ...formData, progress: parseInt(e.target.value) })}
-          className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
-            ${colors.text.primary} focus:border-[#58A6FF]/30 transition-all duration-300`}
-          min="0"
-          max="100"
-          required
-        />
+          {/* Tags */}
+          <div className="space-y-2">
+            <label className={`block text-sm font-medium ${colors.text.secondary}`}>
+              Tags (Select up to 3)
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {PREDEFINED_TAGS.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => handleTagChange(tag)}
+                  className={`px-3 py-1.5 rounded-full text-sm transition-all duration-300 ${
+                    formData.tags.includes(tag)
+                      ? 'bg-[#58A6FF] text-white'
+                      : `${colors.bg.accent} ${colors.text.secondary} hover:bg-[#2C323A] border ${colors.border}`
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Posting...' : 'Post Resource'}
-        </button>
-      </form>
+          {/* Time to Complete */}
+          <div className="space-y-2">
+            <label className={`block text-sm font-medium ${colors.text.secondary}`}>
+              Time to Complete
+            </label>
+            <input
+              type="text"
+              placeholder="E.g., 25 minutes, 1 hour"
+              value={formData.timeToComplete}
+              onChange={(e) => setFormData({ ...formData, timeToComplete: e.target.value })}
+              className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
+                ${colors.text.primary} placeholder-[#8B949E] focus:border-[#58A6FF] focus:ring-1 focus:ring-[#58A6FF]
+                transition-all duration-300`}
+              required
+            />
+          </div>
 
-      {isSuccess && <SuccessMessage />}
-      {error && <ErrorMessage message={error} />}
-      {isLoading && <LoadingSpinner />}
+          {/* Progress */}
+          <div className="space-y-2">
+            <label className={`block text-sm font-medium ${colors.text.secondary}`}>
+              Current Progress
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={formData.progress}
+              onChange={(e) => setFormData({ ...formData, progress: parseInt(e.target.value) })}
+              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#58A6FF]"
+            />
+            <div className="flex justify-between text-sm text-gray-400">
+              <span>0%</span>
+              <span>{formData.progress}%</span>
+              <span>100%</span>
+            </div>
+          </div>
+
+          {/* Link */}
+          <div className="space-y-2">
+            <label className={`block text-sm font-medium ${colors.text.secondary}`}>
+              Resource Link (Optional)
+            </label>
+            <input
+              type="url"
+              placeholder="https://..."
+              value={formData.link}
+              onChange={(e) => setFormData({ ...formData, link: e.target.value })}
+              className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
+                ${colors.text.primary} placeholder-[#8B949E] focus:border-[#58A6FF] focus:ring-1 focus:ring-[#58A6FF]
+                transition-all duration-300`}
+            />
+          </div>
+
+          {/* Thumbnail Upload */}
+          <div className="space-y-2">
+            <label className={`block text-sm font-medium ${colors.text.secondary}`}>
+              Thumbnail Image (Optional)
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
+                ${colors.text.primary} file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0
+                file:text-sm file:font-medium file:bg-[#58A6FF] file:text-white
+                hover:file:bg-[#58A6FF]/90 transition-all duration-300`}
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`w-full p-3 bg-[#58A6FF] text-white rounded-lg hover:bg-[#58A6FF]/90 
+              transition-all duration-300 flex items-center justify-center gap-2
+              disabled:opacity-50 disabled:cursor-not-allowed`}
+          >
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span>Posting...</span>
+              </div>
+            ) : (
+              'Post Resource'
+            )}
+          </button>
+
+          {error && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+              {error}
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };
@@ -1210,70 +1654,790 @@ const AISuggestionsSection = ({ onSubmit, isLoading }) => {
   );
 };
 
-const ProfilePage = ({ userId, userProfile, savedResources }) => {
+const generateAvatar = async (prompt) => {
+    const API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5";
+    
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${HF_API_KEY}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                inputs: `A minimalist avatar with ${prompt}, digital art style, flat design`,
+                parameters: {
+                    num_inference_steps: 50,
+                    guidance_scale: 7.5,
+                    width: 512,
+                    height: 512
+                }
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to generate avatar');
+        }
+
+        const blob = await response.blob();
+        return URL.createObjectURL(blob);
+    } catch (error) {
+        console.error('Avatar generation error:', error);
+        return null;
+    }
+};
+
+
+const ProfilePage = ({ userId, onUpvote, onDownvote, onSave }) => {
     const [profileData, setProfileData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
+    const [sharedResources, setSharedResources] = React.useState([]);
+    const [error, setError] = React.useState('');
+    const [showEditModal, setShowEditModal] = React.useState(false);
+    const isOwnProfile = auth.currentUser?.uid === userId;
 
-    React.useEffect(() => {
-        const fetchProfileData = async () => {
-            try {
-                const snapshot = await firebase.database().ref(`users/${userId}`).once('value');
-                const data = snapshot.val();
-                setProfileData(data);
-            } catch (error) {
-                console.error('Error fetching profile data:', error);
-            } finally {
-                setLoading(false);
+    // ADHD Types mapping
+    const ADHD_TYPES = {
+        inattentive: { label: 'Predominantly Inattentive', icon: '🤔' },
+        hyperactive: { label: 'Predominantly Hyperactive-Impulsive', icon: '⚡' },
+        combined: { label: 'Combined Type', icon: '🔄' },
+        recent: { label: 'Recently Diagnosed', icon: '📋' },
+        self: { label: 'Self-Diagnosed', icon: '🔍' },
+        support: { label: 'Support Person', icon: '💝' }
+    };
+
+    // Interest Tags mapping
+    const INTEREST_TAGS = {
+        study: { label: 'Study Skills', icon: '📚' },
+        work: { label: 'Work Strategies', icon: '💼' },
+        time: { label: 'Time Management', icon: '⏰' },
+        org: { label: 'Organization', icon: '📋' },
+        focus: { label: 'Focus Techniques', icon: '🎯' },
+        emotion: { label: 'Emotional Regulation', icon: '🎭' },
+        sleep: { label: 'Sleep', icon: '😴' },
+        exercise: { label: 'Exercise', icon: '🏃‍♂️' },
+        nutrition: { label: 'Nutrition', icon: '🥗' },
+        medication: { label: 'Medication', icon: '💊' },
+        mindfulness: { label: 'Mindfulness', icon: '🧘‍♂️' },
+        tech: { label: 'Technology Tools', icon: '💻' }
+    };
+
+    const fetchProfileData = React.useCallback(async () => {
+        if (!userId) return;
+
+        try {
+            const userRef = firebase.database().ref(`users/${userId}`);
+            const resourcesRef = firebase.database().ref('resources');
+            
+            const userSnapshot = await userRef.once('value');
+            const userData = userSnapshot.val();
+            
+            if (!userData) {
+                setError('Profile not found');
+                return;
             }
-        };
+            
+            setProfileData(userData);
 
-        if (userId) {
-            fetchProfileData();
+            const resourcesSnapshot = await resourcesRef
+                .orderByChild('postedBy')
+                .equalTo(userId)
+                .once('value');
+            
+            const resourcesData = resourcesSnapshot.val() || {};
+            const formattedResources = Object.entries(resourcesData).map(([id, data]) => ({
+                id,
+                ...data,
+                upvotes: data.upvotes || {},
+                downvotes: data.downvotes || {}
+            }));
+            
+            setSharedResources(formattedResources);
+            setLoading(false);
+        } catch (error) {
+            setError('Error loading profile');
+            console.error('Error fetching profile data:', error);
+            setLoading(false);
         }
     }, [userId]);
 
+    React.useEffect(() => {
+        fetchProfileData();
+
+        const userRef = firebase.database().ref(`users/${userId}`);
+        const resourcesRef = firebase.database().ref('resources');
+
+        const profileListener = userRef.on('value', (snapshot) => {
+            const userData = snapshot.val();
+            if (!userData) {
+                setError('Profile not found');
+                return;
+            }
+            setProfileData(userData);
+        });
+
+        const resourcesListener = resourcesRef
+            .orderByChild('postedBy')
+            .equalTo(userId)
+            .on('value', (snapshot) => {
+                const resourcesData = snapshot.val() || {};
+                const formattedResources = Object.entries(resourcesData).map(([id, data]) => ({
+                    id,
+                    ...data,
+                    upvotes: data.upvotes || {},
+                    downvotes: data.downvotes || {}
+                }));
+                setSharedResources(formattedResources);
+            });
+
+        return () => {
+            userRef.off('value', profileListener);
+            resourcesRef.off('value', resourcesListener);
+        };
+    }, [userId, fetchProfileData]);
+
+    const handleProfileUpdate = async () => {
+        await fetchProfileData();
+        setShowEditModal(false);
+    };
+
     if (loading) {
-        return <LoadingSpinner />;
+        return <div className="flex justify-center py-8">
+            <div className="w-8 h-8 border-4 border-[#58A6FF] border-t-transparent rounded-full animate-spin" />
+        </div>;
     }
 
-    if (!profileData) {
-        return <div className="text-red-500">Profile not found.</div>;
+    if (error) {
+        return <div className="text-red-500 text-center py-8">{error}</div>;
     }
 
     return (
-        <div className="space-y-6">
-            <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border}`}>
-                <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-[#58A6FF]/10 rounded-full flex items-center justify-center">
-                        <span className="text-2xl text-[#58A6FF]">
-                            {profileData.username.charAt(0)}
-                        </span>
+        <div className="space-y-8 max-w-4xl mx-auto px-4">
+            {/* Profile Header */}
+            <div className={`${colors.bg.secondary} rounded-xl overflow-hidden`}>
+                <div className="h-32 bg-gradient-to-r from-[#58A6FF]/20 to-[#BD6AFF]/20 relative">
+                    <div className="absolute -bottom-16 left-8">
+                        <div className="w-32 h-32 rounded-full border-4 border-[#161B22] overflow-hidden"
+                            style={{ 
+                                background: Array.isArray(profileData?.avatar_color) 
+                                    ? `linear-gradient(135deg, ${profileData.avatar_color.join(', ')})` 
+                                    : profileData?.avatar_color || '#58A6FF'
+                            }}>
+                            <div className="w-full h-full flex items-center justify-center">
+                                <span className="text-4xl font-bold text-white">
+                                    {profileData?.username?.charAt(0).toUpperCase()}
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <h2 className={`text-xl font-semibold ${colors.text.primary}`}>
-                            {profileData.username}
-                        </h2>
-                        <p className={colors.text.secondary}>Member since 2024</p>
+                </div>
+
+                <div className="pt-20 px-8 pb-8">
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <h2 className={`text-2xl font-bold ${colors.text.primary}`}>
+                                {profileData?.username}
+                            </h2>
+                            {profileData?.bio && (
+                                <p className={`mt-2 ${colors.text.secondary}`}>
+                                    {profileData.bio}
+                                </p>
+                            )}
+                        </div>
+                        {isOwnProfile && (
+                            <button
+                                onClick={() => setShowEditModal(true)}
+                                className={`px-4 py-2 rounded-lg ${colors.bg.accent} 
+                                    ${colors.text.secondary} hover:bg-[#2C323A] transition-all duration-300`}
+                            >
+                                Edit Profile
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-                <div className={`${colors.bg.secondary} rounded-xl p-4 border ${colors.border}`}>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-3 gap-4">
+                <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border}`}>
                     <h3 className={colors.text.secondary}>Resources Posted</h3>
+                    <p className="text-2xl text-[#58A6FF]">{sharedResources.length}</p>
+                </div>
+                <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border}`}>
+                    <h3 className={colors.text.secondary}>Followers</h3>
                     <p className="text-2xl text-[#58A6FF]">
-                        {profileData.resourcesShared || 0}
+                        {Object.keys(profileData?.followers || {}).length}
                     </p>
                 </div>
-                <div className={`${colors.bg.secondary} rounded-xl p-4 border ${colors.border}`}>
-                    <h3 className={colors.text.secondary}>Resources Completed</h3>
+                <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border}`}>
+                    <h3 className={colors.text.secondary}>Following</h3>
                     <p className="text-2xl text-[#58A6FF]">
-                        {profileData.resourcesCompleted || 0}
+                        {Object.keys(profileData?.following || {}).length}
                     </p>
+                </div>
+            </div>
+
+            {/* ADHD Types and Interests */}
+            <div className="grid md:grid-cols-2 gap-6">
+                {/* ADHD Types */}
+                <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border}`}>
+                    <h3 className={`text-lg font-semibold ${colors.text.primary} mb-4`}>
+                        ADHD Journey
+                    </h3>
+                    <div className="space-y-2">
+                        {profileData?.adhd_type?.map(type => (
+                            <div 
+                                key={type}
+                                className="flex items-center gap-2 p-2 rounded-lg bg-[#21262D] text-[#58A6FF]"
+                            >
+                                <span className="text-xl">{ADHD_TYPES[type]?.icon}</span>
+                                <span>{ADHD_TYPES[type]?.label}</span>
+                            </div>
+                        ))}
+                        {(!profileData?.adhd_type || profileData.adhd_type.length === 0) && (
+                            <p className={`${colors.text.secondary} italic`}>No ADHD type specified</p>
+                        )}
+                    </div>
+                </div>
+
+                {/* Areas of Interest */}
+                <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border}`}>
+                    <h3 className={`text-lg font-semibold ${colors.text.primary} mb-4`}>
+                        Areas of Interest
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                        {profileData?.interests?.map(interest => (
+                            <div 
+                                key={interest}
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-full 
+                                    bg-gradient-to-r from-[#58A6FF]/10 to-[#BD6AFF]/10 
+                                    border border-[#58A6FF]/20 text-[#58A6FF]"
+                            >
+                                <span>{INTEREST_TAGS[interest]?.icon}</span>
+                                <span className="text-sm">{INTEREST_TAGS[interest]?.label}</span>
+                            </div>
+                        ))}
+                        {(!profileData?.interests || profileData.interests.length === 0) && (
+                            <p className={`${colors.text.secondary} italic`}>No interests specified</p>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Shared Resources */}
+            <div className="space-y-4">
+                <h3 className={`text-lg font-semibold ${colors.text.primary}`}>
+                    Shared Resources
+                </h3>
+                <div className="grid gap-4">
+                    {sharedResources.map(resource => (
+                        <ResourceCard
+                            key={resource.id}
+                            resource={resource}
+                            onUpvote={onUpvote}
+                            onDownvote={onDownvote}
+                            onSave={onSave}
+                            setCurrentPage={() => {}}
+                        />
+                    ))}
+                    {sharedResources.length === 0 && (
+                        <p className={`${colors.text.secondary} text-center py-8 italic`}>
+                            No resources shared yet
+                        </p>
+                    )}
+                </div>
+            </div>
+
+            {showEditModal && (
+                <EditProfileModal
+                    user={auth.currentUser}
+                    profileData={profileData}
+                    onClose={() => setShowEditModal(false)}
+                    onUpdate={handleProfileUpdate}
+                />
+            )}
+        </div>
+    );
+};
+
+const EditProfileModal = ({ user, profileData, onClose, onUpdate }) => {
+    const [formData, setFormData] = React.useState({
+        username: profileData?.username || '',  // This needs profileData.username, not optional chaining
+        bio: profileData.bio || '',
+        adhd_type: profileData.adhd_type || [],
+        interests: profileData.interests || [],
+        avatar_color: profileData.avatar_color || ['#58A6FF', '#4B91F1']  // Should match the gradient format
+    });
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState('');
+
+    const ADHD_TYPES = [
+        { id: 'inattentive', label: 'Predominantly Inattentive', icon: '🤔' },
+        { id: 'hyperactive', label: 'Predominantly Hyperactive-Impulsive', icon: '⚡' },
+        { id: 'combined', label: 'Combined Type', icon: '🔄' },
+        { id: 'recent', label: 'Recently Diagnosed', icon: '📋' },
+        { id: 'self', label: 'Self-Diagnosed', icon: '🔍' },
+        { id: 'support', label: 'Support Person', icon: '💝' }
+    ];
+
+    const INTEREST_TAGS = [
+        { id: 'study', label: 'Study Skills', icon: '📚' },
+        { id: 'work', label: 'Work Strategies', icon: '💼' },
+        { id: 'time', label: 'Time Management', icon: '⏰' },
+        { id: 'org', label: 'Organization', icon: '📋' },
+        { id: 'focus', label: 'Focus Techniques', icon: '🎯' },
+        { id: 'emotion', label: 'Emotional Regulation', icon: '🎭' },
+        { id: 'sleep', label: 'Sleep', icon: '😴' },
+        { id: 'exercise', label: 'Exercise', icon: '🏃‍♂️' },
+        { id: 'nutrition', label: 'Nutrition', icon: '🥗' },
+        { id: 'medication', label: 'Medication', icon: '💊' },
+        { id: 'mindfulness', label: 'Mindfulness', icon: '🧘‍♂️' },
+        { id: 'tech', label: 'Technology Tools', icon: '💻' }
+    ];
+
+    const AVATAR_GRADIENTS = [
+        { id: 'blue', colors: ['#58A6FF', '#4B91F1'], label: 'Ocean Blue' },
+        { id: 'purple', colors: ['#BD6AFF', '#9B51E0'], label: 'Royal Purple' },
+        { id: 'green', colors: ['#3FB950', '#2EA043'], label: 'Forest Green' },
+        { id: 'orange', colors: ['#F7B955', '#F0883E'], label: 'Sunset Orange' },
+        { id: 'pink', colors: ['#FF69B4', '#E84B8A'], label: 'Rose Pink' },
+        { id: 'teal', colors: ['#39C5BB', '#20B2AA'], label: 'Teal Wave' }
+    ];
+
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+        if (!formData.username.trim()) {
+            throw new Error('Username is required');
+        }
+
+        if (formData.username.length < 3) {
+            throw new Error('Username must be at least 3 characters');
+        }
+
+        if (formData.username !== profileData.username) {
+            const usersRef = firebase.database().ref('users');
+            const snapshot = await usersRef
+                .orderByChild('username')
+                .equalTo(formData.username)
+                .once('value');
+            
+            if (snapshot.exists()) {
+                throw new Error('Username is already taken');
+            }
+
+            // Update username in all resources posted by this user
+            const resourcesRef = firebase.database().ref('resources');
+            const resourcesSnapshot = await resourcesRef
+                .orderByChild('postedBy')
+                .equalTo(user.uid)
+                .once('value');
+            
+            const updates = {};
+            resourcesSnapshot.forEach(resourceSnap => {
+                updates[`resources/${resourceSnap.key}/postedBy`] = formData.username;
+            });
+
+            // Update both user profile and resources
+            await firebase.database().ref().update({
+                [`users/${user.uid}`]: {
+                    ...formData,
+                    updated_at: firebase.database.ServerValue.TIMESTAMP
+                },
+                ...updates
+            });
+        } else {
+            // Just update user profile if username hasn't changed
+            await firebase.database().ref(`users/${user.uid}`).update({
+                ...formData,
+                updated_at: firebase.database.ServerValue.TIMESTAMP
+            });
+        }
+
+        onUpdate();
+        onClose();
+    } catch (error) {
+        setError(error.message);
+    } finally {
+        setLoading(false);
+    }
+};
+
+
+    return (
+        <div className="fixed inset-0 bg-[#0D1117]/95 z-50 flex items-center justify-center p-4 backdrop-blur-xl">
+            <div className={`${colors.bg.secondary} rounded-xl p-8 max-w-2xl w-full border ${colors.border} relative`}>
+                {/* Header */}
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className={`text-xl font-semibold ${colors.text.primary}`}>
+                        Edit Profile
+                    </h2>
+                    <button 
+                        onClick={onClose}
+                        className={`${colors.text.secondary} hover:text-white transition-colors duration-300`}
+                    >
+                        ✕
+                    </button>
+                </div>
+
+                <div className="space-y-6 max-h-[70vh] overflow-y-auto px-2">
+                    {/* Avatar Section */}
+                    <div className="text-center">
+                        <div className="w-24 h-24 mx-auto relative group">
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#58A6FF]/20 to-[#BD6AFF]/20 rounded-full blur-xl transition-all duration-300 group-hover:blur-2xl" />
+                            <div 
+                                className="relative w-full h-full rounded-full flex items-center justify-center"
+                                style={{ 
+                                    background: Array.isArray(formData.avatar_color)
+                                        ? `linear-gradient(135deg, ${formData.avatar_color.join(', ')})`
+                                        : formData.avatar_color
+                                }}
+                            >
+                                <span className="text-3xl font-bold text-white">
+                                    {formData.username.charAt(0).toUpperCase()}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-wrap justify-center gap-2 mt-4">
+                            {AVATAR_GRADIENTS.map(({ id, colors, label }) => (
+                                <button
+                                    key={id}
+                                    onClick={() => setFormData({ ...formData, avatar_color: colors })}
+                                    className={`group relative p-1 rounded-full transition-transform hover:scale-110
+                                        ${JSON.stringify(formData.avatar_color) === JSON.stringify(colors) 
+                                            ? 'ring-2 ring-white/50 scale-110' 
+                                            : ''}`}
+                                    title={label}
+                                >
+                                    <div className="w-8 h-8 rounded-full"
+                                        style={{ background: `linear-gradient(135deg, ${colors.join(', ')})` }}
+                                    />
+                                    <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/75 
+                                        opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                        {label}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Profile Info */}
+                    <div className="space-y-4">
+                        <div>
+                            <label className={`block text-sm font-medium ${colors.text.secondary} mb-2`}>
+                                Username
+                            </label>
+                            <input
+                                type="text"
+                                value={formData.username}
+                                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                                className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
+                                    ${colors.text.primary} focus:border-[#58A6FF] focus:ring-2 focus:ring-[#58A6FF]/20`}
+                                placeholder="Choose a username"
+                            />
+                        </div>
+
+                        <div>
+                            <label className={`block text-sm font-medium ${colors.text.secondary} mb-2`}>
+                                Bio
+                            </label>
+                            <textarea
+                                value={formData.bio}
+                                onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                                className={`w-full p-3 min-h-[100px] ${colors.bg.accent} rounded-lg border ${colors.border} 
+                                    ${colors.text.primary} focus:border-[#58A6FF] focus:ring-2 focus:ring-[#58A6FF]/20`}
+                                placeholder="Tell us about yourself..."
+                            />
+                        </div>
+                    </div>
+
+                    {/* ADHD Types */}
+                    <div>
+                        <label className={`block text-sm font-medium ${colors.text.secondary} mb-4`}>
+                            ADHD Type (Select all that apply)
+                        </label>
+                        <div className="grid grid-cols-2 gap-2">
+                            {ADHD_TYPES.map(type => (
+                                <button
+                                    key={type.id}
+                                    type="button"
+                                    onClick={() => {
+                                        const types = formData.adhd_type.includes(type.id)
+                                            ? formData.adhd_type.filter(t => t !== type.id)
+                                            : [...formData.adhd_type, type.id];
+                                        setFormData({ ...formData, adhd_type: types });
+                                    }}
+                                    className={`p-3 rounded-lg border text-left transition-colors
+                                        ${formData.adhd_type.includes(type.id)
+                                            ? 'bg-[#58A6FF]/10 border-[#58A6FF] text-[#58A6FF]'
+                                            : `${colors.bg.accent} ${colors.border} ${colors.text.secondary} hover:bg-[#2C323A]`
+                                        }`}
+                                >
+                                    <span className="flex items-center gap-2">
+                                        {type.icon} {type.label}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Interests */}
+                    <div>
+                        <label className={`block text-sm font-medium ${colors.text.secondary} mb-4`}>
+                            Areas of Interest
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                            {INTEREST_TAGS.map(tag => (
+                                <button
+                                    key={tag.id}
+                                    type="button"
+                                    onClick={() => {
+    const updatedInterests = formData.interests.includes(tag.id)
+        ? formData.interests.filter(t => t !== tag.id)
+        : [...formData.interests, tag.id];
+    setFormData({ ...formData, interests: updatedInterests });
+}}
+
+                                    className={`px-4 py-2 rounded-full text-sm transition-all duration-300
+                                        ${formData.interests.includes(tag.id)
+                                            ? 'bg-gradient-to-r from-[#58A6FF] to-[#BD6AFF] text-white'
+                                            : `${colors.bg.accent} ${colors.text.secondary} hover:bg-[#2C323A] border ${colors.border}`
+                                        }`}
+                                >
+                                    <span className="flex items-center gap-2">
+                                        {tag.icon} {tag.label}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Error Message */}
+                {error && (
+                    <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400">
+                        {error}
+                    </div>
+                )}
+
+                {/* Actions */}
+                <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-800">
+                    <button
+                        onClick={onClose}
+                        className={`px-4 py-2 rounded-lg ${colors.bg.accent} ${colors.text.secondary}
+                            hover:bg-[#2C323A] transition-all duration-300`}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        onClick={handleSubmit}
+                        disabled={loading}
+                        className="px-4 py-2 bg-[#58A6FF] text-white rounded-lg hover:bg-[#4B91F1]
+                            transition-all duration-300 flex items-center gap-2
+                            disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {loading ? (
+                            <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                <span>Saving...</span>
+                            </div>
+                        ) : (
+                            <span>Save Changes</span>
+                        )}
+                    </button>
                 </div>
             </div>
         </div>
     );
+};
+
+const UnauthorizedProfilePage = ({ setShowAuth, setIsLogin }) => {
+  return (
+    <div className="flex flex-col items-center justify-center space-y-6 p-8">
+      <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border} w-full max-w-md text-center`}>
+        <div className="w-16 h-16 bg-[#58A6FF]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-8 h-8 text-[#58A6FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+        </div>
+        
+        <h2 className={`text-xl font-semibold ${colors.text.primary} mb-4`}>
+          Sign in to View Profile
+        </h2>
+        
+        <p className={`${colors.text.secondary} mb-6`}>
+          Create an account to track your progress, save resources, and get personalized recommendations.
+        </p>
+        
+        <div className="space-y-3">
+          <button
+            onClick={() => {
+              setIsLogin(true);
+              setShowAuth(true);
+            }}
+            className="w-full px-4 py-2 bg-[#58A6FF] text-white rounded-lg hover:bg-[#58A6FF]/90 transition-all duration-300"
+          >
+            Login
+          </button>
+          
+          <button
+            onClick={() => {
+              setIsLogin(false);
+              setShowAuth(true);
+            }}
+            className="w-full px-4 py-2 border border-[#58A6FF] text-[#58A6FF] rounded-lg hover:bg-[#58A6FF]/10 transition-all duration-300"
+          >
+            Create Account
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const UnauthorizedPostPage = ({ setShowAuth, setIsLogin }) => {
+  return (
+    <div className="space-y-6 max-w-2xl mx-auto">
+      <div className={`${colors.bg.secondary} rounded-xl p-8 border ${colors.border}`}>
+        <div className="text-center space-y-6">
+          {/* Icon */}
+          <div className="w-20 h-20 bg-[#58A6FF]/10 rounded-full flex items-center justify-center mx-auto">
+            <svg 
+              className="w-10 h-10 text-[#58A6FF]" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+
+          {/* Title */}
+          <h2 className={`text-2xl font-semibold ${colors.text.primary}`}>
+            Share Your ADHD Strategies
+          </h2>
+
+          {/* Description */}
+          <p className={`${colors.text.secondary} max-w-md mx-auto`}>
+            Join our community to share your experiences, strategies, and resources that help manage ADHD. Your insights could make a difference for others.
+          </p>
+
+          {/* Benefits List */}
+          <div className="grid gap-4 text-left mt-8 mb-8">
+            {[
+              {
+                icon: "🎯",
+                title: "Share Your Success",
+                description: "Help others by sharing strategies that worked for you"
+              },
+              {
+                icon: "💫",
+                title: "Build Reputation",
+                description: "Get recognition for your helpful contributions"
+              },
+              {
+                icon: "🤝",
+                title: "Join the Community",
+                description: "Connect with others who understand your experiences"
+              }
+            ].map((benefit) => (
+              <div 
+                key={benefit.title} 
+                className={`${colors.bg.accent} p-4 rounded-lg border ${colors.border} flex items-start gap-4`}
+              >
+                <span className="text-2xl">{benefit.icon}</span>
+                <div>
+                  <h3 className={`font-medium ${colors.text.primary}`}>
+                    {benefit.title}
+                  </h3>
+                  <p className={`${colors.text.secondary} text-sm`}>
+                    {benefit.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={() => {
+                setIsLogin(false);
+                setShowAuth(true);
+              }}
+              className="px-6 py-3 bg-[#58A6FF] text-white rounded-lg hover:bg-[#58A6FF]/90 transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <span>Create Account</span>
+              <svg 
+                className="w-4 h-4" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+            
+            <button
+              onClick={() => {
+                setIsLogin(true);
+                setShowAuth(true);
+              }}
+              className="px-6 py-3 border border-[#58A6FF] text-[#58A6FF] rounded-lg hover:bg-[#58A6FF]/10 transition-all duration-300"
+            >
+              Already have an account? Log in
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const UnauthorizedAISection = ({ setShowAuth, setIsLogin }) => {
+  return (
+    <div className={`${colors.bg.secondary} rounded-xl p-6 border ${colors.border} mb-8`}>
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">🤖</span>
+          <h2 className={`text-xl font-medium ${colors.text.primary}`}>
+            AI Resource Finder
+          </h2>
+        </div>
+        
+        <p className={`${colors.text.secondary}`}>
+          Sign in to unlock personalized AI-powered resources and strategies tailored to your needs.
+        </p>
+
+        <div className="flex gap-3">
+          <button
+            onClick={() => {
+              setIsLogin(true);
+              setShowAuth(true);
+            }}
+            className="px-6 py-2 bg-[#58A6FF] text-white rounded-lg hover:bg-[#58A6FF]/90 transition-all duration-300"
+          >
+            Login to Access
+          </button>
+          
+          <button
+            onClick={() => {
+              setIsLogin(false);
+              setShowAuth(true);
+            }}
+            className="px-6 py-2 border border-[#58A6FF] text-[#58A6FF] rounded-lg hover:bg-[#58A6FF]/10 transition-all duration-300"
+          >
+            Sign Up
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const handlePostResource = async (resourceData) => {
@@ -1315,6 +2479,523 @@ const handlePostResource = async (resourceData) => {
     }
 };
 
+const OnboardingModal = ({ user, onComplete }) => {
+    const [step, setStep] = React.useState(1);
+    const [formData, setFormData] = React.useState({
+        username: '',
+        bio: '',
+        adhd_type: [],
+        interests: [],
+        avatar_color: '#58A6FF',
+    });
+    const [loading, setLoading] = React.useState(false);
+    const [animatingStep, setAnimatingStep] = React.useState(false);
+
+    const ADHD_TYPES = [
+        { id: 'inattentive', label: 'Predominantly Inattentive', icon: '🤔' },
+        { id: 'hyperactive', label: 'Predominantly Hyperactive-Impulsive', icon: '⚡' },
+        { id: 'combined', label: 'Combined Type', icon: '🔄' },
+        { id: 'recent', label: 'Recently Diagnosed', icon: '📋' },
+        { id: 'self', label: 'Self-Diagnosed', icon: '🔍' },
+        { id: 'support', label: 'Support Person', icon: '💝' }
+    ];
+
+    const INTEREST_TAGS = [
+        { id: 'study', label: 'Study Skills', icon: '📚' },
+        { id: 'work', label: 'Work Strategies', icon: '💼' },
+        { id: 'time', label: 'Time Management', icon: '⏰' },
+        { id: 'org', label: 'Organization', icon: '📋' },
+        { id: 'focus', label: 'Focus Techniques', icon: '🎯' },
+        { id: 'emotion', label: 'Emotional Regulation', icon: '🎭' },
+        { id: 'sleep', label: 'Sleep', icon: '😴' },
+        { id: 'exercise', label: 'Exercise', icon: '🏃‍♂️' },
+        { id: 'nutrition', label: 'Nutrition', icon: '🥗' },
+        { id: 'medication', label: 'Medication', icon: '💊' },
+        { id: 'mindfulness', label: 'Mindfulness', icon: '🧘‍♂️' },
+        { id: 'tech', label: 'Technology Tools', icon: '💻' }
+    ];
+
+    const AVATAR_GRADIENTS = [
+        { id: 'blue', colors: ['#58A6FF', '#4B91F1'], label: 'Ocean Blue' },
+        { id: 'purple', colors: ['#BD6AFF', '#9B51E0'], label: 'Royal Purple' },
+        { id: 'green', colors: ['#3FB950', '#2EA043'], label: 'Forest Green' },
+        { id: 'orange', colors: ['#F7B955', '#F0883E'], label: 'Sunset Orange' },
+        { id: 'pink', colors: ['#FF69B4', '#E84B8A'], label: 'Rose Pink' },
+        { id: 'teal', colors: ['#39C5BB', '#20B2AA'], label: 'Teal Wave' }
+    ];
+
+    const handleStepChange = (direction) => {
+        setAnimatingStep(true);
+        setTimeout(() => {
+            setStep(step + direction);
+            setAnimatingStep(false);
+        }, 300);
+    };
+
+    const handleSubmit = async () => {
+        setLoading(true);
+        try {
+            await firebase.database().ref(`users/${user.uid}`).update({
+                ...formData,
+                onboarding_completed: true,
+                updated_at: firebase.database.ServerValue.TIMESTAMP
+            });
+            onComplete();
+        } catch (error) {
+            console.error('Error saving profile:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const StepIndicator = () => (
+        <div className="flex items-center justify-between mb-12 relative">
+            <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2">
+                <div className="h-0.5 bg-gradient-to-r from-[#58A6FF]/20 to-[#BD6AFF]/20" />
+            </div>
+            {[1, 2, 3].map((stepNumber) => (
+                <div key={stepNumber} className="relative z-10">
+                    <div 
+                        className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300
+                            ${step === stepNumber 
+                                ? 'bg-gradient-to-r from-[#58A6FF] to-[#BD6AFF] scale-110' 
+                                : step > stepNumber 
+                                    ? 'bg-[#58A6FF]/20 text-[#58A6FF]' 
+                                    : colors.bg.accent}`}
+                    >
+                        <span className={`text-lg font-medium
+                            ${step === stepNumber ? 'text-white' : colors.text.secondary}`}>
+                            {step > stepNumber ? '✓' : stepNumber}
+                        </span>
+                    </div>
+                    <p className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-sm whitespace-nowrap
+                        ${step === stepNumber ? colors.text.primary : colors.text.secondary}`}>
+                        {stepNumber === 1 ? 'Your Profile' :
+                         stepNumber === 2 ? 'ADHD Type' :
+                         'Interests'}
+                    </p>
+                </div>
+            ))}
+        </div>
+    );
+
+    const renderStep = () => {
+        const contentClass = `transition-all duration-300 ${animatingStep ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`;
+
+        switch (step) {
+            case 1:
+                return (
+                    <div className={contentClass}>
+                        <div className="text-center mb-8">
+                            <h2 className={`text-2xl font-bold ${colors.text.primary} mb-2`}>
+                                Welcome to Solace! 👋
+                            </h2>
+                            <p className={`${colors.text.secondary} text-lg`}>
+                                Let's create your personalized profile
+                            </p>
+                        </div>
+
+                        <div className="mb-8">
+                            <div className="w-32 h-32 mx-auto relative group">
+                                <div className="absolute inset-0 bg-gradient-to-r from-[#58A6FF]/20 to-[#BD6AFF]/20 rounded-full blur-xl transition-all duration-300 group-hover:blur-2xl" />
+                                <div 
+                                    className="relative w-full h-full rounded-full flex items-center justify-center overflow-hidden"
+                                    style={{ 
+                                        background: `linear-gradient(135deg, ${formData.avatar_color})`,
+                                    }}
+                                >
+                                    <span className="text-4xl font-bold text-white">
+                                        {formData.username.charAt(0).toUpperCase() || '?'}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div className="flex flex-wrap justify-center gap-2 mt-4">
+                                {AVATAR_GRADIENTS.map(({ id, colors, label }) => (
+                                    <button
+                                        key={id}
+                                        onClick={() => setFormData({ ...formData, avatar_color: colors })}
+                                        className={`group relative p-1 rounded-full transition-transform hover:scale-110
+                                            ${formData.avatar_color === colors ? 'ring-2 ring-white/50 scale-110' : ''}`}
+                                        title={label}
+                                    >
+                                        <div className="w-8 h-8 rounded-full"
+                                            style={{ background: `linear-gradient(135deg, ${colors.join(', ')})` }}
+                                        />
+                                        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/75 
+                                            opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                            {label}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div>
+                                <label className={`block text-sm font-medium ${colors.text.secondary} mb-2`}>
+                                    Choose a Username
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.username}
+                                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                                    className={`w-full p-4 ${colors.bg.accent} rounded-lg border ${colors.border} 
+                                        ${colors.text.primary} focus:border-[#58A6FF] focus:ring-2 focus:ring-[#58A6FF]/20
+                                        transition-all duration-300`}
+                                    placeholder="What should we call you?"
+                                />
+                            </div>
+
+                            <div>
+                                <label className={`block text-sm font-medium ${colors.text.secondary} mb-2`}>
+                                    Your Bio (Optional)
+                                </label>
+                                <textarea
+                                    value={formData.bio}
+                                    onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                                    className={`w-full p-4 min-h-[120px] ${colors.bg.accent} rounded-lg border ${colors.border} 
+                                        ${colors.text.primary} focus:border-[#58A6FF] focus:ring-2 focus:ring-[#58A6FF]/20
+                                        transition-all duration-300`}
+                                    placeholder="Tell us a bit about yourself..."
+                                />
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            case 2:
+                return (
+                    <div className={contentClass}>
+                        <div className="text-center mb-8">
+                            <h2 className={`text-2xl font-bold ${colors.text.primary} mb-2`}>
+                                Your ADHD Journey 🌟
+                            </h2>
+                            <p className={`${colors.text.secondary} text-lg`}>
+                                Help us understand your experience better
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                            {ADHD_TYPES.map(({ id, label, icon }) => (
+                                <button
+                                    key={id}
+                                    onClick={() => {
+                                        const types = formData.adhd_type.includes(id)
+                                            ? formData.adhd_type.filter(t => t !== id)
+                                            : [...formData.adhd_type, id];
+                                        setFormData({ ...formData, adhd_type: types });
+                                    }}
+                                    className={`p-4 rounded-xl border text-left transition-all duration-300 group
+                                        ${formData.adhd_type.includes(id)
+                                            ? 'bg-gradient-to-r from-[#58A6FF]/10 to-[#BD6AFF]/10 border-[#58A6FF]'
+                                            : `${colors.bg.accent} ${colors.border} hover:bg-[#2C323A]`
+                                        }`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-2xl">{icon}</span>
+                                        <span className={`font-medium ${
+                                            formData.adhd_type.includes(id)
+                                                ? 'text-[#58A6FF]'
+                                                : colors.text.primary
+                                        }`}>
+                                            {label}
+                                        </span>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                );
+
+            case 3:
+                return (
+                    <div className={contentClass}>
+                        <div className="text-center mb-8">
+                            <h2 className={`text-2xl font-bold ${colors.text.primary} mb-2`}>
+                                What Interests You? 🌈
+                            </h2>
+                            <p className={`${colors.text.secondary} text-lg`}>
+                                Select topics you'd like to explore
+                            </p>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                            {INTEREST_TAGS.map(({ id, label, icon }) => (
+                                <button
+                                    key={id}
+                                    onClick={() => {
+                                        const interests = formData.interests.includes(id)
+                                        if (formData.interests.includes(id)) {
+    interests = formData.interests.filter(function(t) {
+        return t !== id;
+    });
+} else {
+    interests = formData.interests.concat([id]);
+}
+                                        setFormData({ ...formData, interests: interests });
+                                    }}
+                                    className={`px-4 py-2 rounded-full text-sm transition-all duration-300 group
+                                        ${formData.interests.includes(id)
+                                            ? 'bg-gradient-to-r from-[#58A6FF] to-[#BD6AFF] text-white'
+                                            : `${colors.bg.accent} ${colors.text.secondary} hover:bg-[#2C323A] border ${colors.border}`
+                                        }`}
+                                >
+                                    <span className="flex items-center gap-2">
+                                        {icon} {label}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="mt-8 pt-8 border-t border-gray-800">
+                            <h3 className={`${colors.text.primary} font-medium mb-2`}>
+                                Ready to get started?
+                            </h3>
+                            <p className={`${colors.text.secondary} text-sm`}>
+                                We'll use your preferences to personalize your experience and suggest relevant resources.
+                            </p>
+                        </div>
+                    </div>
+                );
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 bg-[#0D1117]/95 z-50 flex items-center justify-center p-4 backdrop-blur-xl">
+            <div className={`${colors.bg.secondary} rounded-2xl p-8 max-w-2xl w-full border ${colors.border}
+                shadow-2xl shadow-[#58A6FF]/5`}>
+                
+                <StepIndicator />
+                
+                {/* Content */}
+                <div className="min-h-[400px]">
+                    {renderStep()}
+                </div>
+
+                {/* Navigation */}
+                <div className="flex justify-between mt-8 pt-8 border-t border-gray-800">
+                    {step > 1 && (
+                        <button
+                            onClick={() => handleStepChange(-1)}
+                            className={`px-6 py-3 rounded-xl ${colors.bg.accent} ${colors.text.secondary}
+                                hover:bg-[#2C323A] transition-all duration-300 flex items-center gap-2`}
+                        >
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Back
+                        </button>
+                    )}
+                    
+                    <button
+                        onClick={() => {
+                            if (step < 3) {
+                                handleStepChange(1);
+                            } else {
+                                handleSubmit();
+                            }
+                        }}
+                        disabled={loading || (step === 1 && !formData.username)}
+                        className={`px-6 py-3 rounded-xl ml-auto flex items-center gap-2
+                            ${step === 3
+                                ? 'bg-gradient-to-r from-[#58A6FF] to-[#BD6AFF] hover:from-[#4B91F1] hover:to-[#9B51E0]'
+                                : 'bg-[#58A6FF] hover:bg-[#4B91F1]'
+                            } text-white transition-all duration-300
+                            disabled:opacity-50 disabled:cursor-not-allowed group`}
+                    >
+                    {loading ? (
+    <div className="flex items-center gap-2">
+        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        <span>Saving...</span>
+    </div>
+) : (
+    <div className="flex items-center gap-2">
+        <span>{step === 3 ? 'Complete Setup' : 'Next'}</span>
+        <svg
+            className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+        >
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+            />
+        </svg>
+    </div>
+)}
+                    </button>
+                </div>
+
+                {/* Progress Dots */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    {[1, 2, 3].map((dot) => (
+                        <div
+                            key={dot}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                step === dot 
+                                    ? 'bg-[#58A6FF] scale-125' 
+                                    : 'bg-gray-600'
+                            }`}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const MainContentWrapper = ({ children }) => {
+    return (
+        <div className="min-h-screen pb-24"> {/* Added pb-24 for navigation spacing */}
+            <main className="max-w-4xl mx-auto px-4">
+                {children}
+            </main>
+        </div>
+    );
+};
+
+const UserProfileModal = ({ userId, onClose }) => {
+    const [profileData, setProfileData] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState('');
+    const isOwnProfile = auth.currentUser?.uid === userId;
+
+    React.useEffect(() => {
+        const fetchProfileData = async () => {
+            try {
+                const userSnapshot = await firebase.database().ref(`users/${userId}`).once('value');
+                const userData = userSnapshot.val();
+                
+                if (!userData) {
+                    throw new Error('Profile not found');
+                }
+                setProfileData(userData);
+                
+                // Check if current user is following this profile
+                if (auth.currentUser) {
+                    const followingSnapshot = await firebase.database()
+                        .ref(`users/${auth.currentUser.uid}/following/${userId}`)
+                        .once('value');
+                    setIsFollowing(followingSnapshot.exists());
+                }
+            } catch (error) {
+                setError('Error loading profile');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProfileData();
+    }, [userId]);
+    const [isFollowing, setIsFollowing] = React.useState(false);
+
+    const handleFollowUser = async () => {
+        if (!auth.currentUser) return;
+        
+        try {
+            const currentUserId = auth.currentUser.uid;
+            const followerRef = firebase.database().ref(`users/${userId}/followers/${currentUserId}`);
+            const followingRef = firebase.database().ref(`users/${currentUserId}/following/${userId}`);
+            
+            if (isFollowing) {
+                // Unfollow
+                await followerRef.remove();
+                await followingRef.remove();
+                setIsFollowing(false);
+            } else {
+                // Follow
+                await followerRef.set(true);
+                await followingRef.set(true);
+                setIsFollowing(true);
+            }
+            
+            // Refresh profile data
+            const snapshot = await firebase.database().ref(`users/${userId}`).once('value');
+            setProfileData(snapshot.val());
+        } catch (error) {
+            console.error('Error following/unfollowing user:', error);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4">
+            <div className={`${colors.bg.secondary} rounded-xl p-8 max-w-md w-full relative`}>
+                <button 
+                    onClick={onClose}
+                    className="absolute top-4 right-4 text-gray-400 hover:text-white"
+                >
+                    ✕
+                </button>
+
+                {loading ? (
+                    <div className="flex justify-center py-8">
+                        <div className="w-8 h-8 border-4 border-[#58A6FF] border-t-transparent rounded-full animate-spin" />
+                    </div>
+                ) : error ? (
+                    <div className="text-red-500 text-center py-8">{error}</div>
+                ) : (
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-4">
+                            <div 
+                                className="w-16 h-16 rounded-full"
+                                style={{ 
+                                    background: Array.isArray(profileData.avatar_color) 
+                                        ? `linear-gradient(135deg, ${profileData.avatar_color.join(', ')})` 
+                                        : profileData.avatar_color || '#58A6FF'
+                                }}
+                            >
+                                <div className="w-full h-full flex items-center justify-center">
+                                    <span className="text-2xl font-bold text-white">
+                                        {profileData.username?.charAt(0).toUpperCase()}
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-white">{profileData.username}</h2>
+                                {profileData.bio && (
+                                    <p className="text-gray-400 mt-1">{profileData.bio}</p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="text-center p-4 bg-gray-800 rounded-lg">
+                                <div className="text-[#58A6FF] text-xl font-bold">
+                                    {profileData.resourcesShared || 0}
+                                </div>
+                                <div className="text-gray-400 text-sm">Resources Shared</div>
+                            </div>
+                            <div className="text-center p-4 bg-gray-800 rounded-lg">
+                                <div className="text-[#58A6FF] text-xl font-bold">
+                                    {Object.keys(profileData.followers || {}).length}
+                                </div>
+                                <div className="text-gray-400 text-sm">Followers</div>
+                            </div>
+                            {!isOwnProfile && auth.currentUser && (
+    <button
+        onClick={handleFollowUser}
+        className={`px-4 py-2 rounded-lg transition-all duration-300
+            ${isFollowing 
+                ? `${colors.bg.accent} ${colors.text.secondary}`
+                : 'bg-[#58A6FF] text-white'}`}
+    >
+        {isFollowing ? 'Following' : 'Follow'}
+    </button>
+)}
+                        </div>
+                        
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+
     // Main App Component
     function App() {
       const [user, setUser] = React.useState(null);
@@ -1332,6 +3013,10 @@ const handlePostResource = async (resourceData) => {
     const [isPosting, setIsPosting] = React.useState(false);
     const [postSuccess, setPostSuccess] = React.useState(false);
     const [postError, setPostError] = React.useState('');
+    const handleUpvote = (resourceId) => handleVote(resourceId, 'upvote');
+    const handleDownvote = (resourceId) => handleVote(resourceId, 'downvote');
+    const [showOnboarding, setShowOnboarding] = React.useState(false);
+    const [votingResources, setVotingResources] = React.useState({});
 
     const handleAISearch = async function(query) {
   if (!query.trim()) return;
@@ -1366,16 +3051,20 @@ const handlePostResource = async (resourceData) => {
 
         snapshot.forEach((childSnapshot) => {
             const resource = childSnapshot.val();
-            console.log("Resource:", resource); // Log each resource
-            resourcesData.push({
-                id: childSnapshot.key,
-                ...resource,
-            });
+            if (resource) {
+                resourcesData.push({
+                    id: childSnapshot.key,
+                    ...resource,
+                    upvotes: resource.upvotes || [],
+                    downvotes: resource.downvotes || [],
+                });
+            }
         });
 
         setResources(resourcesData);
     } catch (error) {
         console.error('Error loading resources:', error);
+        setResources([]); // Set empty array on error
     }
 };
 
@@ -1412,7 +3101,6 @@ const handlePostResource = async (resourceData) => {
         }
     };
 
-    
 
 
     // Handle saving resources
@@ -1605,6 +3293,56 @@ Give 3 practical strategies to help them. Each strategy should be short but spec
   }
 };
 
+const handleVote = async (resourceId, voteType) => {
+    if (!auth.currentUser) {
+      setShowAuth(true);
+      return;
+    }
+
+    const userId = auth.currentUser.uid;
+    const resourceRef = firebase.database().ref(`resources/${resourceId}`);
+
+    // Add to voting state to show immediate feedback
+    setVotingResources(prev => ({
+      ...prev,
+      [resourceId]: true
+    }));
+
+    try {
+      await resourceRef.transaction((resource) => {
+        if (!resource) return null;
+
+        // Initialize vote objects if they don't exist
+        resource.upvotes = resource.upvotes || {};
+        resource.downvotes = resource.downvotes || {};
+
+        const hasUpvoted = resource.upvotes[userId];
+        const hasDownvoted = resource.downvotes[userId];
+
+        // Remove existing votes
+        delete resource.upvotes[userId];
+        delete resource.downvotes[userId];
+
+        // Add new vote if it's not a toggle-off of the same type
+        if (voteType === 'upvote' && !hasUpvoted) {
+          resource.upvotes[userId] = true;
+        } else if (voteType === 'downvote' && !hasDownvoted) {
+          resource.downvotes[userId] = true;
+        }
+
+        return resource;
+      });
+    } catch (error) {
+      console.error('Error updating vote:', error);
+    } finally {
+      // Remove from voting state
+      setVotingResources(prev => ({
+        ...prev,
+        [resourceId]: false
+      }));
+    }
+  };
+
 // Memoize the resource loading functions
 const loadUserData = React.useCallback(async (userId) => {
     try {
@@ -1616,20 +3354,52 @@ const loadUserData = React.useCallback(async (userId) => {
     }
 }, []);
 
+// Update useEffect to load resources immediately
+React.useEffect(() => {
+    loadResources();
+}, []); // Empty dependency array means this runs once on mount
+
 // Fix the useEffect hooks with proper dependencies
 React.useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-        setUser(user);
-        if (user) {
-            loadUserData(user.uid);
-            loadResources();
-        } else {
-            setUserProfile(null);
-        }
-        setLoading(false);
-    });
-    return () => unsubscribe();
-}, [loadUserData, loadResources]);
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            setUser(user);
+            if (user) {
+                const userSnapshot = await firebase.database().ref(`users/${user.uid}`).once('value');
+                const userData = userSnapshot.val() || {};
+                
+                if (!userData.onboarding_completed) {
+                    setShowOnboarding(true);
+                }
+                
+                loadUserData(user.uid);
+            } else {
+                setUserProfile(null);
+            }
+            setLoading(false);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    React.useEffect(() => {
+    const resourcesRef = firebase.database().ref('resources');
+    
+    // Set up real-time listener for all resources
+    const handleResourceUpdate = (snapshot) => {
+        const updatedResources = [];
+        snapshot.forEach((child) => {
+            updatedResources.push({
+                id: child.key,
+                ...child.val(),
+            });
+        });
+        setResources(updatedResources);
+    };
+
+    resourcesRef.on('value', handleResourceUpdate);
+
+    // Cleanup listener on unmount
+    return () => resourcesRef.off('value', handleResourceUpdate);
+}, []);
 
 React.useEffect(() => {
     const interval = setInterval(() => {
@@ -1645,9 +3415,8 @@ React.useEffect(() => {
 const renderContent = () => {
     if (loading) return <LoadingSpinner />;
 
-    if (currentPage.startsWith('profile-')) {
-        const userId = currentPage.split('-')[1];
-        return <ProfilePage userId={userId} />;
+    if (currentPage === 'profile' && !user) {
+        return <UnauthorizedProfilePage setShowAuth={setShowAuth} setIsLogin={setIsLogin} />;
     }
 
     switch (currentPage) {
@@ -1659,24 +3428,33 @@ const renderContent = () => {
                         onOverwhelm={() => setIsOverwhelmed(true)}
                     />
                     
-                    <AISuggestionsSection
-                        onSubmit={handleAISearch}
-                        isLoading={loading}
-                    />
+                    {user ? (
+                        <AISuggestionsSection
+                            onSubmit={handleAISearch}
+                            isLoading={loading}
+                        />
+                    ) : (
+                        <UnauthorizedAISection 
+                            setShowAuth={setShowAuth} 
+                            setIsLogin={setIsLogin} 
+                        />
+                    )}
 
-                    {aiSuggestedResources.length > 0 && (
+                    {aiSuggestedResources.length > 0 && user && (
                         <div className="space-y-4 mb-8">
                             <h3 className={'text-lg font-medium ' + colors.text.primary}>
                                 AI Suggested Strategies:
                             </h3>
                             {aiSuggestedResources.map((resource) => (
                                 <ResourceCard
-                                    key={resource.id}
-                                    resource={resource}
-                                    onUpvote={handleUpvote}
-                                    onDownvote={handleDownvote}
-                                    onSave={handleSaveResource}
-                                    isSaved={savedResources.includes(resource.id)}
+                                key={resource.id}
+                                resource={resource}
+                                onUpvote={handleUpvote}
+                                onDownvote={handleDownvote}
+                                onSave={handleSaveResource}
+                                isSaved={savedResources.includes(resource.id)}
+                                setCurrentPage={setCurrentPage}
+                                votingResources={votingResources}
                                 />
                             ))}
                         </div>
@@ -1699,10 +3477,12 @@ const renderContent = () => {
                                 <ResourceCard
                                     key={resource.id}
                                     resource={resource}
-                                    onUpvote={handleUpvote}
-                                    onDownvote={handleDownvote}
-                                    onSave={handleSaveResource}
+                                    onUpvote={user ? handleUpvote : () => setShowAuth(true)}
+                                    onDownvote={user ? handleDownvote : () => setShowAuth(true)}
+                                    onSave={user ? handleSaveResource : () => setShowAuth(true)}
                                     isSaved={savedResources.includes(resource.id)}
+                                    setCurrentPage={setCurrentPage}
+                                    votingResources={votingResources}
                                 />
                             ))}
                     </div>
@@ -1712,31 +3492,60 @@ const renderContent = () => {
         case 'discover':
             return (
                 <DiscoverPage
-                    resources={resources}
+                resources={resources}
                     onUpvote={handleUpvote}
                     onDownvote={handleDownvote}
                     onSave={handleSaveResource}
                     savedResources={savedResources}
                     setCurrentPage={setCurrentPage}
+                    votingResources={votingResources}
+                    user={user}
+                    setShowAuth={setShowAuth}
+                    setIsLogin={setIsLogin}
                 />
             );
 
         case 'post':
-            return (
+            return user ? (
                 <PostPage
                     user={user}
                     onPost={loadResources}
                 />
+            ) : (
+                <UnauthorizedPostPage 
+                    setShowAuth={setShowAuth} 
+                    setIsLogin={setIsLogin}
+                    resources={resources}
+                    onUpvote={() => setShowAuth(true)}
+                    onDownvote={() => setShowAuth(true)}
+                    onSave={() => setShowAuth(true)}
+                    savedResources={[]}
+                    setCurrentPage={setCurrentPage}
+                />
             );
 
         case 'profile':
-            return (
+            return user ? (
                 <ProfilePage
-                    userId={user.uid}
+                userId={user.uid}
                     userProfile={userProfile}
                     savedResources={savedResources}
+                    onUpvote={handleUpvote}
+                    onDownvote={handleDownvote}
+                    onSave={handleSaveResource}
                 />
+            ) : (
+                <UnauthorizedProfilePage setShowAuth={setShowAuth} setIsLogin={setIsLogin} />
             );
+
+            {showEditModal && (
+    <EditProfileModal
+        user={auth.currentUser}
+        profileData={profileData}
+        onClose={() => setShowEditModal(false)}
+        onUpdate={handleProfileUpdate}
+    />
+)}
 
         default:
             return null;
@@ -1749,9 +3558,14 @@ return (
                 <div className="absolute inset-0 bg-gradient-to-r from-[#58A6FF]/5 to-[#BD6AFF]/5 blur-xl" />
                 <div className="relative max-w-4xl mx-auto px-4 py-6">
                     <div className="flex justify-between items-center">
-                        <h1 className="text-2xl font-bold text-[#58A6FF]">
-                            Solace
-                        </h1>
+<div className="flex items-center">
+  <img 
+    src="./solace-logo-1.jpg" 
+    alt="Solace Logo"
+    className="h-10 w-auto" // Adjust height/width as needed
+  />
+</div>
+
                         {user ? (
                             <button
                                 onClick={() => auth.signOut()}
@@ -1808,6 +3622,16 @@ return (
             {isPosting && <LoadingSpinner />}
             {postSuccess && <SuccessMessage />}
             {postError && <ErrorMessage message={postError} />}
+
+            {showOnboarding && (
+        <OnboardingModal
+            user={user}
+            onComplete={() => {
+                setShowOnboarding(false);
+                loadUserData(user.uid);
+            }}
+        />
+    )}
         </div>
     );
 }
