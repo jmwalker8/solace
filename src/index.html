@@ -750,14 +750,34 @@ const handleGoogleSignIn = async () => {
     } = resource;
 
     const userId = auth.currentUser ? auth.currentUser.uid : null;
-    // Change from array.includes() to object property check
-const hasUpvoted = userId && resource.upvotes?.[userId];
-const hasDownvoted = userId && resource.downvotes?.[userId];
-const isVoting = votingResources[resource.id] || false;
-
-
+    const hasUpvoted = userId && resource.upvotes?.[userId];
+    const hasDownvoted = userId && resource.downvotes?.[userId];
+    const isVoting = votingResources[resource.id] || false;
+    
+    const [username, setUsername] = React.useState('Anonymous');
     const [showProfileModal, setShowProfileModal] = React.useState(false);
     const [currentProfileId, setCurrentProfileId] = React.useState(null);
+
+    React.useEffect(() => {
+    const fetchUsername = async () => {
+        if (resource.postedBy && auth.currentUser) {
+            try {
+                const userRef = firebase.database().ref(`users/${resource.postedBy}`);
+                const snapshot = await userRef.once('value');
+                const userData = snapshot.val();
+                if (userData && userData.username) {
+                    setUsername(userData.username);
+                }
+            } catch (error) {
+                console.error('Error fetching username:', error);
+                setUsername('Anonymous');
+            }
+        }
+    };
+    
+    fetchUsername();
+}, [resource.postedBy]);
+
 
     const handleLinkClick = (e) => {
         e.stopPropagation();
@@ -800,12 +820,10 @@ const isVoting = votingResources[resource.id] || false;
         </div>
     );
 
-
     return (
         <div className={`${colors.bg.secondary} rounded-xl border ${colors.border} 
             hover:bg-[#1C2128] transition-all duration-300 group overflow-hidden`}>
             
-            {/* Header Section with Thumbnail */}
             <div className="relative">
                 {thumbnail ? (
                     <div className="w-full h-48 overflow-hidden">
@@ -822,9 +840,7 @@ const isVoting = votingResources[resource.id] || false;
                 )}
             </div>
 
-            {/* Content Section */}
             <div className="p-6 space-y-4">
-                {/* Title and Actions */}
                 <div className="flex justify-between items-start gap-4">
                     <h3 className="text-lg font-semibold text-[#58A6FF] group-hover:text-[#58A6FF]/90 
                         transition-colors duration-300">
@@ -837,19 +853,19 @@ const isVoting = votingResources[resource.id] || false;
                             className={`p-2 rounded-lg transition-colors duration-300
                                 ${isSaved ? 'text-[#58A6FF] bg-[#58A6FF]/10' : 'text-[#8B949E] hover:text-[#58A6FF] hover:bg-[#58A6FF]/10'}`}
                         >
-                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill={isSaved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill={isSaved ? "currentColor" : "none"} 
+                                stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" 
+                                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                             </svg>
                         </button>
                     </div>
                 </div>
 
-                {/* Description */}
                 <p className={`${colors.text.secondary} leading-relaxed text-sm whitespace-pre-line`}>
                     {description}
                 </p>
 
-                {/* Progress Bar */}
                 <div className="space-y-1">
                     <div className="flex justify-between items-center text-sm">
                         <span className={`${colors.text.secondary}`}>Progress</span>
@@ -863,7 +879,6 @@ const isVoting = votingResources[resource.id] || false;
                     </div>
                 </div>
 
-                {/* Tags */}
                 <div className="flex flex-wrap gap-2">
                     {tags.map(tag => (
                         <span
@@ -876,37 +891,37 @@ const isVoting = votingResources[resource.id] || false;
                     ))}
                 </div>
 
-                {/* Footer */}
                 <div className="flex items-center justify-between pt-4 border-t border-[#30363D]">
                     <div className="flex items-center gap-4 text-sm">
                         <span className={`${colors.text.secondary} flex items-center gap-1`}>
                             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" 
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {timeToComplete}
                         </span>
                         <button
-                    onClick={() => {
-                        setCurrentProfileId(resource.postedBy);
-                        setShowProfileModal(true);
-                    }}
-                    className={`${colors.text.secondary} hover:text-[#58A6FF] transition-colors duration-300 flex items-center gap-1`}
-                >
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    {resource.postedBy}
-                </button>
-
-
+                            onClick={() => {
+                                setCurrentProfileId(resource.postedBy);
+                                setShowProfileModal(true);
+                            }}
+                            className={`${colors.text.secondary} hover:text-[#58A6FF] transition-colors duration-300 
+                                flex items-center gap-1`}
+                        >
+                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" 
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            {username}
+                        </button>
                     </div>
 
                     {showProfileModal && (
-                <UserProfileModal 
-                    userId={currentProfileId} 
-                    onClose={() => setShowProfileModal(false)} 
-                />
-            )}
+                        <UserProfileModal 
+                            userId={currentProfileId} 
+                            onClose={() => setShowProfileModal(false)} 
+                        />
+                    )}
 
                     {link && (
                         <button
@@ -925,36 +940,6 @@ const isVoting = votingResources[resource.id] || false;
             </div>
         </div>
     );
-};
-
-
-
-const handleFollowUser = async (targetUserId) => {
-    if (!auth.currentUser) {
-        setShowAuth(true);
-        return;
-    }
-    
-    try {
-        const currentUserId = auth.currentUser.uid;
-        const followerRef = firebase.database().ref(`users/${targetUserId}/followers/${currentUserId}`);
-        const followingRef = firebase.database().ref(`users/${currentUserId}/following/${targetUserId}`);
-        
-        const snapshot = await followerRef.once('value');
-        const isFollowing = snapshot.exists();
-        
-        if (isFollowing) {
-            // Unfollow
-            await followerRef.remove();
-            await followingRef.remove();
-        } else {
-            // Follow
-            await followerRef.set(true);
-            await followingRef.set(true);
-        }
-    } catch (error) {
-        console.error('Error following/unfollowing user:', error);
-    }
 };
 
 
@@ -2613,6 +2598,41 @@ const UnauthorizedAISection = ({ setShowAuth, setIsLogin }) => {
     </div>
   );
 };
+
+const migratePostedByToUsernames = async () => {
+    const db = firebase.database();
+    
+    try {
+        // Get all resources
+        const resourcesSnapshot = await db.ref('resources').once('value');
+        const resources = resourcesSnapshot.val();
+        
+        // Get all users
+        const usersSnapshot = await db.ref('users').once('value');
+        const users = usersSnapshot.val();
+        
+        // Create UID to username mapping
+        const uidToUsername = {};
+        Object.entries(users).forEach(([uid, userData]) => {
+            uidToUsername[uid] = userData.username;
+        });
+        
+        // Update each resource's postedBy field
+        const updates = {};
+        Object.entries(resources).forEach(([resourceId, resource]) => {
+            if (resource.postedBy && uidToUsername[resource.postedBy]) {
+                updates[`resources/${resourceId}/postedBy`] = uidToUsername[resource.postedBy];
+            }
+        });
+        
+        // Perform batch update
+        await db.ref().update(updates);
+        
+    } catch (error) {
+        console.error('Migration error:', error);
+    }
+};
+
 
 const handlePostResource = async (resourceData) => {
     if (!user) {
