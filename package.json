@@ -27,6 +27,7 @@
     "coverageDirectory": "coverage"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.0.0",
     "algoliasearch": "^4.24.0",
     "express": "^4.19.2",
     "openai": "^4.80.1"
