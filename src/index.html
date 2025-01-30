@@ -346,6 +346,7 @@ input, textarea, select {
     }
 }
 
+
     // Constants
     const RESOURCE_CATEGORIES = [
         { id: 'productivity', label: 'Productivity', icon: '⚡' },
@@ -2483,6 +2484,55 @@ const EditProfileModal = ({ user, profileData, onClose, onUpdate }) => {
     );
 };
 
+
+// Modified handleVote function with rate limiting
+const handleVote = async (resourceId, voteType) => {
+  if (!auth.currentUser) {
+    setShowAuth(true);
+    return;
+  }
+
+  const userId = auth.currentUser.uid;
+
+
+  setVotingResources(prev => ({
+    ...prev,
+    [resourceId]: true
+  }));
+
+  try {
+    const resourceRef = firebase.database().ref(`resources/${resourceId}`);
+    await resourceRef.transaction((resource) => {
+      if (!resource) return null;
+      
+      resource.upvotes = resource.upvotes || {};
+      resource.downvotes = resource.downvotes || {};
+      
+      const hasUpvoted = resource.upvotes[userId];
+      const hasDownvoted = resource.downvotes[userId];
+      
+      delete resource.upvotes[userId];
+      delete resource.downvotes[userId];
+      
+      if (voteType === 'upvote' && !hasUpvoted) {
+        resource.upvotes[userId] = true;
+      } else if (voteType === 'downvote' && !hasDownvoted) {
+        resource.downvotes[userId] = true;
+      }
+      
+      return resource;
+    });
+  } catch (error) {
+    console.error('Error updating vote:', error);
+  } finally {
+    setVotingResources(prev => ({
+      ...prev,
+      [resourceId]: false
+    }));
+  }
+};
+
+
 const UnauthorizedProfilePage = ({ setShowAuth, setIsLogin }) => {
   return (
     <div className="flex flex-col items-center justify-center space-y-6 p-8">
@@ -2704,42 +2754,41 @@ const migratePostedByToUsernames = async () => {
 
 
 const handlePostResource = async (resourceData) => {
-    if (!user) {
-        alert('Please log in to post a resource.');
-        return;
+  if (!user) {
+    alert('Please log in to post a resource.');
+    return;
+  }
+
+
+  setIsPosting(true);
+  setPostError('');
+
+  try {
+    const titleCheck = await validateContent(resourceData.title);
+    const descriptionCheck = await validateContent(resourceData.description);
+
+    if (titleCheck.isInappropriate || descriptionCheck.isInappropriate) {
+      throw new Error("Content contains inappropriate language");
     }
 
-    setIsPosting(true);
-    setPostError('');
+    const newResource = {
+      ...resourceData,
+      postedBy: user.uid,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+    };
 
-    try {
-        const newResource = {
-            ...resourceData,
-            postedBy: user.uid,
-            createdAt: firebase.database.ServerValue.TIMESTAMP,
-        };
+    const ref = firebase.database().ref('resources').push();
+    await ref.set(newResource);
 
-        const ref = firebase.database().ref('resources').push();
-        await ref.set(newResource);
-
-        // Increment resourcesShared count
-        const userRef = firebase.database().ref(`users/${user.uid}`);
-        const snapshot = await userRef.once('value');
-        const userData = snapshot.val();
-        const updatedResourcesShared = (userData.resourcesShared || 0) + 1;
-
-        await userRef.update({ resourcesShared: updatedResourcesShared });
-
-        setPostSuccess(true);
-        setTimeout(() => setPostSuccess(false), 3000);
-
-        await loadResources();
-    } catch (error) {
-        setPostError('Failed to post resource. Please try again.');
-        console.error('Error posting resource:', error);
-    } finally {
-        setIsPosting(false);
-    }
+    setPostSuccess(true);
+    setTimeout(() => setPostSuccess(false), 3000);
+    await loadResources();
+  } catch (error) {
+    setPostError('Failed to post resource. Please try again.');
+    console.error('Error posting resource:', error);
+  } finally {
+    setIsPosting(false);
+  }
 };
 
 const OnboardingModal = ({ user, onComplete }) => {
@@ -3281,9 +3330,10 @@ const UserProfileModal = ({ userId, onClose }) => {
     const [showOnboarding, setShowOnboarding] = React.useState(false);
     const [votingResources, setVotingResources] = React.useState({});
 
-    const handleAISearch = async function(query) {
-  if (!query.trim()) return;
+    const handleAISearch = async (query) => {
+  if (!query.trim() || !user) return;
   
+
   setLoading(true);
   try {
     const suggestions = await fetchAIResources(query);
@@ -3652,24 +3702,26 @@ React.useEffect(() => {
 
 // Fix the useEffect hooks with proper dependencies
 React.useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(async (user) => {
-            setUser(user);
-            if (user) {
-                const userSnapshot = await firebase.database().ref(`users/${user.uid}`).once('value');
-                const userData = userSnapshot.val() || {};
-                
-                if (!userData.onboarding_completed) {
-                    setShowOnboarding(true);
-                }
-                
-                loadUserData(user.uid);
-            } else {
-                setUserProfile(null);
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+        setUser(user);
+        if (user) {
+            // Add rate limit cleanup here
+            
+            const userSnapshot = await firebase.database().ref(`users/${user.uid}`).once('value');
+            const userData = userSnapshot.val() || {};
+            
+            if (!userData.onboarding_completed) {
+                setShowOnboarding(true);
             }
-            setLoading(false);
-        });
-        return () => unsubscribe();
-    }, []);
+            
+            loadUserData(user.uid);
+        } else {
+            setUserProfile(null);
+        }
+        setLoading(false);
+    });
+    return () => unsubscribe();
+}, []);
 
     React.useEffect(() => {
     const resourcesRef = firebase.database().ref('resources');
