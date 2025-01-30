@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="![Screenshot 2025-01-30 9 29 08 AM](https://github.com/user-attachments/assets/0d50cee0-d545-43fa-903b-7db3b55053f8)
+  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://solaceadhd.com/solace-logo-1.jpg
 " alt="Markdownify" width="200"></a>
   <br>
   SolaceADHD
