@@ -1,7 +1,6 @@
 <p align="center">
   <a href="https://codesandbox.io">
     ![Screenshot 2025-01-30 9 29 08 AM](https://github.com/user-attachments/assets/902c4835-17f2-4c99-898a-5586e8f0a69a)
-" height="300px">
   </a>
 </p>
 
