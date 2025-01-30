@@ -303,7 +303,7 @@ input, textarea, select {
 
     // Firebase configuration
     const firebaseConfig = {
-        apiKey: 'AIzaSyA3V8kM0CKK5SiQGu1EOaV7kCeowl1cRCI',
+        apiKey: process.env.API_KEY,
         authDomain: 'solace-83466.firebaseapp.com',
         databaseURL: 'https://solace-83466-default-rtdb.firebaseio.com',
         projectId: 'solace-83466',
@@ -322,7 +322,7 @@ input, textarea, select {
     const storage = firebase.storage();
     const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-    const HF_API_KEY = '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';
+    const HF_API_KEY = process.env.HF_API_KEY;
 
     class ErrorBoundary extends React.Component {
     constructor(props) {
