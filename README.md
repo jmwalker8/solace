@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://codesandbox.io">
-    <img src="https://github.com/user-attachments/assets/07de63cd-a50d-4268-adea-bbce60428574
+    ![Screenshot 2025-01-30 9 29 08 AM](https://github.com/user-attachments/assets/902c4835-17f2-4c99-898a-5586e8f0a69a)
 " height="300px">
   </a>
 </p>
