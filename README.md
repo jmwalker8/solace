@@ -1,8 +1,16 @@
+<styles>
+  h1 {
+  font-size: 40px;
+  }
+</styles>
+
 <p align="center">
   <a href="https://codesandbox.io">
-    ![Screenshot 2025-01-30 9 29 08 AM](https://github.com/user-attachments/assets/902c4835-17f2-4c99-898a-5586e8f0a69a)
+    <img src="https://github.com/user-attachments/assets/902c4835-17f2-4c99-898a-5586e8f0a69a">
   </a>
 </p>
+
+<h1 align="center" >SolaceADHD</h1>
 
 &nbsp;
 
@@ -13,23 +21,13 @@
 [![first-timers-only Friendly](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
-An instantly ready, full-featured online IDE for web development on any device
-with a browser. Enabling you to start new projects quickly and prototype
-rapidly. With CodeSandbox, you can create web apps, experiment with code, test
-ideas, and share creations easily.
+An ADHD Resource Social Media Library for anyone trying to learn about how to maximize their ADHD Journey. Find Resources, Post Resources, Ask AI. Join Our Community Today! 
+<a href="https://solaceadhd.com/">
 
 ## Other CodeSandbox repositories
 
 CodeSandbox consists of several separate servers, some of which are open
 sourced.
-
-- Client: the web application
-- Server: the [Phoenix](https://github.com/phoenixframework/phoenix) API server
-- Nginx: Nginx config files
-- [Git Extractor](https://github.com/codesandbox/codesandbox-importers):
-  responsible for extracting the source from a GitHub repository
-- [CLI](https://github.com/codesandbox/codesandbox-importers/tree/master/packages/cli):
-  the CLI to upload a CodeSandbox project from your command line
 
 ## Documentation
 
