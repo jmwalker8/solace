@@ -1,92 +1,45 @@
-
-<h1 align="center">
-  <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://solaceadhd.com/solace-logo-1.jpg
-" alt="Markdownify" width="200"></a>
-  <br>
-  SolaceADHD
-  <br>
-</h1>
-
-<h4 align="center">A social media app for ADHDers. Post resources, find resources. Join our community. <a href="https://solaceadhd.com/" target="_blank">Solace</a>.</h4>
-
 <p align="center">
-  <a href="https://badge.fury.io/js/electron-markdownify">
-    <img src="https://badge.fury.io/js/electron-markdownify.svg"
-         alt="Gitter">
-  </a>
-  <a href="https://gitter.im/amitmerchant1990/electron-markdownify"><img src="https://badges.gitter.im/amitmerchant1990/electron-markdownify.svg"></a>
-  <a href="https://saythanks.io/to/bullredeyes@gmail.com">
-      <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
+  <a href="https://codesandbox.io">
+    <img src="https://github.com/user-attachments/assets/07de63cd-a50d-4268-adea-bbce60428574
+" height="300px">
   </a>
 </p>
 
-<p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
-</p>
+&nbsp;
 
-![Screenshot 2025-01-30 9 29 08 AM](https://github.com/user-attachments/assets/7eead631-3483-43bd-9bc9-9bfb5a47bbd6)
+[![All Contributors](https://img.shields.io/badge/all_contributors-153-orange.svg?style=flat-square)](#contributors-)
+[![CircleCI](https://circleci.com/gh/codesandbox/codesandbox-client.svg?style=svg)](https://circleci.com/gh/codesandbox/codesandbox-client)
+[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=cVJuczlJWUtqWXhIbFN1ZjVQekF4NzNsd3phNEZRaGlWU0pHYVVkdGRFWT0tLXFtTVhaOWRySmN0ZG5QVDNDQ0g5Z0E9PQ==--79fe3eae4f149a400d396c9b12d3988f685785cf)](https://www.browserstack.com/automate/public-build/cVJuczlJWUtqWXhIbFN1ZjVQekF4NzNsd3phNEZRaGlWU0pHYVVkdGRFWT0tLXFtTVhaOWRySmN0ZG5QVDNDQ0g5Z0E9PQ==--79fe3eae4f149a400d396c9b12d3988f685785cf)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![first-timers-only Friendly](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
+An instantly ready, full-featured online IDE for web development on any device
+with a browser. Enabling you to start new projects quickly and prototype
+rapidly. With CodeSandbox, you can create web apps, experiment with code, test
+ideas, and share creations easily.
 
-## Key Features
+## Other CodeSandbox repositories
 
-* LivePreview - Make changes, See changes
-  - Instantly see what your Markdown documents look like in HTML as you create them.
-* Sync Scrolling
-  - While you type, LivePreview will automatically scroll to the current location you're editing.
-* GitHub Flavored Markdown  
-* Syntax highlighting
-* [KaTeX](https://khan.github.io/KaTeX/) Support
-* Dark/Light mode
-* Toolbar for basic Markdown formatting
-* Supports multiple cursors
-* Save the Markdown preview as PDF
-* Emoji support in preview :tada:
-* App will keep alive in tray for quick usage
-* Full screen mode
-  - Write distraction free.
-* Cross platform
-  - Windows, macOS and Linux ready.
+CodeSandbox consists of several separate servers, some of which are open
+sourced.
 
-## How To Use
+- Client: the web application
+- Server: the [Phoenix](https://github.com/phoenixframework/phoenix) API server
+- Nginx: Nginx config files
+- [Git Extractor](https://github.com/codesandbox/codesandbox-importers):
+  responsible for extracting the source from a GitHub repository
+- [CLI](https://github.com/codesandbox/codesandbox-importers/tree/master/packages/cli):
+  the CLI to upload a CodeSandbox project from your command line
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+## Documentation
 
-```bash
-# Clone this repository
-$ git clone https://github.com/amitmerchant1990/electron-markdownify
+You can find our documentation on our
+[website](https://codesandbox.io/docs/learn/introduction/overview)
 
-# Go into the repository
-$ cd electron-markdownify
+## Thanks
 
-# Install dependencies
-$ npm install
+<a href="https://www.chromaticqa.com/"><img src="https://cdn-images-1.medium.com/letterbox/147/36/50/50/1*oHHjTjInDOBxIuYHDY2gFA.png?source=logoAvatar-d7276495b101---37816ec27d7a" width="120"/></a>
 
-# Run the app
-$ npm start
-```
-
-## Download
-
-You can [download](https://github.com/amitmerchant1990/electron-markdownify/releases/tag/v1.2.0) the latest installable version of Markdownify for Windows, macOS and Linux.
-
-## Emailware
-
-Markdownify is an [emailware](https://en.wiktionary.org/wiki/emailware). Meaning, if you liked using this app or it has helped you in any way, I'd like you send me an email at <bullredeyes@gmail.com> about anything you'd want to say about this software. I'd really appreciate it!
-
-
-## License
-
-MIT
-
----
-
-> [amitmerchant.com](https://www.amitmerchant.com) &nbsp;&middot;&nbsp;
-> GitHub [@amitmerchant1990](https://github.com/amitmerchant1990) &nbsp;&middot;&nbsp;
-> Twitter [@amit_merchant](https://twitter.com/amit_merchant)
-
+Thanks to [Chromatic](https://www.chromaticqa.com/) for providing the visual
+testing platform that helps us catch unexpected changes.
