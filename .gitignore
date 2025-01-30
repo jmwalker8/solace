@@ -22,5 +22,5 @@ yarn-error.log
 .idea/
 *.swp
 
-.env
+src/.env
 
