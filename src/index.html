@@ -797,8 +797,6 @@ const validateContent = async (content) => {
         title = '',
         description = '',
         tags = [],
-        timeToComplete = '',
-        progress = 0,
         upvotes = {},
         downvotes = {},
         postedBy = 'Anonymous',
@@ -923,19 +921,6 @@ const validateContent = async (content) => {
                     {description}
                 </p>
 
-                <div className="space-y-1">
-                    <div className="flex justify-between items-center text-sm">
-                        <span className={`${colors.text.secondary}`}>Progress</span>
-                        <span className={`${colors.text.secondary}`}>{progress}%</span>
-                    </div>
-                    <div className="w-full bg-[#21262D] rounded-full h-2 overflow-hidden">
-                        <div
-                            className="h-full bg-gradient-to-r from-[#58A6FF] to-[#BD6AFF] transition-all duration-300"
-                            style={{ width: `${progress}%` }}
-                        />
-                    </div>
-                </div>
-
                 <div className="flex flex-wrap gap-2">
                     {tags.map(tag => (
                         <span
@@ -950,13 +935,6 @@ const validateContent = async (content) => {
 
                 <div className="flex items-center justify-between pt-4 border-t border-[#30363D]">
                     <div className="flex items-center gap-4 text-sm">
-                        <span className={`${colors.text.secondary} flex items-center gap-1`}>
-                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path strokeLinecap="round" strokeLinejoin="round" 
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            {timeToComplete}
-                        </span>
                         <button
                             onClick={() => {
                                 setCurrentProfileId(resource.postedBy);
@@ -1618,43 +1596,6 @@ const PostPage = ({ user, onPost }) => {
                   {tag}
                 </button>
               ))}
-            </div>
-          </div>
-
-          {/* Time to Complete */}
-          <div className="space-y-2">
-            <label className={`block text-sm font-medium ${colors.text.secondary}`}>
-              Time to Complete
-            </label>
-            <input
-              type="text"
-              placeholder="E.g., 25 minutes, 1 hour"
-              value={formData.timeToComplete}
-              onChange={(e) => setFormData({ ...formData, timeToComplete: e.target.value })}
-              className={`w-full p-3 ${colors.bg.accent} rounded-lg border ${colors.border} 
-                ${colors.text.primary} placeholder-[#8B949E] focus:border-[#58A6FF] focus:ring-1 focus:ring-[#58A6FF]
-                transition-all duration-300`}
-              required
-            />
-          </div>
-
-          {/* Progress */}
-          <div className="space-y-2">
-            <label className={`block text-sm font-medium ${colors.text.secondary}`}>
-              Current Progress
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={formData.progress}
-              onChange={(e) => setFormData({ ...formData, progress: parseInt(e.target.value) })}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#58A6FF]"
-            />
-            <div className="flex justify-between text-sm text-gray-400">
-              <span>0%</span>
-              <span>{formData.progress}%</span>
-              <span>100%</span>
             </div>
           </div>
 
